@@ -18,6 +18,7 @@ class Category extends StatelessWidget {
                 builder: (context) => SortSheet(),
               );
             },
+            tooltip: "Sort by",
             icon: Icon(
               Icons.sort,
             ),

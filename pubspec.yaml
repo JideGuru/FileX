@@ -25,6 +25,7 @@ dependencies:
   flutter_icons: ^1.0.0+1
   percent_indicator: ^2.1.1+1
   page_transition: ^1.1.5
+  mime_type: ^0.2.4
 #  path_provider: ^1.4.0
 
 dev_dependencies:

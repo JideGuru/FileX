@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:filex/screens/category.dart';
+import 'package:filex/screens/folder.dart';
 import 'package:filex/util/consts.dart';
 import 'package:filex/widgets/file_item.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class Browse extends StatelessWidget {
         ),
         actions: <Widget>[
           IconButton(
+            tooltip: "Search",
             onPressed: (){},
             icon: Icon(
               Feather.search,
@@ -42,60 +44,79 @@ class Browse extends StatelessWidget {
                 ),
               ),
               elevation: 4,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    CircularPercentIndicator(
-                      radius: 80.0,
-                      lineWidth: 10.0,
-                      animation: true,
-                      animationDuration: 3000,
-                      percent: 0.7,
-                      reverse: true,
-                      center: Text(
-                        "70%",
-                        style:
-                        TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.0,
-                          color: Colors.white,
+              child: Container(
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          child: Folder(),
                         ),
+                      );
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 30),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          CircularPercentIndicator(
+                            radius: 80.0,
+                            lineWidth: 10.0,
+                            animation: true,
+                            animationDuration: 3000,
+                            percent: 0.7,
+                            reverse: true,
+                            center: Text(
+                              "70%",
+                              style:
+                              TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14.0,
+                                color: Colors.white,
+                              ),
+                            ),
+                            circularStrokeCap: CircularStrokeCap.round,
+                            progressColor: Colors.orangeAccent,
+                            backgroundColor: Colors.white,
+                          ),
+
+                          SizedBox(width: 30,),
+
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "Internal Storage",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18.0,
+                                  color: Colors.white,
+                                ),
+                              ),
+
+                              SizedBox(height: 10,),
+                              Text(
+                                "13Gb / 32Gb",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16.0,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      circularStrokeCap: CircularStrokeCap.round,
-                      progressColor: Colors.orangeAccent,
-                      backgroundColor: Colors.white,
                     ),
-
-                    SizedBox(width: 30,),
-
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          "Internal Storage",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0,
-                            color: Colors.white,
-                          ),
-                        ),
-
-                        SizedBox(height: 10,),
-                        Text(
-                          "13Gb / 32Gb",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -119,7 +140,7 @@ class Browse extends StatelessWidget {
               Map category = Constants.categories[index];
 
               return ListTile(
-                onTap: () async{
+                onTap: () {
                   Navigator.push(
                     context,
                     PageTransition(

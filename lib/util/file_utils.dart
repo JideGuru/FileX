@@ -1,4 +1,8 @@
+import 'dart:io';
 import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'package:mime_type/mime_type.dart';
 
 class FileUtils{
 
@@ -10,4 +14,19 @@ class FileUtils{
         i = (log(bytes) / log(k)).floor();
     return (((bytes / pow(k, i)).toStringAsFixed(dm)) + ' ' + sizes[i]);
   }
+
+//  static Icon setFileIcon(String path) {
+//    File file = File(path);
+//    String mimeType = mime(file.path);
+//    final _extension = filename.split(".").last;
+//    if (_extension == "db" || _extension == "sqlite" || _extension == "sqlite3") {
+//      return const Icon(Icons.dns);
+//    } else if (_extension == "jpg" ||
+//        _extension == "jpeg" ||
+//        _extension == "png") {
+//      return const Icon(Icons.image);
+//    }
+//    // default
+//    return Icon(Icons.description, color: Colors.grey);
+//  }
 }
