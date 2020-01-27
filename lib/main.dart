@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:filex/providers/app_provider.dart';
+import 'package:filex/screens/ios_error.dart';
 import 'package:filex/screens/main_screen.dart';
 import 'package:filex/util/consts.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +30,8 @@ class MyApp extends StatelessWidget {
           navigatorKey: appProvider.navigatorKey,
           title: Constants.appName,
           theme: appProvider.theme,
-//          darkTheme: Constants.darkTheme,
-          home: MainScreen(),
+          darkTheme: Constants.darkTheme,
+          home: Platform.isIOS?IosError():MainScreen(),
         );
       },
     );

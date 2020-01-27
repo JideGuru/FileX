@@ -8,6 +8,7 @@ class Folder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 4,
         title: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +42,7 @@ class Folder extends StatelessWidget {
       ),
       body: ListView.separated(
         padding: EdgeInsets.symmetric(horizontal: 20),
-        itemCount: 10,
+        itemCount: 15,
         itemBuilder: (BuildContext context, int index) {
           return FileItem();
         },

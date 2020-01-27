@@ -1,7 +1,32 @@
+import 'dart:io';
+
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
+  @override
+  _SettingsState createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  @override
+  void initState() {
+    super.initState();
+    check();
+  }
+
+  int sdkVersion = 0;
+  check() async{
+    if(Platform.isAndroid){
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      setState(() {
+        sdkVersion = androidInfo.version.sdkInt;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +58,7 @@ class Settings extends StatelessWidget {
             color: Theme.of(context).dividerColor,
           ),
 
-          SwitchListTile.adaptive(
+          sdkVersion<28?SwitchListTile.adaptive(
             contentPadding: EdgeInsets.all(0),
             secondary: Icon(
               Feather.moon,
@@ -45,7 +70,7 @@ class Settings extends StatelessWidget {
             onChanged: (v){
 
             },
-          ),
+          ):SizedBox(),
           Container(
             height: 1,
             color: Theme.of(context).dividerColor,

@@ -1,10 +1,13 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:filex/screens/browse.dart';
 import 'package:filex/screens/settings.dart';
+import 'package:filex/screens/share.dart';
 import 'package:filex/util/consts.dart';
 import 'package:filex/widgets/custom_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class MainScreen extends StatefulWidget {
@@ -28,7 +31,7 @@ class _MainScreenState extends State<MainScreen> {
           onPageChanged: onPageChanged,
           children: <Widget>[
             Browse(),
-            Container(),
+            Share(),
             Settings(),
           ],
         ),
@@ -83,6 +86,15 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: 0);
+    Timer(Duration(seconds: 2),(){
+      SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Theme.of(context).primaryColor,
+        statusBarIconBrightness: Theme.of(context).primaryColor == Constants.darkTheme.primaryColor
+            ? Brightness.light
+            :Brightness.dark,
+      ));
+    });
   }
 
   @override
