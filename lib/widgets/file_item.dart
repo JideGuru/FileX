@@ -14,6 +14,16 @@ class FileItem extends StatelessWidget {
         print(mimeType);
       },
       contentPadding: EdgeInsets.all(0),
+//      leading: FutureBuilder<Widget>(
+//        future: FileUtils.setFileIcon("/storage/emulated/0/Telegram/Telegram Video/4_5827829871128085955.mp4"),
+//        builder: (BuildContext context, AsyncSnapshot snapshot) {
+//          return snapshot==null
+//              ? SizedBox()
+//              : snapshot.hasData
+//              ? snapshot.data
+//              : SizedBox();
+//        },
+//      ),
       leading: Container(
         height: 40,
         width: 40,

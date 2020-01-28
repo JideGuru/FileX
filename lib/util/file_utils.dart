@@ -32,13 +32,12 @@ class FileUtils{
     return mimeType;
   }
 
-  static Future<Widget> setFileIcon(FileSystemEntity f) async{
-    if (f is Directory) {
+  static Future<Widget> setFileIcon(String path) async{
+    if (FileSystemEntity.isDirectorySync(path)) {
       return Icon(
         Feather.folder,
       );
     } else {
-      String path = f.path;
       File file = File(path);
       String _extension = extension(path);
       String mimeType = mime(file.path);
@@ -57,19 +56,19 @@ class FileUtils{
             {
               return Image.file(
                 file,
+                height: 40,
+                width: 40,
               );
             }
             break;
 
           case "video":
             {
+
               return Image.file(
-                File(await Thumbnails.getThumbnail(
-                  thumbnailFolder: (await getApplicationSupportDirectory()).path,
-                  videoFile: file.path,
-                  imageType: ThumbFormat.PNG,
-                  quality: 30,
-                ),),
+                File((await getVideoThumbnail(file.path))),
+                height: 40,
+                width: 40,
               );
             }
             break;
@@ -87,7 +86,7 @@ class FileUtils{
             {
               return Icon(
                 Feather.file_text,
-                color: Colors.purple,
+                color: Colors.orangeAccent,
               );
             }
             break;
@@ -102,5 +101,16 @@ class FileUtils{
         }
       }
     }
+  }
+
+  static Future<String> getVideoThumbnail(String path) async{
+    var dir = await getExternalStorageDirectory();
+    String fi = await Thumbnails.getThumbnail(
+      thumbnailFolder: dir.path,
+      videoFile: path,
+      imageType: ThumbFormat.PNG,
+      quality: 30,
+    );
+    return fi;
   }
 }
