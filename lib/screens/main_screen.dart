@@ -5,6 +5,7 @@ import 'package:filex/screens/browse.dart';
 import 'package:filex/screens/settings.dart';
 import 'package:filex/screens/share.dart';
 import 'package:filex/util/consts.dart';
+import 'package:filex/util/file_utils.dart';
 import 'package:filex/widgets/custom_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -95,7 +96,27 @@ class _MainScreenState extends State<MainScreen> {
             :Brightness.dark,
       ));
     });
+//    g("/storage/emulated/0").then((v){
+//      print(all);
+//    });
   }
+
+  List all = List();
+//  Future g(String path) async{
+//    Directory d = Directory(path);
+//    List<FileSystemEntity> l = d.listSync();
+//    l.forEach((i)async {
+//      if(i.toString().split(":")[0] != "Directory"){
+//        if(i.path.contains(".apk")){
+//          all.add(i.path);
+//        }
+//      }else{
+//        if(!i.path.contains("/storage/emulated/0/Android")){
+//          g(i.path);
+//        }
+//      }
+//    });
+//  }
 
   @override
   void dispose() {

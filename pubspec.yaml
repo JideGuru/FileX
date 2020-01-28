@@ -27,7 +27,9 @@ dependencies:
   page_transition: ^1.1.5
   mime_type: ^0.2.4
   device_info: ^0.4.1+4
-#  path_provider: ^1.4.0
+  path: ^1.6.4
+  thumbnails: ^1.0.1
+  path_provider: ^1.4.0
 
 dev_dependencies:
   flutter_test:
