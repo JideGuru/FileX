@@ -17,7 +17,7 @@ class Browse extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<BrowseProvider>(
       builder: (BuildContext context, BrowseProvider browseProvider, Widget child) {
-        double percent = double.parse((browseProvider.freeSpace / browseProvider.totalSpace * 100)
+        double percent = double.parse((browseProvider.usedSpace / browseProvider.totalSpace * 100)
             .toStringAsFixed(0))/100;
         return Scaffold(
           appBar: AppBar(
@@ -84,7 +84,7 @@ class Browse extends StatelessWidget {
                                 percent: percent ?? 0.1,
                                 reverse: true,
                                 center: Text(
-                                  "${(browseProvider.freeSpace / browseProvider.totalSpace * 100)
+                                  "${(browseProvider.usedSpace / browseProvider.totalSpace * 100)
                                       .toStringAsFixed(0)}%",
                                   style:
                                   TextStyle(
@@ -115,8 +115,9 @@ class Browse extends StatelessWidget {
                                   ),
 
                                   SizedBox(height: 10,),
+
                                   Text(
-                                    "${FileUtils.formatBytes(browseProvider.freeSpace, 1)} "
+                                    "${FileUtils.formatBytes(browseProvider.usedSpace, 1)} "
                                         "/ ${FileUtils.formatBytes(browseProvider.totalSpace, 1)}",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w400,

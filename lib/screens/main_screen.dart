@@ -10,6 +10,7 @@ import 'package:filex/widgets/custom_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:path_provider/path_provider.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -102,6 +103,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   List all = List();
+
 //  Future g(String path) async{
 //    Directory d = Directory(path);
 //    List<FileSystemEntity> l = d.listSync();

@@ -5,6 +5,7 @@ import 'package:filex/util/file_utils.dart';
 import 'package:filex/widgets/sort_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:path/path.dart';
 
@@ -21,7 +22,6 @@ class WhatsappStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(files);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -59,7 +59,6 @@ class WhatsappStatus extends StatelessWidget {
                   FileSystemEntity f = files[index];
                   String path = f.path;
                   File file = File(path);
-                  print(path);
                   String mimeType = mime(path);
                   return mimeType == null
                       ? SizedBox()
@@ -86,11 +85,13 @@ class WhatsappStatus extends StatelessWidget {
                               children: <Widget>[
                                 IconButton(
                                   onPressed: () async{
+                                    print("Saving");
+                                    await Directory("/storage/emulated/0/${Constants.appName}").create();
                                     await Directory("/storage/emulated/0/${Constants.appName}/Whatsapp Status").create();
-                                    await file.copy("/storage/emulated/0/${Constants.appName}/Whatsapp Status");
+                                    await file.copy("/storage/emulated/0/${Constants.appName}/Whatsapp Status/${basename(path)}");
                                     print("Done");
                                     Fluttertoast.showToast(
-                                      msg: value,
+                                      msg: "Saved!",
                                       toastLength: Toast.LENGTH_SHORT,
                                       timeInSecForIos: 1,
                                     );

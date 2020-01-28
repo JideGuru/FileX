@@ -22,7 +22,7 @@ class Constants{
     cursorColor: lightAccent,
     scaffoldBackgroundColor: lightBG,
     appBarTheme: AppBarTheme(
-      elevation: 4,
+      elevation: 0,
       textTheme: TextTheme(
         title: TextStyle(
           color: Colors.black,
@@ -41,7 +41,7 @@ class Constants{
     scaffoldBackgroundColor: darkBG,
     cursorColor: darkAccent,
     appBarTheme: AppBarTheme(
-      elevation: 4,
+      elevation: 0,
       textTheme: TextTheme(
         title: TextStyle(
           color: lightBG,
