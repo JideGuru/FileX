@@ -30,6 +30,7 @@ dependencies:
   path: ^1.6.4
   thumbnails: ^1.0.1
   path_provider: ^1.4.0
+  fluttertoast: ^3.1.3
 
 dev_dependencies:
   flutter_test:

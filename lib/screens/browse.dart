@@ -1,6 +1,8 @@
 import 'package:filex/providers/browse_provider.dart';
 import 'package:filex/screens/category.dart';
 import 'package:filex/screens/folder.dart';
+import 'package:filex/screens/images.dart';
+import 'package:filex/screens/whatsapp_status.dart';
 import 'package:filex/util/consts.dart';
 import 'package:filex/util/file_utils.dart';
 import 'package:filex/widgets/file_item.dart';
@@ -152,13 +154,31 @@ class Browse extends StatelessWidget {
 
                   return ListTile(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: Category(),
-                        ),
-                      );
+                      if(index == Constants.categories.length-1){
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.rightToLeft,
+                            child: WhatsappStatus(
+                                title: "${category["title"]}"
+                            ),
+                          ),
+                        );
+                      }else{
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.rightToLeft,
+                            child: index == 1 || index == 2
+                                ? Images(
+                              title: "${category["title"]}",
+                            )
+                                : Category(
+                              title: "${category["title"]}",
+                            ),
+                          ),
+                        );
+                      }
                     },
                     contentPadding: EdgeInsets.all(0),
                     leading: Container(

@@ -11,6 +11,9 @@ import 'package:thumbnails/thumbnails.dart';
 
 class FileUtils{
 
+  static String waPath = "/storage/emulated/0/WhatsApp/Media/.Statuses";
+
+
   static formatBytes(bytes, decimals) {
     if(bytes == 0) return 0.0;
     var k = 1024,

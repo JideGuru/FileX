@@ -4,6 +4,13 @@ import 'package:filex/widgets/sort_sheet.dart';
 import 'package:flutter/material.dart';
 
 class Category extends StatelessWidget {
+  final String title;
+
+  Category({
+    Key key,
+    @required this.title,
+  }): super(key: key);
+
   @override
   Widget build(BuildContext context) {
     List tabs = [
@@ -16,7 +23,7 @@ class Category extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            "Downloads",
+            "$title",
           ),
           actions: <Widget>[
             IconButton(
@@ -49,7 +56,6 @@ class Category extends StatelessWidget {
         ),
 
         body: TabBarView(
-          physics: NeverScrollableScrollPhysics(),
           children: Constants.map<Widget>(
             tabs,
                 (index, label){
