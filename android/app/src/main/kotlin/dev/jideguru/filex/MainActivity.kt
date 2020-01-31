@@ -9,6 +9,9 @@ import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
+import androidx.core.content.ContextCompat.*
+import java.io.File
+
 
 class MainActivity: FlutterActivity() {
     private val CHANNEL = "dev.jideguru.filex/storage"
@@ -20,12 +23,13 @@ class MainActivity: FlutterActivity() {
                     when {
                         call.method == "getStorageFreeSpace" -> result.success(getStorageFreeSpace())
                         call.method == "getStorageTotalSpace" -> result.success(getStorageTotalSpace())
-                        call.method == "getSDCardTotalSpace" -> result.success(getSDCardTotalSpace())
-                        call.method == "getSDCardFreeSpace" -> result.success(getSDCardFreeSpace())
+                        call.method == "getExternalStorageTotalSpace" -> result.success(getExternalStorageTotalSpace())
+                        call.method == "getExternalStorageFreeSpace" -> result.success(getExternalStorageFreeSpace())
                     }
                 }
     }
-    
+
+
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     fun getStorageTotalSpace(): Long{
         val path = Environment.getDataDirectory()
@@ -41,16 +45,16 @@ class MainActivity: FlutterActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-    fun getSDCardTotalSpace(): Long{
-        val path = Environment.getExternalStorageDirectory()
-        val stat = StatFs(path.path)
-        return stat.totalBytes
+    fun getExternalStorageTotalSpace(): Long{
+        val dirs: Array<File> = getExternalFilesDirs(context, null)
+        val stat = StatFs(dirs[1].path)
+        return stat.availableBytes
     }
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-    fun getSDCardFreeSpace(): Long{
-        val path = Environment.getExternalStorageDirectory()
-        val stat = StatFs(path.path)
+    fun getExternalStorageFreeSpace(): Long{
+        val dirs: Array<File> = getExternalFilesDirs(context, null)
+        val stat = StatFs(dirs[1].path)
         return stat.availableBytes
     }
 }

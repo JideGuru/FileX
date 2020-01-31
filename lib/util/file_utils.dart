@@ -2,8 +2,8 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:intl/intl.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -14,6 +14,7 @@ class FileUtils{
   static String waPath = "/storage/emulated/0/WhatsApp/Media/.Statuses";
 
 
+  /// Convert Byte to KB, MB, .......
   static formatBytes(bytes, decimals) {
     if(bytes == 0) return 0.0;
     var k = 1024,
@@ -23,18 +24,36 @@ class FileUtils{
     return (((bytes / pow(k, i)).toStringAsFixed(dm)) + ' ' + sizes[i]);
   }
 
-  static Future<int> getFreeSpace() async {
-    MethodChannel platform = const MethodChannel('dev.jideguru.filex/storage');
-    int freeSpace = await platform.invokeMethod("getStorageFreeSpace");
-    return freeSpace;
-  }
 
+  /// Get mime information of a file
   static String getMime(String path){
     File file = File(path);
     String mimeType = mime(file.path);
     return mimeType;
   }
 
+  /// Return all available Storage path
+  static Future<List<Directory>> getStorageList() async {
+    List<Directory> paths = await getExternalStorageDirectories();
+    List<Directory> filteredPaths = List<Directory>();
+    for (Directory dir in paths) {
+      filteredPaths
+          .add(removeDataDirectory(dir.path));
+    }
+    return filteredPaths;
+  }
+
+
+  static Directory removeDataDirectory(String path){
+    return Directory(path.split("Android")[0]);
+  }
+
+  static Future<List<FileSystemEntity>> getFilesInPath(String path) async{
+    Directory dir = Directory(path);
+    return dir.listSync();
+  }
+
+  /// Get Icon for a file using it's path
   static Future<Widget> setFileIcon(String path) async{
     if (FileSystemEntity.isDirectorySync(path)) {
       return Icon(
@@ -106,6 +125,7 @@ class FileUtils{
     }
   }
 
+  /// Get thumbnail for Video Files
   static Future<String> getVideoThumbnail(String path) async{
     var dir = await getExternalStorageDirectory();
     String fi = await Thumbnails.getThumbnail(
@@ -115,5 +135,24 @@ class FileUtils{
       quality: 30,
     );
     return fi;
+  }
+
+  static String formatTime(String iso){
+    DateTime date = DateTime.parse(iso);
+    DateTime now = DateTime.now();
+    DateTime yDay = DateTime.now().subtract(Duration(days: 1));
+    DateFormat dateFormat = DateFormat("${date.day} ${date.month} ${date.year}");
+    DateFormat today = DateFormat("${now.day} ${now.month} ${now.year}");
+    DateFormat yesterday = DateFormat("${yDay.day} ${yDay.month} ${yDay.year}");
+
+    print("${date.day} ${date.month} ${date.year}");
+    print("${now.day} ${now.month} ${now.year}");
+    if(dateFormat.toString() == today.toString()){
+      return "Today ${DateFormat("HH:mm").format(DateTime.parse(iso))}";
+    }else if( dateFormat.toString() == yesterday.toString()){
+      return "Yesterday ${DateFormat("HH:mm").format(DateTime.parse(iso))}";
+    }else{
+      return "${DateFormat("MMM dd, HH:mm").format(DateTime.parse(iso))}";
+    }
   }
 }

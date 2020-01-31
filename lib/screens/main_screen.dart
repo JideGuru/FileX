@@ -56,10 +56,10 @@ class _MainScreenState extends State<MainScreen> {
 
             BottomNavigationBarItem(
               icon: Icon(
-                Feather.upload_cloud,
+                Feather.share,
               ),
               title: Text(
-                "Share",
+                "FTP",
               ),
             ),
 

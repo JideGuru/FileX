@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:filex/providers/browse_provider.dart';
+import 'package:filex/providers/category_provider.dart';
 import 'package:filex/screens/category.dart';
-import 'package:filex/screens/folder.dart';
+import 'package:filex/screens/downloads.dart';
 import 'package:filex/screens/images.dart';
 import 'package:filex/screens/whatsapp_status.dart';
 import 'package:filex/util/consts.dart';
@@ -11,7 +12,6 @@ import 'package:filex/widgets/file_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 
@@ -20,8 +20,6 @@ class Browse extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<BrowseProvider>(
       builder: (BuildContext context, BrowseProvider browseProvider, Widget child) {
-        double percent = double.parse((browseProvider.usedSpace / browseProvider.totalSpace * 100)
-            .toStringAsFixed(0))/100;
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -74,7 +72,6 @@ class Browse extends StatelessWidget {
                       .toStringAsFixed(0))/100
                       :double.parse((browseProvider.usedSDSpace / browseProvider.totalSDSpace * 100)
                       .toStringAsFixed(0))/100;
-                  print(percent);
                   return ListTile(
                     onTap: (){
                       print(path);
@@ -113,10 +110,10 @@ class Browse extends StatelessWidget {
 
                         Text(
                           index == 0
-                              ? "${FileUtils.formatBytes(browseProvider.usedSpace, 1)} "
-                              "used of ${FileUtils.formatBytes(browseProvider.totalSpace, 1)}"
-                              : "${FileUtils.formatBytes(browseProvider.usedSDSpace, 1)} "
-                              "used of ${FileUtils.formatBytes(browseProvider.totalSDSpace, 1)}",
+                              ? "${FileUtils.formatBytes(browseProvider.usedSpace, 2)} "
+                              "used of ${FileUtils.formatBytes(browseProvider.totalSpace, 2)}"
+                              : "${FileUtils.formatBytes(browseProvider.usedSDSpace, 2)} "
+                              "used of ${FileUtils.formatBytes(browseProvider.totalSDSpace, 2)}",
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 14.0,
@@ -193,13 +190,24 @@ class Browse extends StatelessWidget {
                             PageTransition(
                               type: PageTransitionType.rightToLeft,
                               child: WhatsappStatus(
-                                  title: "${category["title"]}"
+                                title: "${category["title"]}",
                               ),
                             ),
                           );
                         }else{
                           browseProvider.showToast("Please Install Whatsapp to use this feature");
                         }
+                      }else if(index == 0){
+                        Provider.of<CategoryProvider>(context, listen: false).getDownloads();
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.rightToLeft,
+                            child: Downloads(
+                              title: "${category["title"]}",
+                            ),
+                          ),
+                        );
                       }else{
                         Navigator.push(
                           context,

@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:filex/providers/app_provider.dart';
 import 'package:filex/providers/browse_provider.dart';
+import 'package:filex/providers/category_provider.dart';
 import 'package:filex/screens/ios_error.dart';
 import 'package:filex/screens/main_screen.dart';
 import 'package:filex/util/consts.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 void main(){
@@ -14,6 +16,7 @@ void main(){
       providers: [
         ChangeNotifierProvider(create: (_) => AppProvider()),
         ChangeNotifierProvider(create: (_) => BrowseProvider()),
+        ChangeNotifierProvider(create: (_) => CategoryProvider()),
       ],
       child: MyApp(),
     ),
@@ -21,7 +24,6 @@ void main(){
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return Consumer<AppProvider>(

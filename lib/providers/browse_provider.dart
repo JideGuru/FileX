@@ -28,16 +28,12 @@ class BrowseProvider extends ChangeNotifier{
     MethodChannel platform = MethodChannel('dev.jideguru.filex/storage');
     var free = await platform.invokeMethod("getStorageFreeSpace");
     var total = await platform.invokeMethod("getStorageTotalSpace");
-    print(total);
-    print(free);
     setFreeSpace(free);
     setTotalSpace(total);
     setUsedSpace(total-free);
     if(l.length > 1){
-      var freeSD = await platform.invokeMethod("getSDCardFreeSpace");
-      var totalSD = await platform.invokeMethod("getSDCardTotalSpace");
-      print(totalSD);
-      print(freeSD);
+      var freeSD = await platform.invokeMethod("getExternalStorageFreeSpace");
+      var totalSD = await platform.invokeMethod("getExternalStorageTotalSpace");
       setFreeSDSpace(freeSD);
       setTotalSDSpace(totalSD);
       setUsedSDSpace(totalSD-freeSD);
