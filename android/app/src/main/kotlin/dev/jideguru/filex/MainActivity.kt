@@ -17,11 +17,11 @@ class MainActivity: FlutterActivity() {
         GeneratedPluginRegistrant.registerWith(flutterEngine)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
                 .setMethodCallHandler { call, result ->
-                    if(call.method == "getStorageFreeSpace"){
-                        result.success(getStorageFreeSpace())
-                    }
-                    if(call.method == "getStorageTotalSpace"){
-                        result.success(getStorageTotalSpace())
+                    when {
+                        call.method == "getStorageFreeSpace" -> result.success(getStorageFreeSpace())
+                        call.method == "getStorageTotalSpace" -> result.success(getStorageTotalSpace())
+                        call.method == "getSDCardTotalSpace" -> result.success(getSDCardTotalSpace())
+                        call.method == "getSDCardFreeSpace" -> result.success(getSDCardFreeSpace())
                     }
                 }
     }
@@ -30,7 +30,6 @@ class MainActivity: FlutterActivity() {
     fun getStorageTotalSpace(): Long{
         val path = Environment.getDataDirectory()
         val stat = StatFs(path.path)
-
         return stat.totalBytes
     }
     
@@ -38,7 +37,20 @@ class MainActivity: FlutterActivity() {
     fun getStorageFreeSpace(): Long{
         val path = Environment.getDataDirectory()
         val stat = StatFs(path.path)
+        return stat.availableBytes
+    }
 
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    fun getSDCardTotalSpace(): Long{
+        val path = Environment.getExternalStorageDirectory()
+        val stat = StatFs(path.path)
+        return stat.totalBytes
+    }
+
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    fun getSDCardFreeSpace(): Long{
+        val path = Environment.getExternalStorageDirectory()
+        val stat = StatFs(path.path)
         return stat.availableBytes
     }
 }

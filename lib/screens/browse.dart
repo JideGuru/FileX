@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:filex/providers/browse_provider.dart';
 import 'package:filex/screens/category.dart';
 import 'package:filex/screens/folder.dart';
@@ -10,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 
 class Browse extends StatelessWidget {
@@ -21,6 +24,7 @@ class Browse extends StatelessWidget {
             .toStringAsFixed(0))/100;
         return Scaffold(
           appBar: AppBar(
+            centerTitle: true,
             title: Text(
               "${Constants.appName}",
               style: TextStyle(
@@ -40,99 +44,126 @@ class Browse extends StatelessWidget {
           body: ListView(
             padding: EdgeInsets.only(left: 20),
             children: <Widget>[
-              Container(
-                height: 150,
-                padding: EdgeInsets.only(right: 20),
-                child: Card(
-                  color: Theme.of(context).accentColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
-                    ),
-                  ),
-                  elevation: 4,
-                  child: Container(
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(20),
+              SizedBox(height: 20,),
+
+              Text(
+                "Storage Devices".toUpperCase(),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12.0,
+                ),
+              ),
+
+              browseProvider.loading
+                  ? Container(
+                height: 100,
+                    child: Center(
+                child: CircularProgressIndicator(),
+              ),
+                  )
+                  : ListView.separated(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: browseProvider.availableStorage.length,
+                itemBuilder: (BuildContext context, int index) {
+                  FileSystemEntity item = browseProvider.availableStorage[index];
+
+                  String path = item.path.split("Android")[0];
+                  double percent = index == 0
+                      ?double.parse((browseProvider.usedSpace / browseProvider.totalSpace * 100)
+                      .toStringAsFixed(0))/100
+                      :double.parse((browseProvider.usedSDSpace / browseProvider.totalSDSpace * 100)
+                      .toStringAsFixed(0))/100;
+                  print(percent);
+                  return ListTile(
+                    onTap: (){
+                      print(path);
+                    },
+                    contentPadding: EdgeInsets.only(right: 20),
+                    leading: Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Theme.of(context).dividerColor,
+                          width: 2,
                         ),
-                        onTap: (){
-                          Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              child: Folder(),
-                            ),
-                          );
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              browseProvider.freeSpace == 0 || browseProvider.totalSpace == 0
-                                  ? CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation((Colors.white)),
-                              )
-                                  : CircularPercentIndicator(
-                                radius: 80.0,
-                                lineWidth: 6.0,
-                                animation: true,
-                                animationDuration: 2000,
-                                percent: percent ?? 0.1,
-                                reverse: true,
-                                center: Text(
-                                  "${(browseProvider.usedSpace / browseProvider.totalSpace * 100)
-                                      .toStringAsFixed(0)}%",
-                                  style:
-                                  TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14.0,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                circularStrokeCap: CircularStrokeCap.round,
-                                progressColor: Colors.orangeAccent,
-                                backgroundColor: Colors.white,
-                              ),
-
-                              SizedBox(width: 30,),
-
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    "Internal Storage",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-
-                                  SizedBox(height: 10,),
-
-                                  Text(
-                                    "${FileUtils.formatBytes(browseProvider.usedSpace, 1)} "
-                                        "/ ${FileUtils.formatBytes(browseProvider.totalSpace, 1)}",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14.0,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          index == 0
+                              ? Feather.smartphone
+                              : Icons.sd_storage,
+                          color: index == 0
+                              ? Colors.lightBlue
+                              : Colors.orange,
                         ),
                       ),
                     ),
-                  ),
+
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          index == 0
+                              ? "Device"
+                              : "SD Card",
+                        ),
+
+                        Text(
+                          index == 0
+                              ? "${FileUtils.formatBytes(browseProvider.usedSpace, 1)} "
+                              "used of ${FileUtils.formatBytes(browseProvider.totalSpace, 1)}"
+                              : "${FileUtils.formatBytes(browseProvider.usedSDSpace, 1)} "
+                              "used of ${FileUtils.formatBytes(browseProvider.totalSDSpace, 1)}",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14.0,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    subtitle: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                      child: LinearPercentIndicator(
+                        padding: EdgeInsets.all(0),
+                        backgroundColor: Colors.grey[300],
+                        percent: percent,
+                        progressColor: index == 0
+                            ? Colors.lightBlue
+                            : Colors.orange,
+                      ),
+                    ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return Stack(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Container(
+                          height: 1,
+                          color: Theme.of(context).dividerColor,
+                          width: MediaQuery.of(context).size.width - 70,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  height: 1,
+                  color: Theme.of(context).dividerColor,
+                  width: MediaQuery.of(context).size.width - 70,
                 ),
               ),
 
@@ -156,15 +187,19 @@ class Browse extends StatelessWidget {
                   return ListTile(
                     onTap: () {
                       if(index == Constants.categories.length-1){
-                        Navigator.push(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child: WhatsappStatus(
-                                title: "${category["title"]}"
+                        if(Directory(FileUtils.waPath).existsSync()) {
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: WhatsappStatus(
+                                  title: "${category["title"]}"
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        }else{
+                          browseProvider.showToast("Please Install Whatsapp to use this feature");
+                        }
                       }else{
                         Navigator.push(
                           context,
