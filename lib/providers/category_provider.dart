@@ -18,7 +18,7 @@ class CategoryProvider extends ChangeNotifier{
       files.forEach((file){
         downloads.add(file);
         downloadTabs.add(file.path.split("/")[file.path.split("/").length-2]);
-        downloadTabs.toSet().toList();
+        downloadTabs = downloadTabs.toSet().toList();
         setLoading(false);
         notifyListeners();
       });

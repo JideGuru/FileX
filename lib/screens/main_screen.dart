@@ -10,7 +10,7 @@ import 'package:filex/widgets/custom_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as pathlib;
 
 class MainScreen extends StatefulWidget {
   @override
@@ -97,28 +97,14 @@ class _MainScreenState extends State<MainScreen> {
             :Brightness.dark,
       ));
     });
-//    g("/storage/emulated/0").then((v){
-//      print(all);
+//    FileUtils.getRecentFiles(showHidden: true).then((l){
+//      print(l);
+//      l.forEach((f){
+//        File fi = File(f.path);
+//        print("${pathlib.basename(fi.path)} ${fi.lastAccessedSync()}");
+//      });
 //    });
   }
-
-  List all = List();
-
-//  Future g(String path) async{
-//    Directory d = Directory(path);
-//    List<FileSystemEntity> l = d.listSync();
-//    l.forEach((i)async {
-//      if(i.toString().split(":")[0] != "Directory"){
-//        if(i.path.contains(".apk")){
-//          all.add(i.path);
-//        }
-//      }else{
-//        if(!i.path.contains("/storage/emulated/0/Android")){
-//          g(i.path);
-//        }
-//      }
-//    });
-//  }
 
   @override
   void dispose() {

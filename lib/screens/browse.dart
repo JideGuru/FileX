@@ -281,20 +281,32 @@ class Browse extends StatelessWidget {
                 ),
               ),
 
-              ListView.separated(
-                padding: EdgeInsets.only(right: 20),
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: 10,
-                itemBuilder: (BuildContext context, int index) {
-                  return FileItem();
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return Container(
-                    height: 1,
-                    color: Theme.of(context).dividerColor,
-                  );
-                },
+              FutureBuilder<List<FileSystemEntity>>(
+                future: FileUtils.getRecentFiles(showHidden: false),
+                builder: (context, snapshot) {
+                  return snapshot == null
+                      ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                      : snapshot.hasData
+                      ? ListView.separated(
+                    padding: EdgeInsets.only(right: 20),
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: 5,
+                    itemBuilder: (BuildContext context, int index) {
+                      return FileItem(
+                        file: snapshot.data[index],
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return Container(
+                        height: 1,
+                        color: Theme.of(context).dividerColor,
+                      );
+                    },
+                  ): SizedBox();
+                }
               ),
             ],
           ),

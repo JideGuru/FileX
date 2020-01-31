@@ -22,7 +22,6 @@ class BrowseProvider extends ChangeNotifier{
   checkSpace() async{
     setLoading(true);
     List<FileSystemEntity> l = await getExternalStorageDirectories();
-    print(l);
     availableStorage.addAll(l);
     notifyListeners();
     MethodChannel platform = MethodChannel('dev.jideguru.filex/storage');

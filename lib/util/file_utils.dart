@@ -15,8 +15,8 @@ class FileUtils{
 
 
   /// Convert Byte to KB, MB, .......
-  static formatBytes(bytes, decimals) {
-    if(bytes == 0) return 0.0;
+  static String formatBytes(bytes, decimals) {
+    if(bytes == 0) return "0.0 KB";
     var k = 1024,
         dm = decimals <= 0 ? 0 : decimals,
         sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
@@ -51,6 +51,55 @@ class FileUtils{
   static Future<List<FileSystemEntity>> getFilesInPath(String path) async{
     Directory dir = Directory(path);
     return dir.listSync();
+  }
+
+  static Future<List<FileSystemEntity>> getAllFiles({bool showHidden}) async{
+    List<Directory> storages = await getStorageList();
+    List<FileSystemEntity> files = List<FileSystemEntity>();
+    for (Directory dir in storages) {
+      files.addAll(await getAllFilesInPath(dir.path, showHidden: showHidden));
+    }
+    return files;
+  }
+
+  static Future<List<FileSystemEntity>> getRecentFiles({bool showHidden}) async{
+    List<FileSystemEntity> files = await getAllFiles(showHidden: showHidden);
+    files.sort((a, b) => File(a.path).lastAccessedSync().compareTo(File(b.path).lastAccessedSync()));
+    return files.reversed.toList();
+  }
+
+  /// Get all files
+  static Future<List<FileSystemEntity>> getAllFilesInPath(String path,{bool showHidden}) async{
+    List<FileSystemEntity> files = List<FileSystemEntity>();
+    Directory d = Directory(path);
+    List<FileSystemEntity> l = d.listSync();
+    for (FileSystemEntity file in l) {
+
+      if(file.toString().split(":")[0] != "Directory"){
+        if(!showHidden){
+          if(!basename(file.path).startsWith(".")){
+            files.add(file);
+          }
+        }else{
+          files.add(file);
+        }
+
+      }else{
+        if(!file.path.contains("/storage/emulated/0/Android")){
+//          print(file.path);
+          if(!showHidden){
+            if(!basename(file.path).startsWith(".")){
+              files.addAll(await getAllFilesInPath(file.path, showHidden: showHidden));
+            }
+          }else{
+            files.addAll(await getAllFilesInPath(file.path, showHidden: showHidden));
+          }
+
+        }
+      }
+    }
+//    print(files);
+    return files;
   }
 
   /// Get Icon for a file using it's path
@@ -145,11 +194,9 @@ class FileUtils{
     DateFormat today = DateFormat("${now.day} ${now.month} ${now.year}");
     DateFormat yesterday = DateFormat("${yDay.day} ${yDay.month} ${yDay.year}");
 
-    print("${date.day} ${date.month} ${date.year}");
-    print("${now.day} ${now.month} ${now.year}");
     if(dateFormat.toString() == today.toString()){
       return "Today ${DateFormat("HH:mm").format(DateTime.parse(iso))}";
-    }else if( dateFormat.toString() == yesterday.toString()){
+    }else if(dateFormat.toString() == yesterday.toString()){
       return "Yesterday ${DateFormat("HH:mm").format(DateTime.parse(iso))}";
     }else{
       return "${DateFormat("MMM dd, HH:mm").format(DateTime.parse(iso))}";

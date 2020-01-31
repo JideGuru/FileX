@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:filex/util/file_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:mime_type/mime_type.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path/path.dart';
 
 class FileItem extends StatelessWidget {
@@ -15,11 +15,7 @@ class FileItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: (){
-        File f = File(file.path);
-        String mimeType = mime(f.path);
-        print(mimeType);
-      },
+      onTap: ()=>OpenFile.open(file.path),
       contentPadding: EdgeInsets.all(0),
       leading: FutureBuilder<Widget>(
         future: FileUtils.setFileIcon(file == null?"":file.path),
