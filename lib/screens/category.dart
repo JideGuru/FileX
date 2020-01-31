@@ -21,8 +21,10 @@ class Category extends StatelessWidget {
     return Consumer(
       builder: (BuildContext context, CategoryProvider provider, Widget child) {
         return provider.loading
-            ? Center(
-            child: CircularProgressIndicator()
+            ? Scaffold(
+          body: Center(
+              child: CircularProgressIndicator()
+          ),
         ) : DefaultTabController(
           length: provider.audioTabs.length,
           child: Scaffold(
@@ -60,7 +62,9 @@ class Category extends StatelessWidget {
               ),
             ),
 
-            body: TabBarView(
+            body: provider.audio.isEmpty
+                ? Center(child: Text("No Files Found"))
+                : TabBarView(
               children: Constants.map<Widget>(
                 provider.audioTabs,
                     (index, label){

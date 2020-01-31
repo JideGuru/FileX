@@ -47,16 +47,16 @@ class CategoryProvider extends ChangeNotifier{
     imageTabs.add("All");
     List<FileSystemEntity> files = await FileUtils.getAllFiles(showHidden: showHidden);
     files.forEach((file){
-      String mimeType = mime(file.path);
-      if(mimeType != null){
-        if(mimeType.split("/")[0] == type){
-          images.add(file);
-          imageTabs.add("${file.path.split("/")[file.path.split("/").length-2]}");
-          imageTabs = imageTabs.toSet().toList();
-          setLoading(false);
-          notifyListeners();
-        }
+      String mimeType = mime(file.path) == null
+          ? ""
+          : mime(file.path);
+      if(mimeType.split("/")[0] == type){
+        images.add(file);
+        imageTabs.add("${file.path.split("/")[file.path.split("/").length-2]}");
+        imageTabs = imageTabs.toSet().toList();
       }
+      setLoading(false);
+      notifyListeners();
     });
   }
 
@@ -70,7 +70,6 @@ class CategoryProvider extends ChangeNotifier{
     files.forEach((file){
       String mimeType = mime(file.path);
       if(mimeType != null){
-
         if(mimeType.split("/")[0] == type){
           if(type == "text" && mimeType.contains("pdf")){
             audio.add(file);
@@ -78,9 +77,9 @@ class CategoryProvider extends ChangeNotifier{
           audio.add(file);
           audioTabs.add("${file.path.split("/")[file.path.split("/").length-2]}");
           audioTabs =  audioTabs.toSet().toList();
-          setLoading(false);
-          notifyListeners();
         }
+        setLoading(false);
+        notifyListeners();
       }
     });
   }

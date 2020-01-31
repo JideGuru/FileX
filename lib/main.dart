@@ -7,7 +7,6 @@ import 'package:filex/screens/ios_error.dart';
 import 'package:filex/screens/main_screen.dart';
 import 'package:filex/util/consts.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 void main(){

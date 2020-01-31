@@ -6,6 +6,7 @@ import 'package:filex/providers/category_provider.dart';
 import 'package:filex/screens/apps_screen.dart';
 import 'package:filex/screens/category.dart';
 import 'package:filex/screens/downloads.dart';
+import 'package:filex/screens/folder.dart';
 import 'package:filex/screens/images.dart';
 import 'package:filex/screens/whatsapp_status.dart';
 import 'package:filex/util/consts.dart';
@@ -80,7 +81,18 @@ class Browse extends StatelessWidget {
                       .toStringAsFixed(0))/100;
                   return ListTile(
                     onTap: (){
-                      print(path);
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          child: Folder(
+                            title: index == 0
+                                ? "Device"
+                                : "SD Card",
+                            path: path,
+                          ),
+                        ),
+                      );
                     },
                     contentPadding: EdgeInsets.only(right: 20),
                     leading: Container(
@@ -320,7 +332,7 @@ class Browse extends StatelessWidget {
                     padding: EdgeInsets.only(right: 20),
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: snapshot.data.isEmpty?0:5,
+                    itemCount: snapshot.data.length > 5?5:snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       return FileItem(
                         file: snapshot.data[index],

@@ -34,50 +34,11 @@ class FileItem extends StatelessWidget {
         ),
         maxLines: 2,
       ),
-      subtitle: Text(
+      subtitle: file.toString().split(":")[0] != "Directory"
+          ?Text(
         "${FileUtils.formatBytes(file == null?678476:File(file.path).lengthSync(), 2)},"
             " ${file == null?"Test":FileUtils.formatTime(File(file.path).lastAccessedSync().toIso8601String())}",
-      ),
-      trailing: PopupMenuButton<int>(
-        itemBuilder: (context) => [
-          PopupMenuItem(
-            value: 1,
-            child: Text(
-              "Rename",
-            ),
-          ),
-          PopupMenuItem(
-            value: 1,
-            child: Text(
-              "Delete",
-            ),
-          ),
-          PopupMenuItem(
-            value: 2,
-            child: Text(
-              "Copy to",
-            ),
-          ),
-          PopupMenuItem(
-            value: 2,
-            child: Text(
-              "Move to",
-            ),
-          ),
-          PopupMenuItem(
-            value: 2,
-            child: Text(
-              "Share",
-            ),
-          ),
-        ],
-        icon: Icon(
-          Icons.arrow_drop_down,
-          color: Theme.of(context).textTheme.title.color,
-        ),
-        color: Theme.of(context).scaffoldBackgroundColor,
-        offset: Offset(0, 30),
-      ),
+      ):Text("Folder"),
     );
   }
 }

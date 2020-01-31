@@ -92,6 +92,7 @@ class _MainScreenState extends State<MainScreen> {
       SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Theme.of(context).primaryColor,
+        systemNavigationBarColor: Theme.of(context).primaryColor,
         statusBarIconBrightness: Theme.of(context).primaryColor == Constants.darkTheme.primaryColor
             ? Brightness.light
             :Brightness.dark,

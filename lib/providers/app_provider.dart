@@ -1,6 +1,7 @@
 import 'package:filex/util/consts.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,7 +31,12 @@ class AppProvider extends ChangeNotifier{
     theme = value;
     SharedPreferences.getInstance().then((prefs){
       prefs.setString("theme", c).then((val){
-
+        SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+          statusBarColor: c == "dark" ? Constants.darkPrimary : Constants.lightPrimary,
+          systemNavigationBarColor: c == "dark" ? Constants.darkPrimary : Constants.lightPrimary,
+          statusBarIconBrightness: c == "dark" ? Brightness.light:Brightness.dark,
+        ));
       });
     });
     notifyListeners();

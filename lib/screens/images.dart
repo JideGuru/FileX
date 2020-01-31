@@ -22,9 +22,11 @@ class Images extends StatelessWidget {
     return Consumer(
       builder: (BuildContext context, CategoryProvider provider, Widget child) {
         return provider.loading
-            ? Center(
-            child: CircularProgressIndicator()
-        ) : DefaultTabController(
+            ? Scaffold(
+          body: Center(
+              child: CircularProgressIndicator()
+          ),
+        ): DefaultTabController(
           length: provider.imageTabs.length,
           child: Scaffold(
             appBar: AppBar(
@@ -61,7 +63,9 @@ class Images extends StatelessWidget {
               ),
             ),
 
-            body: TabBarView(
+            body: provider.images.isEmpty
+                ? Center(child: Text("No Files Found"))
+                : TabBarView(
               children: Constants.map<Widget>(
                 provider.imageTabs,
                     (index, label){

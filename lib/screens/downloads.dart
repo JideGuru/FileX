@@ -54,7 +54,9 @@ class Downloads extends StatelessWidget {
               ),
             ),
 
-            body: TabBarView(
+            body: provider.downloads.isEmpty
+                ? Center(child: Text("No Files Found"))
+                : TabBarView(
               children: Constants.map<Widget>(
                 provider.downloadTabs,
                     (index, label){
