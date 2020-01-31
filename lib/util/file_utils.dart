@@ -117,6 +117,11 @@ class FileUtils{
           Icons.android,
           color: Colors.green,
         );
+      }else if (_extension == ".crdownload") {
+        return Icon(
+          Feather.download,
+          color: Colors.lightBlue,
+        );
       }else if(_extension == ".zip" || _extension.contains("tar")){
         return Icon(
           Feather.archive,
@@ -166,6 +171,7 @@ class FileUtils{
             {
               return Icon(
                 Feather.file,
+                color: Colors.blue,
               );
             }
             break;

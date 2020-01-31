@@ -1,6 +1,6 @@
-# FileX
+# FileX (WIP)
 
-A new Flutter application.
+A simple File Explorer made with Flutter.
 
 ## 💻 Requirements
 * Any Operating System (ie. MacOS X, Linux, Windows)
@@ -13,5 +13,7 @@ A new Flutter application.
 - [x] Show/Hide Hidden files.
 - [ ] Copy/Move/Paste Files.
 - [ ] Delete Files.
+- [ ] Rename Files.
+- [ ] Share Files.
 - [x] Dark Mode.
 - [ ] FTP Client.

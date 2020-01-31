@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:filex/providers/browse_provider.dart';
@@ -198,7 +199,6 @@ class Browse extends StatelessWidget {
                           browseProvider.showToast("Please Install Whatsapp to use this feature");
                         }
                       }else if(index == 0){
-                        Provider.of<CategoryProvider>(context, listen: false).getDownloads();
                         Navigator.push(
                           context,
                           PageTransition(
@@ -208,6 +208,7 @@ class Browse extends StatelessWidget {
                             ),
                           ),
                         );
+                        Provider.of<CategoryProvider>(context, listen: false).getDownloads();
                       }else{
                         Navigator.push(
                           context,
@@ -222,6 +223,11 @@ class Browse extends StatelessWidget {
                             ),
                           ),
                         );
+                        if(index == 1){
+                          Provider.of<CategoryProvider>(context, listen: false).getImages();
+                        }else if(index == 2){
+                          Provider.of<CategoryProvider>(context, listen: false).getVideos();
+                        }
                       }
                     },
                     contentPadding: EdgeInsets.all(0),
@@ -282,18 +288,22 @@ class Browse extends StatelessWidget {
               ),
 
               FutureBuilder<List<FileSystemEntity>>(
+                initialData: [],
                 future: FileUtils.getRecentFiles(showHidden: false),
                 builder: (context, snapshot) {
                   return snapshot == null
-                      ? Center(
-                    child: CircularProgressIndicator(),
+                      ? Container(
+                    height: 100,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
                   )
                       : snapshot.hasData
                       ? ListView.separated(
                     padding: EdgeInsets.only(right: 20),
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: 5,
+                    itemCount: snapshot.data.isEmpty?0:5,
                     itemBuilder: (BuildContext context, int index) {
                       return FileItem(
                         file: snapshot.data[index],

@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:filex/providers/category_provider.dart';
 import 'package:filex/util/consts.dart';
 import 'package:filex/widgets/file_item.dart';
 import 'package:filex/widgets/sort_sheet.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 class Downloads extends StatelessWidget {
@@ -18,16 +15,6 @@ class Downloads extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    getDownloads() async{
-      List<FileSystemEntity> downloads = List();
-      List<FileSystemEntity> l = await getExternalStorageDirectories();
-      l.forEach((v){
-        Directory dir = Directory(v.path.split("Android")[0]+"Download");
-        downloads.addAll(dir.listSync());
-      });
-    }
-
     return Consumer(
       builder: (BuildContext context, CategoryProvider provider, Widget child) {
         return DefaultTabController(
