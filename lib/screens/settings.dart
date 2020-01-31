@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:device_info/device_info.dart';
+import 'package:filex/providers/category_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:provider/provider.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -48,29 +50,17 @@ class _SettingsState extends State<Settings> {
             title: Text(
               "See hidden files",
             ),
-            value: false,
-            onChanged: (v){
-
+            value: Provider.of<CategoryProvider>(context).showHidden,
+            onChanged: (value){
+              Provider.of<CategoryProvider>(context, listen: false).setHidden(value);
             },
+            activeColor: Theme.of(context).accentColor,
           ),
           Container(
             height: 1,
             color: Theme.of(context).dividerColor,
           ),
 
-          sdkVersion<28?SwitchListTile.adaptive(
-            contentPadding: EdgeInsets.all(0),
-            secondary: Icon(
-              Feather.moon,
-            ),
-            title: Text(
-              "Dark mode",
-            ),
-            value: false,
-            onChanged: (v){
-
-            },
-          ):SizedBox(),
           Container(
             height: 1,
             color: Theme.of(context).dividerColor,
@@ -85,7 +75,7 @@ class _SettingsState extends State<Settings> {
               Feather.file_text,
             ),
             title: Text(
-              "Licences",
+              "Open source licences",
             ),
           ),
           Container(

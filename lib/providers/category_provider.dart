@@ -3,8 +3,13 @@ import 'dart:io';
 import 'package:filex/util/file_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mime_type/mime_type.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CategoryProvider extends ChangeNotifier{
+  CategoryProvider(){
+    getHidden();
+  }
+
   bool loading = false;
   List<FileSystemEntity> downloads = List();
   List<String> downloadTabs = List();
@@ -12,9 +17,10 @@ class CategoryProvider extends ChangeNotifier{
   List<FileSystemEntity> images = List();
   List<String> imageTabs = List();
 
-  List<FileSystemEntity> videos = List();
-  List<String> videoTabs = List();
+  List<FileSystemEntity> audio = List();
+  List<String> audioTabs = List();
 
+  bool showHidden = true;
 
   getDownloads() async{
     setLoading(true);
@@ -22,7 +28,6 @@ class CategoryProvider extends ChangeNotifier{
     downloads.clear();
     downloadTabs.add("All");
     List<Directory> storages = await FileUtils.getStorageList();
-//    print(storages.toString());
     storages.forEach((dir){
       List<FileSystemEntity> files = Directory(dir.path+"Download").listSync();
       files.forEach((file){
@@ -35,16 +40,16 @@ class CategoryProvider extends ChangeNotifier{
     });
   }
 
-  getImages() async{
+  getImages(String type) async{
     setLoading(true);
     imageTabs.clear();
     images.clear();
     imageTabs.add("All");
-    List<FileSystemEntity> files = await FileUtils.getAllFiles(showHidden: true);
+    List<FileSystemEntity> files = await FileUtils.getAllFiles(showHidden: showHidden);
     files.forEach((file){
       String mimeType = mime(file.path);
       if(mimeType != null){
-        if(mimeType.split("/")[0] == "image"){
+        if(mimeType.split("/")[0] == type){
           images.add(file);
           imageTabs.add("${file.path.split("/")[file.path.split("/").length-2]}");
           imageTabs = imageTabs.toSet().toList();
@@ -55,19 +60,24 @@ class CategoryProvider extends ChangeNotifier{
     });
   }
 
-  getVideos() async{
+
+  getAudios(String type) async{
     setLoading(true);
-    videoTabs.clear();
-    videos.clear();
-    videoTabs.add("All");
-    List<FileSystemEntity> files = await FileUtils.getAllFiles(showHidden: true);
+    audioTabs.clear();
+    audio.clear();
+    audioTabs.add("All");
+    List<FileSystemEntity> files = await FileUtils.getAllFiles(showHidden: showHidden);
     files.forEach((file){
       String mimeType = mime(file.path);
       if(mimeType != null){
-        if(mimeType.split("/")[0] == "video"){
-          videos.add(file);
-          videoTabs.add("${file.path.split("/")[file.path.split("/").length-2]}");
-          videoTabs = videoTabs.toSet().toList();
+
+        if(mimeType.split("/")[0] == type){
+          if(type == "text" && mimeType.contains("pdf")){
+            audio.add(file);
+          }
+          audio.add(file);
+          audioTabs.add("${file.path.split("/")[file.path.split("/").length-2]}");
+          audioTabs =  audioTabs.toSet().toList();
           setLoading(false);
           notifyListeners();
         }
@@ -78,5 +88,18 @@ class CategoryProvider extends ChangeNotifier{
   void setLoading(value) {
     loading = value;
     notifyListeners();
+  }
+
+  setHidden(value) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("hidden", value);
+    showHidden = value;
+    notifyListeners();
+  }
+
+  getHidden() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool h = prefs.getBool("hidden") == null?true:prefs.getBool("hidden");
+    setHidden(h);
   }
 }

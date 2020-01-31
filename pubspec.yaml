@@ -34,7 +34,7 @@ dependencies:
   permission_handler: ^4.2.0+hotfix.1
   intl: ^0.16.1
   open_file: ^3.0.1
-#  device_apps: ^1.0.9
+  device_apps: ^1.0.9
 
 dev_dependencies:
   flutter_test:

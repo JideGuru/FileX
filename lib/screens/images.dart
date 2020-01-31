@@ -25,9 +25,7 @@ class Images extends StatelessWidget {
             ? Center(
             child: CircularProgressIndicator()
         ) : DefaultTabController(
-          length: title == "Images"
-              ? provider.imageTabs.length
-              : provider.videoTabs.length,
+          length: provider.imageTabs.length,
           child: Scaffold(
             appBar: AppBar(
               title: Text(
@@ -51,11 +49,9 @@ class Images extends StatelessWidget {
                 indicatorColor: Theme.of(context).accentColor,
                 labelColor: Theme.of(context).accentColor,
                 unselectedLabelColor: Theme.of(context).textTheme.caption.color,
-                isScrollable: true,
+                isScrollable: provider.imageTabs.length<3?false:true,
                 tabs: Constants.map<Widget>(
-                  title == "Images"
-                      ? provider.imageTabs
-                      : provider.videoTabs,
+                   provider.imageTabs,
                       (index, label){
                     return Tab(
                       text: "$label",
@@ -67,14 +63,10 @@ class Images extends StatelessWidget {
 
             body: TabBarView(
               children: Constants.map<Widget>(
-                title == "Images"
-                    ? provider.imageTabs
-                    : provider.videoTabs,
+                provider.imageTabs,
                     (index, label){
                   List l = List();
-                  List items = title == "Images"
-                      ? provider.images
-                      : provider.videos;
+                  List items = provider.images;
                   items.forEach((file){
                     if("${file.path.split("/")[file.path.split("/").length-2]}" == label){
                       l.add(file);
@@ -91,7 +83,7 @@ class Images extends StatelessWidget {
                           crossAxisCount: 2,
                           children: Constants.map(
                             index == 0
-                                ? title == "Images"?provider.images:provider.videos
+                                ? provider.images
                                 : l,
                                 (index, item){
                               File file = File(item.path);

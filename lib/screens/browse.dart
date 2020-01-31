@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:filex/providers/browse_provider.dart';
 import 'package:filex/providers/category_provider.dart';
+import 'package:filex/screens/apps_screen.dart';
 import 'package:filex/screens/category.dart';
 import 'package:filex/screens/downloads.dart';
 import 'package:filex/screens/images.dart';
@@ -40,7 +41,11 @@ class Browse extends StatelessWidget {
               )
             ],
           ),
-          body: ListView(
+          body: browseProvider.loading
+              ? Center(
+                child: CircularProgressIndicator(),
+              )
+              : ListView(
             padding: EdgeInsets.only(left: 20),
             children: <Widget>[
               SizedBox(height: 20,),
@@ -209,6 +214,14 @@ class Browse extends StatelessWidget {
                           ),
                         );
                         Provider.of<CategoryProvider>(context, listen: false).getDownloads();
+                      }else if(index == 5){
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.rightToLeft,
+                            child: AppScreen(),
+                          ),
+                        );
                       }else{
                         Navigator.push(
                           context,
@@ -224,9 +237,13 @@ class Browse extends StatelessWidget {
                           ),
                         );
                         if(index == 1){
-                          Provider.of<CategoryProvider>(context, listen: false).getImages();
+                          Provider.of<CategoryProvider>(context, listen: false).getImages("image");
                         }else if(index == 2){
-                          Provider.of<CategoryProvider>(context, listen: false).getVideos();
+                          Provider.of<CategoryProvider>(context, listen: false).getImages("video");
+                        }else if(index == 3){
+                          Provider.of<CategoryProvider>(context, listen: false).getAudios("audio");
+                        }else if(index == 4){
+                          Provider.of<CategoryProvider>(context, listen: false).getAudios("text");
                         }
                       }
                     },
