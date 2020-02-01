@@ -1,6 +1,11 @@
-# FileX (WIP)
+# FileX (WIP)  [![Codemagic build status](https://api.codemagic.io/apps/5e35805fcb1395555366758b/5e35805fcb1395555366758a/status_badge.svg)](https://codemagic.io/apps/5e35805fcb1395555366758b/5e35805fcb1395555366758a/latest_build)
 
-A simple File Explorer made with Flutter(A lil inspiration from Google files).
+A simple File Explorer made with Flutter(A lil inspiration from Google files😅).
+<br>
+<br>
+<a href="https://codemagic.io/app/5e35805fcb1395555366758b/build/5e35840acb13959c7e59786b"><img src="https://playerzon.com/asset/download.png" width="200"></img></a>
+<br>
+
 
 ## 💻 Requirements
 * Any Operating System (ie. MacOS X, Linux, Windows)
@@ -10,7 +15,7 @@ A simple File Explorer made with Flutter(A lil inspiration from Google files).
 
 ## ✨ Features
 - [x] Recent Files.
-- [x] Search Files.
+- [x] Search Files. []()
 - [x] Sort Files (Still Rusty).
 - [x] Show/Hide Hidden files.
 - [ ] Copy/Move/Paste Files.
