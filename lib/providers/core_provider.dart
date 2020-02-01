@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 
-class BrowseProvider extends ChangeNotifier{
+class CoreProvider extends ChangeNotifier{
   List<FileSystemEntity> availableStorage = List();
   List<FileSystemEntity> recentFiles = List();
 

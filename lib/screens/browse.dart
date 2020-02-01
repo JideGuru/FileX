@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:filex/providers/browse_provider.dart';
+import 'package:filex/providers/core_provider.dart';
 import 'package:filex/providers/category_provider.dart';
 import 'package:filex/screens/apps_screen.dart';
 import 'package:filex/screens/category.dart';
@@ -21,8 +21,8 @@ import 'package:provider/provider.dart';
 class Browse extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<BrowseProvider>(
-      builder: (BuildContext context, BrowseProvider browseProvider, Widget child) {
+    return Consumer<CoreProvider>(
+      builder: (BuildContext context, CoreProvider coreProvider, Widget child) {
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -49,7 +49,7 @@ class Browse extends StatelessWidget {
               )
             ],
           ),
-          body: browseProvider.loading
+          body: coreProvider.loading
               ? Center(
                 child: CircularProgressIndicator(),
               )
@@ -66,7 +66,7 @@ class Browse extends StatelessWidget {
                 ),
               ),
 
-              browseProvider.loading
+              coreProvider.loading
                   ? Container(
                 height: 100,
                     child: Center(
@@ -76,15 +76,15 @@ class Browse extends StatelessWidget {
                   : ListView.separated(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: browseProvider.availableStorage.length,
+                itemCount: coreProvider.availableStorage.length,
                 itemBuilder: (BuildContext context, int index) {
-                  FileSystemEntity item = browseProvider.availableStorage[index];
+                  FileSystemEntity item = coreProvider.availableStorage[index];
 
                   String path = item.path.split("Android")[0];
                   double percent = index == 0
-                      ?double.parse((browseProvider.usedSpace / browseProvider.totalSpace * 100)
+                      ?double.parse((coreProvider.usedSpace / coreProvider.totalSpace * 100)
                       .toStringAsFixed(0))/100
-                      :double.parse((browseProvider.usedSDSpace / browseProvider.totalSDSpace * 100)
+                      :double.parse((coreProvider.usedSDSpace / coreProvider.totalSDSpace * 100)
                       .toStringAsFixed(0))/100;
                   return ListTile(
                     onTap: (){
@@ -100,7 +100,7 @@ class Browse extends StatelessWidget {
                           ),
                         ),
                       ).then((v){
-                        Provider.of<BrowseProvider>(context, listen: false).checkSpace();
+                        Provider.of<CoreProvider>(context, listen: false).checkSpace();
                       });
                     },
                     contentPadding: EdgeInsets.only(right: 20),
@@ -137,10 +137,10 @@ class Browse extends StatelessWidget {
 
                         Text(
                           index == 0
-                              ? "${FileUtils.formatBytes(browseProvider.usedSpace, 2)} "
-                              "used of ${FileUtils.formatBytes(browseProvider.totalSpace, 2)}"
-                              : "${FileUtils.formatBytes(browseProvider.usedSDSpace, 2)} "
-                              "used of ${FileUtils.formatBytes(browseProvider.totalSDSpace, 2)}",
+                              ? "${FileUtils.formatBytes(coreProvider.usedSpace, 2)} "
+                              "used of ${FileUtils.formatBytes(coreProvider.totalSpace, 2)}"
+                              : "${FileUtils.formatBytes(coreProvider.usedSDSpace, 2)} "
+                              "used of ${FileUtils.formatBytes(coreProvider.totalSDSpace, 2)}",
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 14.0,
@@ -222,7 +222,7 @@ class Browse extends StatelessWidget {
                             ),
                           );
                         }else{
-                          browseProvider.showToast("Please Install Whatsapp to use this feature");
+                          coreProvider.showToast("Please Install Whatsapp to use this feature");
                         }
                       }else if(index == 0){
                         Navigator.push(
@@ -330,10 +330,10 @@ class Browse extends StatelessWidget {
                 padding: EdgeInsets.only(right: 20),
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: browseProvider.recentFiles.length > 5?5:browseProvider.recentFiles.length,
+                itemCount: coreProvider.recentFiles.length > 5?5:coreProvider.recentFiles.length,
                 itemBuilder: (BuildContext context, int index) {
                   return FileItem(
-                    file: browseProvider.recentFiles[index],
+                    file: coreProvider.recentFiles[index],
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) {

@@ -30,7 +30,7 @@
 //                          child: Row(
 //                            mainAxisAlignment: MainAxisAlignment.center,
 //                            children: <Widget>[
-//                              browseProvider.freeSpace == 0 || browseProvider.totalSpace == 0
+//                              coreProvider.freeSpace == 0 || coreProvider.totalSpace == 0
 //                                  ? CircularProgressIndicator(
 //                                valueColor: AlwaysStoppedAnimation((Colors.white)),
 //                              )
@@ -42,7 +42,7 @@
 //                                percent: percent ?? 0.1,
 //                                reverse: true,
 //                                center: Text(
-//                                  "${(browseProvider.usedSpace / browseProvider.totalSpace * 100)
+//                                  "${(coreProvider.usedSpace / coreProvider.totalSpace * 100)
 //                                      .toStringAsFixed(0)}%",
 //                                  style:
 //                                  TextStyle(
@@ -75,8 +75,8 @@
 //                                  SizedBox(height: 10,),
 //
 //                                  Text(
-//                                    "${FileUtils.formatBytes(browseProvider.usedSpace, 1)} "
-//                                        "/ ${FileUtils.formatBytes(browseProvider.totalSpace, 1)}",
+//                                    "${FileUtils.formatBytes(coreProvider.usedSpace, 1)} "
+//                                        "/ ${FileUtils.formatBytes(coreProvider.totalSpace, 1)}",
 //                                    style: TextStyle(
 //                                      fontWeight: FontWeight.w400,
 //                                      fontSize: 14.0,

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:filex/providers/browse_provider.dart';
+import 'package:filex/providers/core_provider.dart';
 import 'package:filex/providers/category_provider.dart';
 import 'package:filex/util/file_utils.dart';
 import 'package:filex/widgets/custom_alert.dart';
@@ -238,7 +238,12 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
                 if(v == 0){
                   renameDialog(context, file.path, "dir");
                 }else if(v == 1){
-                  await Directory(file.path).delete();
+                  await Directory(file.path).delete().catchError((e){
+                    print(e.toString());
+                    if(e.toString().contains("Permission denied")){
+                      Provider.of<CoreProvider>(context, listen: false).showToast("Cannot write to this Storage device!");
+                    }
+                  });
                   getFiles();
                 }
               },
@@ -257,7 +262,12 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
                 if(v == 0){
                   renameDialog(context, file.path, "file");
                 }else if(v == 1){
-                  await File(file.path).delete();
+                  await File(file.path).delete().catchError((e){
+                    print(e.toString());
+                    if(e.toString().contains("Permission denied")){
+                      Provider.of<CoreProvider>(context, listen: false).showToast("Cannot write to this Storage device!");
+                    }
+                  });
                   getFiles();
                 }else if(v == 2){
                   print("Share");
@@ -357,7 +367,12 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
                       ),
                       onPressed: () async{
                         if(name.text.isNotEmpty){
-                          await Directory(path+"/${name.text}").create();
+                          await Directory(path+"/${name.text}").create().catchError((e){
+                            print(e.toString());
+                            if(e.toString().contains("Permission denied")){
+                              Provider.of<CoreProvider>(context, listen: false).showToast("Cannot write to this Storage  device!");
+                            }
+                          });
                           Navigator.pop(context);
                           getFiles();
                         }
@@ -448,9 +463,19 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
                       onPressed: () async{
                         if(name.text.isNotEmpty){
                           if(type == "file"){
-                            await File(path).rename(path.replaceAll(pathlib.basename(path), "")+"${name.text}");
+                            await File(path).rename(path.replaceAll(pathlib.basename(path), "")+"${name.text}").catchError((e){
+                              print(e.toString());
+                              if(e.toString().contains("Permission denied")){
+                                Provider.of<CoreProvider>(context, listen: false).showToast("Cannot write to this device!");
+                              }
+                            });
                           }else{
-                            await Directory(path).rename(path.replaceAll(pathlib.basename(path), "")+"${name.text}");
+                            await Directory(path).rename(path.replaceAll(pathlib.basename(path), "")+"${name.text}").catchError((e){
+                              print(e.toString());
+                              if(e.toString().contains("Permission denied")){
+                                Provider.of<CoreProvider>(context, listen: false).showToast("Cannot write to this device!");
+                              }
+                            });
                           }
                           Navigator.pop(context);
                           getFiles();

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:filex/providers/browse_provider.dart';
+import 'package:filex/providers/core_provider.dart';
 import 'package:filex/screens/main_screen.dart';
 import 'package:filex/util/consts.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +40,7 @@ class _SplashState extends State<Splash> {
               child: MainScreen(),
             ),
           );
-          Provider.of<BrowseProvider>(context, listen: false).checkSpace();
+          Provider.of<CoreProvider>(context, listen: false).checkSpace();
         }
       });
     }else{
@@ -51,7 +51,7 @@ class _SplashState extends State<Splash> {
           child: MainScreen(),
         ),
       );
-      Provider.of<BrowseProvider>(context, listen: false).checkSpace();
+      Provider.of<CoreProvider>(context, listen: false).checkSpace();
     }
   }
 

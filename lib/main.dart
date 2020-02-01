@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:filex/providers/app_provider.dart';
-import 'package:filex/providers/browse_provider.dart';
+import 'package:filex/providers/core_provider.dart';
 import 'package:filex/providers/category_provider.dart';
 import 'package:filex/screens/ios_error.dart';
 import 'package:filex/screens/main_screen.dart';
@@ -15,7 +15,7 @@ void main(){
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AppProvider()),
-        ChangeNotifierProvider(create: (_) => BrowseProvider()),
+        ChangeNotifierProvider(create: (_) => CoreProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
       ],
       child: MyApp(),
