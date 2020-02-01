@@ -154,7 +154,9 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
                         widget.path.toString().contains("emulated")
                             ? Feather.smartphone
                             : Icons.sd_card,
-                        color: Theme.of(context).textTheme.title.color,
+                        color: index == paths.length-1
+                            ? Theme.of(context).accentColor
+                            : Theme.of(context).textTheme.title.color,
                       ),
                       onPressed: (){
                         print(paths[index]);
@@ -184,6 +186,9 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
+                                color: index == paths.length-1
+                                    ? Theme.of(context).accentColor
+                                    : Theme.of(context).textTheme.title.color,
                               ),
                             ),
                           ),

@@ -115,9 +115,9 @@ class CategoryProvider extends ChangeNotifier{
 
   getSort() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool h = prefs.getInt("sort") == null
-        ? true
+    int h = prefs.getInt("sort") == null
+        ? 0
         : prefs.getInt("sort");
-    setHidden(h);
+    setSort(h);
   }
 }

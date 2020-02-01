@@ -142,7 +142,7 @@ class Browse extends StatelessWidget {
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 14.0,
-                            color: Colors.white,
+                            color: Theme.of(context).textTheme.title.color,
                           ),
                         ),
                       ],

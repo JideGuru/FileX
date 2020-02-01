@@ -86,7 +86,7 @@ class Images extends StatelessWidget {
                           children: Constants.map(
                             index == 0
                                 ? provider.images
-                                : l,
+                                : l.reversed.toList(),
                                 (index, item){
                               File file = File(item.path);
                               String path = file.path;

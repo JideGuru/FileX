@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:device_info/device_info.dart';
+import 'package:filex/providers/app_provider.dart';
 import 'package:filex/providers/category_provider.dart';
+import 'package:filex/util/consts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
@@ -61,10 +63,35 @@ class _SettingsState extends State<Settings> {
             color: Theme.of(context).dividerColor,
           ),
 
-          Container(
+          MediaQuery.of(context).platformBrightness != Constants.darkTheme.brightness
+              ?SwitchListTile.adaptive(
+            contentPadding: EdgeInsets.all(0),
+            secondary: Icon(
+              Feather.moon,
+            ),
+            title: Text(
+              "Dark mode",
+            ),
+            value: Provider.of<AppProvider>(context).theme != Constants.lightTheme
+                ? false
+                : true,
+            onChanged: (v){
+              if (v) {
+                Provider.of<AppProvider>(context, listen: false)
+                    .setTheme(Constants.darkTheme, "dark");
+              } else {
+                Provider.of<AppProvider>(context, listen: false)
+                    .setTheme(Constants.lightTheme, "light");
+              }
+            },
+            activeColor: Theme.of(context).accentColor,
+          ):SizedBox(),
+
+          MediaQuery.of(context).platformBrightness != Constants.darkTheme.brightness
+              ?Container(
             height: 1,
             color: Theme.of(context).dividerColor,
-          ),
+          ):SizedBox(),
 
           ListTile(
             contentPadding: EdgeInsets.all(0),
@@ -83,20 +110,20 @@ class _SettingsState extends State<Settings> {
             color: Theme.of(context).dividerColor,
           ),
 
-//          ListTile(
-//            contentPadding: EdgeInsets.all(0),
-//            onTap: (){},
-//            leading: Icon(
-//              Feather.info,
-//            ),
-//            title: Text(
-//              "About",
-//            ),
-//          ),
-//          Container(
-//            height: 1,
-//            color: Theme.of(context).dividerColor,
-//          ),
+          ListTile(
+            contentPadding: EdgeInsets.all(0),
+            onTap: (){},
+            leading: Icon(
+              Feather.info,
+            ),
+            title: Text(
+              "About",
+            ),
+          ),
+          Container(
+            height: 1,
+            color: Theme.of(context).dividerColor,
+          ),
         ],
       ),
     );
