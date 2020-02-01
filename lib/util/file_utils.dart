@@ -112,71 +112,56 @@ class FileUtils{
       File file = File(path);
       String _extension = extension(path);
       String mimeType = mime(file.path);
-      if (_extension == ".apk") {
+      if(mimeType == null){
         return Icon(
-          Icons.android,
-          color: Colors.green,
-        );
-      }else if (_extension == ".crdownload") {
-        return Icon(
-          Feather.download,
-          color: Colors.lightBlue,
-        );
-      }else if(_extension == ".zip" || _extension.contains("tar")){
-        return Icon(
-          Feather.archive,
+          Feather.file,
+          color: Colors.blue,
         );
       }else{
-        switch (mimeType.split("/")[0]) {
-          case "image":
-            {
-              return Image.file(
-                file,
-                height: 40,
-                width: 40,
-              );
-            }
-            break;
-
-          case "video":
-            {
-
-              return Image.file(
-                File((await getVideoThumbnail(file.path))),
-                height: 40,
-                width: 40,
-              );
-            }
-            break;
-
-          case "audio":
-            {
-              return Icon(
-                Feather.music,
-                color: Colors.blue,
-              );
-            }
-            break;
-
-          case "text":
-            {
-              return Icon(
-                Feather.file_text,
-                color: Colors.orangeAccent,
-              );
-            }
-            break;
-
-          default:
-            {
-              return Icon(
-                Feather.file,
-                color: Colors.blue,
-              );
-            }
-            break;
+        if (_extension == ".apk") {
+          return Icon(
+            Icons.android,
+            color: Colors.green,
+          );
+        }else if (_extension == ".crdownload") {
+          return Icon(
+            Feather.download,
+            color: Colors.lightBlue,
+          );
+        }else if(_extension == ".zip" || _extension.contains("tar")){
+          return Icon(
+            Feather.archive,
+          );
+        }else if(mimeType.split("/")[0] == 'image'){
+          return Image.file(
+            file,
+            height: 40,
+            width: 40,
+          );
+        }else if(mimeType.split("/")[0] == "video"){
+          return Image.file(
+            File((await getVideoThumbnail(file.path))),
+            height: 40,
+            width: 40,
+          );
+        }else if(mimeType.split("/")[0] == "audio"){
+          return Icon(
+            Feather.music,
+            color: Colors.blue,
+          );
+        }else if(mimeType.split("/")[0] == "text"){
+          return Icon(
+            Feather.file_text,
+            color: Colors.orangeAccent,
+          );
+        }else{
+          return Icon(
+            Feather.file,
+            color: Colors.blue,
+          );
         }
       }
+
     }
   }
 
@@ -196,13 +181,13 @@ class FileUtils{
     DateTime date = DateTime.parse(iso);
     DateTime now = DateTime.now();
     DateTime yDay = DateTime.now().subtract(Duration(days: 1));
-    DateFormat dateFormat = DateFormat("${date.day} ${date.month} ${date.year}");
-    DateFormat today = DateFormat("${now.day} ${now.month} ${now.year}");
-    DateFormat yesterday = DateFormat("${yDay.day} ${yDay.month} ${yDay.year}");
+    DateTime dateFormat = DateTime.parse("${date.year}-${date.month.toString().padLeft(2, "0")}-${date.day.toString().padLeft(2, "0")}T00:00:00.000Z");
+    DateTime today = DateTime.parse("${now.year}-${now.month.toString().padLeft(2, "0")}-${now.day.toString().padLeft(2, "0")}T00:00:00.000Z");
+    DateTime yesterday = DateTime.parse("${yDay.year}-${yDay.month.toString().padLeft(2, "0")}-${yDay.day.toString().padLeft(2, "0")}T00:00:00.000Z");
 
-    if(dateFormat.toString() == today.toString()){
+    if(dateFormat == today){
       return "Today ${DateFormat("HH:mm").format(DateTime.parse(iso))}";
-    }else if(dateFormat.toString() == yesterday.toString()){
+    }else if(dateFormat == yesterday){
       return "Yesterday ${DateFormat("HH:mm").format(DateTime.parse(iso))}";
     }else{
       return "${DateFormat("MMM dd, HH:mm").format(DateTime.parse(iso))}";

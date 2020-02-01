@@ -34,11 +34,10 @@ class FileItem extends StatelessWidget {
         ),
         maxLines: 2,
       ),
-      subtitle: file.toString().split(":")[0] != "Directory"
-          ?Text(
+      subtitle: Text(
         "${FileUtils.formatBytes(file == null?678476:File(file.path).lengthSync(), 2)},"
             " ${file == null?"Test":FileUtils.formatTime(File(file.path).lastAccessedSync().toIso8601String())}",
-      ):Text("Folder"),
+      ),
     );
   }
 }

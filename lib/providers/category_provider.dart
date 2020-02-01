@@ -93,6 +93,7 @@ class CategoryProvider extends ChangeNotifier{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool("hidden", value);
     showHidden = value;
+    print(value);
     notifyListeners();
   }
 

@@ -1,10 +1,15 @@
 import 'dart:io';
 
-import 'package:filex/util/file_utils.dart';
+import 'package:filex/providers/category_provider.dart';
+import 'package:filex/widgets/custom_alert.dart';
+import 'package:filex/widgets/dir_item.dart';
 import 'package:filex/widgets/file_item.dart';
+import 'package:filex/widgets/path_bar.dart';
 import 'package:filex/widgets/sort_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:path/path.dart' as pathlib;
+import 'package:provider/provider.dart';
 
 class Folder extends StatefulWidget {
   final String title;
@@ -22,87 +27,403 @@ class Folder extends StatefulWidget {
 
 class _FolderState extends State<Folder> {
   String path;
+  List<String> paths = List();
 
   List<FileSystemEntity> files = List();
+  bool showHidden = false;
 
   getFiles() async{
     Directory dir = Directory(path);
     List<FileSystemEntity> l = dir.listSync();
     files.clear();
     setState(() {
-      files.addAll(l);
+      showHidden = Provider.of<CategoryProvider>(context, listen: false).showHidden;
     });
+    print(showHidden);
+    for(FileSystemEntity file in l){
+      if(!showHidden){
+        if(!pathlib.basename(file.path).startsWith(".")){
+          setState(() {
+            files.add(file);
+
+          });
+        }
+      }else{
+        setState(() {
+          files.add(file);
+        });
+      }
+    }
+    files.sort((f1, f2) => FileSystemEntity.isDirectorySync(f1.path) ==
+        FileSystemEntity.isDirectorySync(f2.path)
+        ? 0
+        : 1);
+    files.sort((f1, f2) => pathlib.basename(f1.path).compareTo(pathlib.basename(f2.path)));
   }
+
   @override
   void initState() {
     super.initState();
     path = widget.path;
     getFiles();
+    paths.add(widget.path);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 4,
-        title: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              "${widget.title}",
+    return WillPopScope(
+      onWillPop: () async{
+        if(paths.length == 1){
+          return true;
+        }else{
+          paths.removeLast();
+          setState(() {
+            path = paths.last;
+          });
+          getFiles();
+          return false;
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
             ),
-            Text(
-              "$path",
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
+            onPressed: (){
+              if(paths.length == 1){
+                Navigator.pop(context);
+              }else{
+                paths.removeLast();
+                setState(() {
+                  path = paths.last;
+                });
+                getFiles();
+              }
+            },
+          ),
+          elevation: 4,
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "${widget.title}",
+              ),
+              Text(
+                "$path",
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
+          bottom: PathBar(
+            child: Container(
+              height: 50,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemCount: paths.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    String i = paths[index];
+                    List splited = i.split("/");
+                    print(splited[splited.length-1]);
+                    return index == 0
+                        ? IconButton(
+                      icon: Icon(
+                        widget.path.toString().contains("emulated")
+                            ? Feather.smartphone
+                            : Icons.sd_card,
+                        color: Theme.of(context).textTheme.title.color,
+                      ),
+                      onPressed: (){
+                        print(paths[index]);
+                        setState(() {
+                          path = paths[index];
+                          paths.removeRange(index+1, paths.length);
+                        });
+                        getFiles();
+                      },
+                    )
+                        : InkWell(
+                      onTap: (){
+                        print(paths[index]);
+                        setState(() {
+                          path = paths[index];
+                          paths.removeRange(index+1, paths.length);
+                        });
+                        getFiles();
+                      },
+                      child: Container(
+                        height: 40,
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5),
+                            child: Text(
+                              "${splited[splited.length-1]}",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Icon(
+                      Icons.arrow_forward_ios,
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            IconButton(
+              onPressed: (){
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) => SortSheet(),
+                );
+              },
+              tooltip: "Sort by",
+              icon: Icon(
+                Icons.sort,
               ),
             ),
           ],
         ),
-        actions: <Widget>[
-          IconButton(
-            onPressed: (){
-              showModalBottomSheet(
-                context: context,
-                builder: (context) => SortSheet(),
-              );
-            },
-            tooltip: "Sort by",
-            icon: Icon(
-              Icons.sort,
-            ),
-          ),
-        ],
+        body: ListView.separated(
+          padding: EdgeInsets.only(left: 20),
+          itemCount: files.length,
+          itemBuilder: (BuildContext context, int index) {
+            FileSystemEntity file = files[index];
+            return file.toString().split(":")[0] == "Directory"
+                ? DirectoryItem(
+              popTap: (v) async{
+                if(v == 0){
+                  renameDialog(context, file.path);
+                }else if(v == 1){
+                  await Directory(file.path).delete();
+                  getFiles();
+                }
+              },
+              file: file,
+              tap: (){
+                paths.add(file.path);
+                print(file.path);
+                setState(() {
+                  path = file.path;
+                });
+                getFiles();
+              },
+            )
+                : FileItem(
+              file: file,
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return Stack(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    height: 1,
+                    color: Theme.of(context).dividerColor,
+                    width: MediaQuery.of(context).size.width - 70,
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: ()=>addDialog(context, path),
+          child: Icon(Feather.plus),
+          tooltip: "Add Folder",
+        ),
       ),
-      body: ListView.separated(
-        padding: EdgeInsets.only(left: 20),
-        itemCount: files.length,
-        itemBuilder: (BuildContext context, int index) {
-          return FileItem(
-            file: files[index],
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return Stack(
+    );
+  }
+
+  addDialog(BuildContext context, String path){
+    final TextEditingController name = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) => CustomAlert(
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  height: 1,
-                  color: Theme.of(context).dividerColor,
-                  width: MediaQuery.of(context).size.width - 70,
+              SizedBox(height: 15),
+              Text(
+                "Add New Folder",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
                 ),
               ),
+
+              SizedBox(height: 25),
+
+              TextField(
+                controller: name,
+                keyboardType: TextInputType.text,
+              ),
+
+              SizedBox(height: 40),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    height: 40,
+                    width: 130,
+                    child: OutlineButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      borderSide: BorderSide(color: Theme.of(context).accentColor),
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(
+                          color: Theme.of(context).accentColor,
+                        ),
+                      ),
+                      onPressed: ()=>Navigator.pop(context),
+                      color: Colors.white,
+                    ),
+                  ),
+
+
+                  Container(
+                    height: 40,
+                    width: 130,
+                    child: RaisedButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      child: Text(
+                        "Create",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed: () async{
+                        if(name.text.isNotEmpty){
+                          await Directory(path+"/${name.text}").create();
+                          Navigator.pop(context);
+                          getFiles();
+                        }
+                      },
+                      color: Theme.of(context).accentColor,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
             ],
-          );
-        },
+          ),
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){},
-        child: Icon(Feather.plus),
-        tooltip: "Add Folder",
+    );
+  }
+
+
+  renameDialog(BuildContext context, String path){
+    final TextEditingController name = TextEditingController();
+    setState(() {
+      name.text = pathlib.basename(path);
+    });
+    showDialog(
+      context: context,
+      builder: (context) => CustomAlert(
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              SizedBox(height: 15),
+              Text(
+                "Rename Item",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+
+              SizedBox(height: 25),
+
+              TextField(
+                controller: name,
+                keyboardType: TextInputType.text,
+              ),
+
+              SizedBox(height: 40),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    height: 40,
+                    width: 130,
+                    child: OutlineButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      borderSide: BorderSide(color: Theme.of(context).accentColor),
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(
+                          color: Theme.of(context).accentColor,
+                        ),
+                      ),
+                      onPressed: ()=>Navigator.pop(context),
+                      color: Colors.white,
+                    ),
+                  ),
+
+
+                  Container(
+                    height: 40,
+                    width: 130,
+                    child: RaisedButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      child: Text(
+                        "Rename",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed: () async{
+                        if(name.text.isNotEmpty){
+                          await Directory(path).rename(path.replaceAll(pathlib.basename(path), "")+"${name.text}");
+                          Navigator.pop(context);
+                          getFiles();
+                        }
+                      },
+                      color: Theme.of(context).accentColor,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+            ],
+          ),
+        ),
       ),
     );
   }
