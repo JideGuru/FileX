@@ -1,7 +1,6 @@
 import 'package:filex/providers/category_provider.dart';
 import 'package:filex/util/consts.dart';
 import 'package:filex/widgets/file_item.dart';
-import 'package:filex/widgets/sort_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,20 +23,6 @@ class Downloads extends StatelessWidget {
               title: Text(
                 "$title",
               ),
-              actions: <Widget>[
-                IconButton(
-                  onPressed: (){
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) => SortSheet(),
-                    );
-                  },
-                  tooltip: "Sort by",
-                  icon: Icon(
-                    Icons.sort,
-                  ),
-                ),
-              ],
               bottom: TabBar(
                 indicatorColor: Theme.of(context).accentColor,
                 labelColor: Theme.of(context).accentColor,
@@ -64,7 +49,6 @@ class Downloads extends StatelessWidget {
                     padding: EdgeInsets.only(left: 20),
                     itemCount: provider.downloads.length,
                     itemBuilder: (BuildContext context, int index) {
-                      print(provider.downloadTabs);
                       return FileItem(
                         file: provider.downloads[index],
                       );

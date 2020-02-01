@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:filex/util/file_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -10,6 +11,7 @@ class BrowseProvider extends ChangeNotifier{
     checkSpace();
   }
   List<FileSystemEntity> availableStorage = List();
+  List<FileSystemEntity> recentFiles = List();
 
   int totalSpace = 0;
   int freeSpace = 0;
@@ -37,6 +39,12 @@ class BrowseProvider extends ChangeNotifier{
       setTotalSDSpace(totalSD);
       setUsedSDSpace(totalSD-freeSD);
     }
+    getRecentFiles();
+  }
+
+  getRecentFiles() async{
+    List<FileSystemEntity> l = await FileUtils.getRecentFiles(showHidden: false);
+    recentFiles.addAll(l);
     setLoading(false);
   }
 

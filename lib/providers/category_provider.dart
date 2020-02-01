@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CategoryProvider extends ChangeNotifier{
   CategoryProvider(){
     getHidden();
+    getSort();
   }
 
   bool loading = false;
@@ -21,6 +22,7 @@ class CategoryProvider extends ChangeNotifier{
   List<String> audioTabs = List();
 
   bool showHidden = true;
+  int sort = 0;
 
   getDownloads() async{
     setLoading(true);
@@ -34,10 +36,10 @@ class CategoryProvider extends ChangeNotifier{
         downloads.add(file);
         downloadTabs.add(file.path.split("/")[file.path.split("/").length-2]);
         downloadTabs = downloadTabs.toSet().toList();
-        setLoading(false);
         notifyListeners();
       });
     });
+    setLoading(false);
   }
 
   getImages(String type) async{
@@ -55,9 +57,9 @@ class CategoryProvider extends ChangeNotifier{
         imageTabs.add("${file.path.split("/")[file.path.split("/").length-2]}");
         imageTabs = imageTabs.toSet().toList();
       }
-      setLoading(false);
       notifyListeners();
     });
+    setLoading(false);
   }
 
 
@@ -78,10 +80,10 @@ class CategoryProvider extends ChangeNotifier{
           audioTabs.add("${file.path.split("/")[file.path.split("/").length-2]}");
           audioTabs =  audioTabs.toSet().toList();
         }
-        setLoading(false);
         notifyListeners();
       }
     });
+    setLoading(false);
   }
 
   void setLoading(value) {
@@ -100,6 +102,22 @@ class CategoryProvider extends ChangeNotifier{
   getHidden() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool h = prefs.getBool("hidden") == null?true:prefs.getBool("hidden");
+    setHidden(h);
+  }
+
+  Future setSort(value) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt("sort", value);
+    sort = value;
+    print(value);
+    notifyListeners();
+  }
+
+  getSort() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool h = prefs.getInt("sort") == null
+        ? true
+        : prefs.getInt("sort");
     setHidden(h);
   }
 }

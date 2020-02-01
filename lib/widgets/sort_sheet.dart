@@ -1,6 +1,8 @@
+import 'package:filex/providers/category_provider.dart';
 import 'package:filex/util/consts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:provider/provider.dart';
 
 class SortSheet extends StatelessWidget {
   @override
@@ -28,24 +30,23 @@ class SortSheet extends StatelessWidget {
                 itemCount: Constants.sortList.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
-                    onTap: (){
-
+                    onTap: () async{
+                      await Provider.of<CategoryProvider>(context, listen: false).setSort(index);
+                      Navigator.pop(context);
                     },
                     contentPadding: EdgeInsets.all(0),
-                    trailing: index == 2
-                        ? IconButton(
-                      icon: Icon(
-                        Feather.check,
-                        color: Colors.blue,
-                        size: 16,
-                      ),
+                    trailing: index == Provider.of<CategoryProvider>(context, listen: false).sort
+                        ? Icon(
+                      Feather.check,
+                      color: Colors.blue,
+                      size: 16,
                     )
                         : SizedBox(),
                     title: Text(
                       "${Constants.sortList[index]}",
                       style: TextStyle(
                         fontSize: 14.0,
-                        color: index == 2
+                        color: index == Provider.of<CategoryProvider>(context, listen: false).sort
                             ? Colors.blue
                             : Theme.of(context).textTheme.title.color,
                       ),

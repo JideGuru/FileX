@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:filex/providers/category_provider.dart';
 import 'package:filex/util/consts.dart';
 import 'package:filex/util/file_utils.dart';
-import 'package:filex/widgets/sort_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:open_file/open_file.dart';
@@ -16,6 +15,19 @@ class Images extends StatelessWidget {
     Key key,
     @required this.title,
   }): super(key: key);
+
+//  @override
+//  void initState() {
+//    super.initState();
+//    Timer(Duration(milliseconds: 1), (){
+//      if(widget.title.toLowerCase() == "images"){
+//        Provider.of<CategoryProvider>(context, listen: false).getImages("image");
+//      }else{
+//        Provider.of<CategoryProvider>(context, listen: false).getImages("video");
+//      }
+//    });
+//  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -33,20 +45,6 @@ class Images extends StatelessWidget {
               title: Text(
                 "$title",
               ),
-              actions: <Widget>[
-                IconButton(
-                  onPressed: (){
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) => SortSheet(),
-                    );
-                  },
-                  tooltip: "Sort by",
-                  icon: Icon(
-                    Icons.sort,
-                  ),
-                ),
-              ],
               bottom: TabBar(
                 indicatorColor: Theme.of(context).accentColor,
                 labelColor: Theme.of(context).accentColor,

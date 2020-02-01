@@ -27,12 +27,12 @@ class FilePopup extends StatelessWidget {
             "Delete",
           ),
         ),
-        PopupMenuItem(
-          value: 2,
-          child: Text(
-            "Info",
-          ),
-        ),
+//        PopupMenuItem(
+//          value: 2,
+//          child: Text(
+//            "Info",
+//          ),
+//        ),
       ],
       icon: Icon(
         Icons.arrow_drop_down,

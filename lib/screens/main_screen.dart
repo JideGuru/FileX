@@ -5,12 +5,10 @@ import 'package:filex/screens/browse.dart';
 import 'package:filex/screens/settings.dart';
 import 'package:filex/screens/share.dart';
 import 'package:filex/util/consts.dart';
-import 'package:filex/util/file_utils.dart';
 import 'package:filex/widgets/custom_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:path/path.dart' as pathlib;
 
 class MainScreen extends StatefulWidget {
   @override
@@ -56,7 +54,7 @@ class _MainScreenState extends State<MainScreen> {
 
             BottomNavigationBarItem(
               icon: Icon(
-                Feather.share,
+                Feather.share_2,
               ),
               title: Text(
                 "FTP",
@@ -95,7 +93,7 @@ class _MainScreenState extends State<MainScreen> {
         systemNavigationBarColor: Theme.of(context).primaryColor,
         statusBarIconBrightness: Theme.of(context).primaryColor == Constants.darkTheme.primaryColor
             ? Brightness.light
-            :Brightness.dark,
+            : Brightness.dark,
       ));
     });
 //    FileUtils.getRecentFiles(showHidden: true).then((l){

@@ -88,7 +88,6 @@ class FileUtils{
     Directory d = Directory(path);
     List<FileSystemEntity> l = d.listSync();
     for (FileSystemEntity file in l) {
-
       if(file.toString().split(":")[0] != "Directory"){
         if(!showHidden){
           if(!basename(file.path).startsWith(".")){
@@ -97,7 +96,6 @@ class FileUtils{
         }else{
           files.add(file);
         }
-
       }else{
         if(!file.path.contains("/storage/emulated/0/Android")){
 //          print(file.path);
@@ -108,7 +106,6 @@ class FileUtils{
           }else{
             files.addAll(await getAllFilesInPath(file.path, showHidden: showHidden));
           }
-
         }
       }
     }
@@ -175,7 +172,6 @@ class FileUtils{
           );
         }
       }
-
     }
   }
 
@@ -205,6 +201,58 @@ class FileUtils{
       return "Yesterday ${DateFormat("HH:mm").format(DateTime.parse(iso))}";
     }else{
       return "${DateFormat("MMM dd, HH:mm").format(DateTime.parse(iso))}";
+    }
+  }
+
+  static List<FileSystemEntity> sortList(List<FileSystemEntity> list, int sort){
+    switch (sort){
+      case 0:
+        return list
+          ..sort((f1, f2) => basename(f1.path).toLowerCase().compareTo(basename(f2.path).toLowerCase()));
+        break;
+
+      case 1:
+        list.sort((f1, f2) => basename(f1.path).toLowerCase().compareTo(basename(f2.path).toLowerCase()));
+        return list.reversed.toList();
+        break;
+
+      case 2:
+        list
+          ..sort((f1, f2)=>FileSystemEntity.isFileSync(f1.path) && FileSystemEntity.isFileSync(f2.path)
+              ? File(f1.path).lastAccessedSync().compareTo(File(f2.path).lastAccessedSync())
+              : 1);
+        return list..sort((f1, f2) => f1.toString().split(":")[0].toLowerCase().compareTo(f2.toString().split(":")[0].toLowerCase()));
+        break;
+
+      case 3:
+        list
+          ..sort((f1, f2)=>FileSystemEntity.isFileSync(f1.path) && FileSystemEntity.isFileSync(f2.path)
+              ? File(f1.path).lastAccessedSync().compareTo(File(f2.path).lastAccessedSync())
+              : 0);
+        list..sort((f1, f2) => f1.toString().split(":")[0].toLowerCase().compareTo(f2.toString().split(":")[0].toLowerCase()));
+        return list.reversed.toList();
+        break;
+
+      case 4:
+        list
+          ..sort((f1, f2) => FileSystemEntity.isFileSync(f1.path) && FileSystemEntity.isFileSync(f2.path)
+              ?File(f1.path).lengthSync().compareTo(File(f2.path).lengthSync())
+              :0);
+        list..sort((f1, f2) => f1.toString().split(":")[0].toLowerCase().compareTo(f2.toString().split(":")[0].toLowerCase()));
+        return list.reversed.toList();
+        break;
+
+      case 5:
+        list
+          ..sort((f1, f2) => FileSystemEntity.isFileSync(f1.path) && FileSystemEntity.isFileSync(f2.path)
+              ?File(f1.path).lengthSync().compareTo(File(f2.path).lengthSync())
+              :0);
+        return list..sort((f1, f2) => f1.toString().split(":")[0].toLowerCase().compareTo(f2.toString().split(":")[0].toLowerCase()));
+        break;
+
+      default:
+        return list
+          ..sort();
     }
   }
 }

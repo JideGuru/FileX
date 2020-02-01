@@ -83,20 +83,20 @@ class _SettingsState extends State<Settings> {
             color: Theme.of(context).dividerColor,
           ),
 
-          ListTile(
-            contentPadding: EdgeInsets.all(0),
-            onTap: (){},
-            leading: Icon(
-              Feather.info,
-            ),
-            title: Text(
-              "About",
-            ),
-          ),
-          Container(
-            height: 1,
-            color: Theme.of(context).dividerColor,
-          ),
+//          ListTile(
+//            contentPadding: EdgeInsets.all(0),
+//            onTap: (){},
+//            leading: Icon(
+//              Feather.info,
+//            ),
+//            title: Text(
+//              "About",
+//            ),
+//          ),
+//          Container(
+//            height: 1,
+//            color: Theme.of(context).dividerColor,
+//          ),
         ],
       ),
     );

@@ -255,15 +255,16 @@ class Browse extends StatelessWidget {
                             ),
                           ),
                         );
-                        if(index == 1){
-                          Provider.of<CategoryProvider>(context, listen: false).getImages("image");
-                        }else if(index == 2){
-                          Provider.of<CategoryProvider>(context, listen: false).getImages("video");
-                        }else if(index == 3){
-                          Provider.of<CategoryProvider>(context, listen: false).getAudios("audio");
-                        }else if(index == 4){
-                          Provider.of<CategoryProvider>(context, listen: false).getAudios("text");
-                        }
+                      }
+
+                      if(index == 1){
+                        Provider.of<CategoryProvider>(context, listen: false).getImages("image");
+                      }else if(index == 2){
+                        Provider.of<CategoryProvider>(context, listen: false).getImages("video");
+                      }else if(index == 3){
+                        Provider.of<CategoryProvider>(context, listen: false).getAudios("audio");
+                      }else if(index == 4){
+                        Provider.of<CategoryProvider>(context, listen: false).getAudios("text");
                       }
                     },
                     contentPadding: EdgeInsets.all(0),
@@ -323,36 +324,22 @@ class Browse extends StatelessWidget {
                 ),
               ),
 
-              FutureBuilder<List<FileSystemEntity>>(
-                initialData: [],
-                future: FileUtils.getRecentFiles(showHidden: false),
-                builder: (context, snapshot) {
-                  return snapshot == null
-                      ? Container(
-                    height: 100,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  )
-                      : snapshot.hasData
-                      ? ListView.separated(
-                    padding: EdgeInsets.only(right: 20),
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: snapshot.data.length > 5?5:snapshot.data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return FileItem(
-                        file: snapshot.data[index],
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return Container(
-                        height: 1,
-                        color: Theme.of(context).dividerColor,
-                      );
-                    },
-                  ): SizedBox();
-                }
+              ListView.separated(
+                padding: EdgeInsets.only(right: 20),
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: browseProvider.recentFiles.length > 5?5:browseProvider.recentFiles.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return FileItem(
+                    file: browseProvider.recentFiles[index],
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return Container(
+                    height: 1,
+                    color: Theme.of(context).dividerColor,
+                  );
+                },
               ),
             ],
           ),

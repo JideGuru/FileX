@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:filex/providers/category_provider.dart';
 import 'package:filex/util/consts.dart';
 import 'package:filex/widgets/file_item.dart';
-import 'package:filex/widgets/sort_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -32,20 +31,6 @@ class Category extends StatelessWidget {
               title: Text(
                 "$title",
               ),
-              actions: <Widget>[
-                IconButton(
-                  onPressed: (){
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) => SortSheet(),
-                    );
-                  },
-                  tooltip: "Sort by",
-                  icon: Icon(
-                    Icons.sort,
-                  ),
-                ),
-              ],
               bottom: TabBar(
                 indicatorColor: Theme.of(context).accentColor,
                 labelColor: Theme.of(context).accentColor,

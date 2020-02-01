@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:filex/providers/category_provider.dart';
+import 'package:filex/util/file_utils.dart';
 import 'package:filex/widgets/custom_alert.dart';
 import 'package:filex/widgets/dir_item.dart';
 import 'package:filex/widgets/file_item.dart';
@@ -46,13 +47,11 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
     setState(() {
       showHidden = Provider.of<CategoryProvider>(context, listen: false).showHidden;
     });
-    print(showHidden);
     for(FileSystemEntity file in l){
       if(!showHidden){
         if(!pathlib.basename(file.path).startsWith(".")){
           setState(() {
             files.add(file);
-
           });
         }
       }else{
@@ -61,11 +60,14 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
         });
       }
     }
-    files.sort((f1, f2) => FileSystemEntity.isDirectorySync(f1.path) ==
-        FileSystemEntity.isDirectorySync(f2.path)
-        ? 0
-        : 1);
-    files.sort((f1, f2) => pathlib.basename(f1.path).compareTo(pathlib.basename(f2.path)));
+
+    files = FileUtils.sortList(files, Provider.of<CategoryProvider>(context, listen: false).sort);
+//    files.sort((f1, f2) => pathlib.basename(f1.path).toLowerCase().compareTo(pathlib.basename(f2.path).toLowerCase()));
+//    files.sort((f1, f2) => f1.toString().split(":")[0].toLowerCase().compareTo(f2.toString().split(":")[0].toLowerCase()));
+//    files.sort((f1, f2) => FileSystemEntity.isDirectorySync(f1.path) ==
+//        FileSystemEntity.isDirectorySync(f2.path)
+//        ? 0
+//        : 1);
   }
 
   @override
@@ -146,7 +148,6 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
                   itemBuilder: (BuildContext context, int index) {
                     String i = paths[index];
                     List splited = i.split("/");
-                    print(splited[splited.length-1]);
                     return index == 0
                         ? IconButton(
                       icon: Icon(
@@ -205,7 +206,9 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
                 showModalBottomSheet(
                   context: context,
                   builder: (context) => SortSheet(),
-                );
+                ).then((v){
+                  getFiles();
+                });
               },
               tooltip: "Sort by",
               icon: Icon(
@@ -236,7 +239,6 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
               file: file,
               tap: (){
                 paths.add(file.path);
-                print(file.path);
                 setState(() {
                   path = file.path;
                 });

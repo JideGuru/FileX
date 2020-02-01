@@ -35,6 +35,8 @@ dependencies:
   intl: ^0.16.1
   open_file: ^3.0.1
   device_apps: ^1.0.9
+#  ssh: ^0.0.5
+#  tftp: ^1.0.1
 
 dev_dependencies:
   flutter_test:
