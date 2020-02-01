@@ -25,12 +25,19 @@ class Folder extends StatefulWidget {
   _FolderState createState() => _FolderState();
 }
 
-class _FolderState extends State<Folder> {
+class _FolderState extends State<Folder> with WidgetsBindingObserver{
   String path;
   List<String> paths = List();
 
   List<FileSystemEntity> files = List();
   bool showHidden = false;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state){
+    if (state == AppLifecycleState.resumed) {
+      getFiles();
+    }
+  }
 
   getFiles() async{
     Directory dir = Directory(path);
@@ -67,6 +74,14 @@ class _FolderState extends State<Folder> {
     path = widget.path;
     getFiles();
     paths.add(widget.path);
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
   }
 
   @override
@@ -199,7 +214,11 @@ class _FolderState extends State<Folder> {
             ),
           ],
         ),
-        body: ListView.separated(
+        body: files.isEmpty
+          ? Center(
+          child: Text("There's nothing here"),
+        )
+            : ListView.separated(
           padding: EdgeInsets.only(left: 20),
           itemCount: files.length,
           itemBuilder: (BuildContext context, int index) {
@@ -208,7 +227,7 @@ class _FolderState extends State<Folder> {
                 ? DirectoryItem(
               popTap: (v) async{
                 if(v == 0){
-                  renameDialog(context, file.path);
+                  renameDialog(context, file.path, "dir");
                 }else if(v == 1){
                   await Directory(file.path).delete();
                   getFiles();
@@ -226,6 +245,16 @@ class _FolderState extends State<Folder> {
             )
                 : FileItem(
               file: file,
+              popTap: (v) async{
+                if(v == 0){
+                  renameDialog(context, file.path, "file");
+                }else if(v == 1){
+                  await File(file.path).delete();
+                  getFiles();
+                }else if(v == 2){
+                  print("Share");
+                }
+              },
             );
           },
           separatorBuilder: (BuildContext context, int index) {
@@ -339,7 +368,7 @@ class _FolderState extends State<Folder> {
   }
 
 
-  renameDialog(BuildContext context, String path){
+  renameDialog(BuildContext context, String path, String type){
     final TextEditingController name = TextEditingController();
     setState(() {
       name.text = pathlib.basename(path);
@@ -410,7 +439,11 @@ class _FolderState extends State<Folder> {
                       ),
                       onPressed: () async{
                         if(name.text.isNotEmpty){
-                          await Directory(path).rename(path.replaceAll(pathlib.basename(path), "")+"${name.text}");
+                          if(type == "file"){
+                            await File(path).rename(path.replaceAll(pathlib.basename(path), "")+"${name.text}");
+                          }else{
+                            await Directory(path).rename(path.replaceAll(pathlib.basename(path), "")+"${name.text}");
+                          }
                           Navigator.pop(context);
                           getFiles();
                         }

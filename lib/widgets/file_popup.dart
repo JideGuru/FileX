@@ -2,17 +2,21 @@ import 'package:flutter/material.dart';
 
 class FilePopup extends StatelessWidget {
   final String path;
+  final Function popTap;
+
 
   FilePopup({
     Key key,
     @required this.path,
+    @required this.popTap,
   }): super(key: key);
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<int>(
+      onSelected: popTap,
       itemBuilder: (context) => [
         PopupMenuItem(
-          value: 1,
+          value: 0,
           child: Text(
             "Rename",
           ),
@@ -26,19 +30,7 @@ class FilePopup extends StatelessWidget {
         PopupMenuItem(
           value: 2,
           child: Text(
-            "Copy to",
-          ),
-        ),
-        PopupMenuItem(
-          value: 2,
-          child: Text(
-            "Move to",
-          ),
-        ),
-        PopupMenuItem(
-          value: 2,
-          child: Text(
-            "Share",
+            "Info",
           ),
         ),
       ],

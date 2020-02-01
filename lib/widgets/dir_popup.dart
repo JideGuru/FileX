@@ -10,7 +10,6 @@ class DirPopup extends StatelessWidget {
     @required this.path,
     @required this.popTap,
   }): super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<int>(

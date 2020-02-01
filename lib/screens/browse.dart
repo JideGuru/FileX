@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:filex/providers/browse_provider.dart';
@@ -8,6 +7,7 @@ import 'package:filex/screens/category.dart';
 import 'package:filex/screens/downloads.dart';
 import 'package:filex/screens/folder.dart';
 import 'package:filex/screens/images.dart';
+import 'package:filex/screens/search.dart';
 import 'package:filex/screens/whatsapp_status.dart';
 import 'package:filex/util/consts.dart';
 import 'package:filex/util/file_utils.dart';
@@ -35,7 +35,14 @@ class Browse extends StatelessWidget {
             actions: <Widget>[
               IconButton(
                 tooltip: "Search",
-                onPressed: (){},
+                onPressed: (){
+                  showSearch(
+                    context: context,
+                    delegate: Search(
+                      themeData: Theme.of(context),
+                    ),
+                  );
+                },
                 icon: Icon(
                   Feather.search,
                 ),

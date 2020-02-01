@@ -68,6 +68,20 @@ class FileUtils{
     return files.reversed.toList();
   }
 
+  static Future<List<FileSystemEntity>> searchFiles(String query, {bool showHidden}) async{
+    List<Directory> storages = await getStorageList();
+    List<FileSystemEntity> files = List<FileSystemEntity>();
+    for (Directory dir in storages) {
+      List fs = await getAllFilesInPath(dir.path, showHidden: showHidden);
+      for (FileSystemEntity fs in fs){
+        if(basename(fs.path).toLowerCase().contains(query.toLowerCase())){
+          files.add(fs);
+        }
+      }
+    }
+    return files;
+  }
+
   /// Get all files
   static Future<List<FileSystemEntity>> getAllFilesInPath(String path,{bool showHidden}) async{
     List<FileSystemEntity> files = List<FileSystemEntity>();

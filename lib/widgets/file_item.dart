@@ -1,16 +1,19 @@
 import 'dart:io';
 
 import 'package:filex/util/file_utils.dart';
+import 'package:filex/widgets/file_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path/path.dart';
 
 class FileItem extends StatelessWidget {
   final FileSystemEntity file;
+  final Function popTap;
 
   FileItem({
     Key key,
     @required this.file,
+    this.popTap,
   }): super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,13 @@ class FileItem extends StatelessWidget {
           return snapshot==null
               ? SizedBox()
               : snapshot.hasData
-              ? snapshot.data
+              ? Container(
+            height: 40,
+            width: 40,
+            child: Center(
+              child: snapshot.data,
+            ),
+          )
               : SizedBox();
         },
       ),
@@ -37,6 +46,12 @@ class FileItem extends StatelessWidget {
       subtitle: Text(
         "${FileUtils.formatBytes(file == null?678476:File(file.path).lengthSync(), 2)},"
             " ${file == null?"Test":FileUtils.formatTime(File(file.path).lastAccessedSync().toIso8601String())}",
+      ),
+      trailing: popTap == null
+          ? null
+          : FilePopup(
+          path: file.path,
+        popTap: popTap,
       ),
     );
   }

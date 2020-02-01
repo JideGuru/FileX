@@ -10,11 +10,11 @@ A simple File Explorer made with Flutter(A lil inspiration from Google files).
 
 ## ✨ Features
 - [x] Recent Files.
+- [x] Search Files.
 - [x] Show/Hide Hidden files.
 - [ ] Copy/Move/Paste Files.
-- [ ] Delete Files.
-- [ ] Rename Files.
-- [ ] Share Files.
+- [x] Delete Files/Folders.
+- [x] Rename Files/Folders.
 - [x] Dark Mode.
 - [ ] FTP Client.
 

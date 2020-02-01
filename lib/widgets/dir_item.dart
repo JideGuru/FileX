@@ -22,8 +22,14 @@ class DirectoryItem extends StatelessWidget {
     return ListTile(
       onTap: tap,
       contentPadding: EdgeInsets.all(0),
-      leading: Icon(
-        Feather.folder,
+      leading: Container(
+        height: 40,
+        width: 40,
+        child: Center(
+          child: Icon(
+            Feather.folder,
+          ),
+        ),
       ),
       title: Text(
         "${basename(file.path)}",
@@ -32,7 +38,9 @@ class DirectoryItem extends StatelessWidget {
         ),
         maxLines: 2,
       ),
-      trailing: DirPopup(path: file.path, popTap: popTap),
+      trailing: popTap == null
+          ? null
+          : DirPopup(path: file.path, popTap: popTap),
     );
   }
 }
