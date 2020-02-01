@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:filex/util/file_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mime_type/mime_type.dart';
+import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CategoryProvider extends ChangeNotifier{
@@ -31,13 +32,18 @@ class CategoryProvider extends ChangeNotifier{
     downloadTabs.add("All");
     List<Directory> storages = await FileUtils.getStorageList();
     storages.forEach((dir){
-      List<FileSystemEntity> files = Directory(dir.path+"Download").listSync();
-      files.forEach((file){
-        downloads.add(file);
-        downloadTabs.add(file.path.split("/")[file.path.split("/").length-2]);
-        downloadTabs = downloadTabs.toSet().toList();
-        notifyListeners();
-      });
+      if(Directory(dir.path+"Download").existsSync()){
+        List<FileSystemEntity> files = Directory(dir.path+"Download").listSync();
+        print(files);
+        files.forEach((file){
+          if(FileSystemEntity.isFileSync(file.path)){
+            downloads.add(file);
+            downloadTabs.add(file.path.split("/")[file.path.split("/").length-2]);
+            downloadTabs = downloadTabs.toSet().toList();
+            notifyListeners();
+          }
+        });
+      }
     });
     setLoading(false);
   }
@@ -71,11 +77,11 @@ class CategoryProvider extends ChangeNotifier{
     List<FileSystemEntity> files = await FileUtils.getAllFiles(showHidden: showHidden);
     files.forEach((file){
       String mimeType = mime(file.path);
+      if(type == "text" && extension(file.path) == ".pdf"){
+        audio.add(file);
+      }
       if(mimeType != null){
         if(mimeType.split("/")[0] == type){
-          if(type == "text" && mimeType.contains("pdf")){
-            audio.add(file);
-          }
           audio.add(file);
           audioTabs.add("${file.path.split("/")[file.path.split("/").length-2]}");
           audioTabs =  audioTabs.toSet().toList();

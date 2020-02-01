@@ -207,12 +207,14 @@ class FileUtils{
   static List<FileSystemEntity> sortList(List<FileSystemEntity> list, int sort){
     switch (sort){
       case 0:
-        return list
+        list
           ..sort((f1, f2) => basename(f1.path).toLowerCase().compareTo(basename(f2.path).toLowerCase()));
+        return list..sort((f1, f2) => f1.toString().split(":")[0].toLowerCase().compareTo(f2.toString().split(":")[0].toLowerCase()));
         break;
 
       case 1:
         list.sort((f1, f2) => basename(f1.path).toLowerCase().compareTo(basename(f2.path).toLowerCase()));
+        list..sort((f1, f2) => f1.toString().split(":")[0].toLowerCase().compareTo(f2.toString().split(":")[0].toLowerCase()));
         return list.reversed.toList();
         break;
 

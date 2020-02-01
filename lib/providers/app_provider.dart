@@ -3,13 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppProvider extends ChangeNotifier{
   AppProvider(){
     checkTheme();
-    checkPermission();
   }
 
 
@@ -34,7 +32,6 @@ class AppProvider extends ChangeNotifier{
         SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
         SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
           statusBarColor: c == "dark" ? Constants.darkPrimary : Constants.lightPrimary,
-          systemNavigationBarColor: c == "dark" ? Constants.darkPrimary : Constants.lightPrimary,
           statusBarIconBrightness: c == "dark" ? Brightness.light:Brightness.dark,
         ));
       });
@@ -63,17 +60,6 @@ class AppProvider extends ChangeNotifier{
     return t;
   }
 
-  checkPermission() async{
-    PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.storage);
-
-    if(permission != PermissionStatus.granted){
-      PermissionHandler().requestPermissions([PermissionGroup.storage]).then((v){
-
-      });
-    }else{
-
-    }
-  }
 
   void showToast(value) {
     Fluttertoast.showToast(

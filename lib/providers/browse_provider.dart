@@ -7,9 +7,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 
 class BrowseProvider extends ChangeNotifier{
-  BrowseProvider(){
-    checkSpace();
-  }
   List<FileSystemEntity> availableStorage = List();
   List<FileSystemEntity> recentFiles = List();
 
@@ -23,6 +20,8 @@ class BrowseProvider extends ChangeNotifier{
 
   checkSpace() async{
     setLoading(true);
+    recentFiles.clear();
+    availableStorage.clear();
     List<FileSystemEntity> l = await getExternalStorageDirectories();
     availableStorage.addAll(l);
     notifyListeners();

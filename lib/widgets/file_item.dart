@@ -23,7 +23,7 @@ class FileItem extends StatelessWidget {
       leading: FutureBuilder<Widget>(
         future: FileUtils.setFileIcon(file == null?"":file.path),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          return snapshot==null
+          return snapshot == null
               ? SizedBox()
               : snapshot.hasData
               ? Container(

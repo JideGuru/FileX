@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mime_type/mime_type.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path/path.dart';
 
 // ignore: must_be_immutable
@@ -27,20 +28,6 @@ class WhatsappStatus extends StatelessWidget {
         title: Text(
           "$title",
         ),
-        actions: <Widget>[
-          IconButton(
-            onPressed: (){
-              showModalBottomSheet(
-                context: context,
-                builder: (context) => SortSheet(),
-              );
-            },
-            tooltip: "Sort by",
-            icon: Icon(
-              Icons.sort,
-            ),
-          ),
-        ],
       ),
 
       body: Directory(FileUtils.waPath).existsSync()
@@ -62,96 +49,99 @@ class WhatsappStatus extends StatelessWidget {
                   String mimeType = mime(path);
                   return mimeType == null
                       ? SizedBox()
-                      : GridTile(
+                      : InkWell(
+                    onTap: ()=>OpenFile.open(file.path),
+                        child: GridTile(
                     header: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.black54,
-                            Colors.transparent
-                          ],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.black54,
+                              Colors.transparent
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
                         ),
-                      ),
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                IconButton(
-                                  onPressed: () async{
-                                    print("Saving");
-                                    await Directory("/storage/emulated/0/${Constants.appName}").create();
-                                    await Directory("/storage/emulated/0/${Constants.appName}/Whatsapp Status").create();
-                                    await file.copy("/storage/emulated/0/${Constants.appName}/Whatsapp Status/${basename(path)}");
-                                    print("Done");
-                                    Fluttertoast.showToast(
-                                      msg: "Saved!",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      timeInSecForIos: 1,
-                                    );
-                                  },
-                                  icon: Icon(
-                                    Feather.download,
-                                    color: Colors.white,
-                                    size: 16,
-                                  ),
-                                ),
-                                mimeType.split("/")[0] == "video"
-                                    ? Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Text(
-                                      "${FileUtils.formatBytes(file.lengthSync(), 1)}",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    SizedBox(width: 5,),
-                                    Icon(
-                                      Icons.play_circle_filled,
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  IconButton(
+                                    onPressed: () async{
+                                      print("Saving");
+                                      await Directory("/storage/emulated/0/${Constants.appName}").create();
+                                      await Directory("/storage/emulated/0/${Constants.appName}/Whatsapp Status").create();
+                                      await file.copy("/storage/emulated/0/${Constants.appName}/Whatsapp Status/${basename(path)}");
+                                      print("Done");
+                                      Fluttertoast.showToast(
+                                        msg: "Saved!",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        timeInSecForIos: 1,
+                                      );
+                                    },
+                                    icon: Icon(
+                                      Feather.download,
                                       color: Colors.white,
                                       size: 16,
                                     ),
-                                  ],
-                                )
-                                    :Text(
-                                  "${FileUtils.formatBytes(file.lengthSync(), 1)}",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.white,
                                   ),
-                                ),
-                              ],
-                            )
+                                  mimeType.split("/")[0] == "video"
+                                      ? Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Text(
+                                        "${FileUtils.formatBytes(file.lengthSync(), 1)}",
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      SizedBox(width: 5,),
+                                      Icon(
+                                        Icons.play_circle_filled,
+                                        color: Colors.white,
+                                        size: 16,
+                                      ),
+                                    ],
+                                  )
+                                      :Text(
+                                    "${FileUtils.formatBytes(file.lengthSync(), 1)}",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              )
+                          ),
                         ),
-                      ),
                     ),
                     child: mimeType.split("/")[0] == "video"
-                        ? FutureBuilder(
-                      future: FileUtils.getVideoThumbnail(path),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        return snapshot == null
-                            ? SizedBox()
-                            : snapshot.hasData
-                            ? Image.file(
-                          File(snapshot.data),
-                          fit: BoxFit.cover,
-                        )
-                            : SizedBox();
-                      },
+                          ? FutureBuilder(
+                        future: FileUtils.getVideoThumbnail(path),
+                        builder: (BuildContext context, AsyncSnapshot snapshot) {
+                          return snapshot == null
+                              ? SizedBox()
+                              : snapshot.hasData
+                              ? Image.file(
+                            File(snapshot.data),
+                            fit: BoxFit.cover,
+                          )
+                              : SizedBox();
+                        },
                     )
-                        : Image.file(
-                      File(path),
-                      fit: BoxFit.cover,
+                          : Image.file(
+                        File(path),
+                        fit: BoxFit.cover,
                     ),
-                  );
+                  ),
+                      );
                 },
               ),
             ),

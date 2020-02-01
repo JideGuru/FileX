@@ -15,7 +15,7 @@ A simple File Explorer made with Flutter(A lil inspiration from Google files😅
 
 ## ✨ Features
 - [x] Recent Files.
-- [x] Search Files. []()
+- [x] Search Files.
 - [x] Sort Files (Still Rusty).
 - [x] Show/Hide Hidden files.
 - [ ] Copy/Move/Paste Files.

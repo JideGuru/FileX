@@ -99,7 +99,9 @@ class Browse extends StatelessWidget {
                             path: path,
                           ),
                         ),
-                      );
+                      ).then((v){
+                        Provider.of<BrowseProvider>(context, listen: false).checkSpace();
+                      });
                     },
                     contentPadding: EdgeInsets.only(right: 20),
                     leading: Container(

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:filex/providers/browse_provider.dart';
 import 'package:filex/providers/category_provider.dart';
 import 'package:filex/util/file_utils.dart';
 import 'package:filex/widgets/custom_alert.dart';

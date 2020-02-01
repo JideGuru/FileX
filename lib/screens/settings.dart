@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:device_info/device_info.dart';
 import 'package:filex/providers/app_provider.dart';
 import 'package:filex/providers/category_provider.dart';
+import 'package:filex/screens/about.dart';
 import 'package:filex/util/consts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 class Settings extends StatefulWidget {
@@ -72,7 +74,7 @@ class _SettingsState extends State<Settings> {
             title: Text(
               "Dark mode",
             ),
-            value: Provider.of<AppProvider>(context).theme != Constants.lightTheme
+            value: Provider.of<AppProvider>(context).theme == Constants.lightTheme
                 ? false
                 : true,
             onChanged: (v){
@@ -112,7 +114,15 @@ class _SettingsState extends State<Settings> {
 
           ListTile(
             contentPadding: EdgeInsets.all(0),
-            onTap: (){},
+            onTap: (){
+              Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: About(),
+                ),
+              );
+            },
             leading: Icon(
               Feather.info,
             ),

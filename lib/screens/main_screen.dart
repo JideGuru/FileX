@@ -86,16 +86,6 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: 0);
-    Timer(Duration(seconds: 2),(){
-      SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Theme.of(context).primaryColor,
-        systemNavigationBarColor: Theme.of(context).primaryColor,
-        statusBarIconBrightness: Theme.of(context).primaryColor == Constants.darkTheme.primaryColor
-            ? Brightness.light
-            : Brightness.dark,
-      ));
-    });
 //    FileUtils.getRecentFiles(showHidden: true).then((l){
 //      print(l);
 //      l.forEach((f){
@@ -103,6 +93,16 @@ class _MainScreenState extends State<MainScreen> {
 //        print("${pathlib.basename(fi.path)} ${fi.lastAccessedSync()}");
 //      });
 //    });
+    Timer(Duration(milliseconds: 1),(){
+      SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Theme.of(context).primaryColor,
+        systemNavigationBarColor: Colors.black,
+        statusBarIconBrightness: Theme.of(context).primaryColor == Constants.darkTheme.primaryColor
+            ? Brightness.light
+            : Brightness.dark,
+      ));
+    });
   }
 
   @override
