@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:filex/providers/category_provider.dart';
 import 'package:filex/util/consts.dart';
 import 'package:filex/util/file_utils.dart';
+import 'package:filex/widgets/file_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:open_file/open_file.dart';
@@ -138,19 +139,7 @@ class Images extends StatelessWidget {
                                     ),
                                   ),
                                   child: mimeType.split("/")[0] == "video"
-                                      ? FutureBuilder(
-                                    future: FileUtils.getVideoThumbnail(path),
-                                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                                      return snapshot == null
-                                          ? Image.asset("assets/images/video-placeholder.png")
-                                          : snapshot.hasData
-                                          ? Image.file(
-                                        File(snapshot.data),
-                                        fit: BoxFit.cover,
-                                      )
-                                          : SizedBox();
-                                    },
-                                  )
+                                      ? FileIcon(file: file)
                                       : Image.file(
                                     File(path),
                                     fit: BoxFit.cover,

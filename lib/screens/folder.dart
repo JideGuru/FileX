@@ -367,12 +367,16 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
                       ),
                       onPressed: () async{
                         if(name.text.isNotEmpty){
-                          await Directory(path+"/${name.text}").create().catchError((e){
-                            print(e.toString());
-                            if(e.toString().contains("Permission denied")){
-                              Provider.of<CoreProvider>(context, listen: false).showToast("Cannot write to this Storage  device!");
-                            }
-                          });
+                          if(!Directory(path+"/${name.text}").existsSync()){
+                            await Directory(path+"/${name.text}").create().catchError((e){
+                              print(e.toString());
+                              if(e.toString().contains("Permission denied")){
+                                Provider.of<CoreProvider>(context, listen: false).showToast("Cannot write to this Storage  device!");
+                              }
+                            });
+                          }else{
+                            Provider.of<CoreProvider>(context, listen: false).showToast("A Folder with that name already exists!");
+                          }
                           Navigator.pop(context);
                           getFiles();
                         }
@@ -463,19 +467,27 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
                       onPressed: () async{
                         if(name.text.isNotEmpty){
                           if(type == "file"){
-                            await File(path).rename(path.replaceAll(pathlib.basename(path), "")+"${name.text}").catchError((e){
-                              print(e.toString());
-                              if(e.toString().contains("Permission denied")){
-                                Provider.of<CoreProvider>(context, listen: false).showToast("Cannot write to this device!");
-                              }
-                            });
+                            if(!File(path.replaceAll(pathlib.basename(path), "")+"${name.text}").existsSync()){
+                              await File(path).rename(path.replaceAll(pathlib.basename(path), "")+"${name.text}").catchError((e){
+                                print(e.toString());
+                                if(e.toString().contains("Permission denied")){
+                                  Provider.of<CoreProvider>(context, listen: false).showToast("Cannot write to this device!");
+                                }
+                              });
+                            }else{
+                              Provider.of<CoreProvider>(context, listen: false).showToast("A File with that name already exists!");
+                            }
                           }else{
-                            await Directory(path).rename(path.replaceAll(pathlib.basename(path), "")+"${name.text}").catchError((e){
-                              print(e.toString());
-                              if(e.toString().contains("Permission denied")){
-                                Provider.of<CoreProvider>(context, listen: false).showToast("Cannot write to this device!");
-                              }
-                            });
+                            if(Directory(path.replaceAll(pathlib.basename(path), "")+"${name.text}").existsSync()){
+                              Provider.of<CoreProvider>(context, listen: false).showToast("A Folder with that name already exists!");
+                            }else{
+                              await Directory(path).rename(path.replaceAll(pathlib.basename(path), "")+"${name.text}").catchError((e){
+                                print(e.toString());
+                                if(e.toString().contains("Permission denied")){
+                                  Provider.of<CoreProvider>(context, listen: false).showToast("Cannot write to this device!");
+                                }
+                              });
+                            }
                           }
                           Navigator.pop(context);
                           getFiles();

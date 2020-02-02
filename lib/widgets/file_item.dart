@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:filex/util/file_utils.dart';
+import 'package:filex/widgets/file_icon.dart';
 import 'package:filex/widgets/file_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
@@ -20,21 +21,8 @@ class FileItem extends StatelessWidget {
     return ListTile(
       onTap: ()=>OpenFile.open(file.path),
       contentPadding: EdgeInsets.all(0),
-      leading: FutureBuilder<Widget>(
-        future: FileUtils.setFileIcon(file == null?"":file.path),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          return snapshot == null
-              ? SizedBox()
-              : snapshot.hasData
-              ? Container(
-            height: 40,
-            width: 40,
-            child: Center(
-              child: snapshot.data,
-            ),
-          )
-              : SizedBox();
-        },
+      leading: FileIcon(
+        file: file,
       ),
       title: Text(
         "${basename(file.path)}",

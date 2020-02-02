@@ -69,9 +69,9 @@ class FileUtils{
   }
 
   static Future<List<FileSystemEntity>> searchFiles(String query, {bool showHidden}) async{
-    List<Directory> storages = await getStorageList();
+    List<Directory> storage = await getStorageList();
     List<FileSystemEntity> files = List<FileSystemEntity>();
-    for (Directory dir in storages) {
+    for (Directory dir in storage) {
       List fs = await getAllFilesInPath(dir.path, showHidden: showHidden);
       for (FileSystemEntity fs in fs){
         if(basename(fs.path).toLowerCase().contains(query.toLowerCase())){
@@ -88,7 +88,7 @@ class FileUtils{
     Directory d = Directory(path);
     List<FileSystemEntity> l = d.listSync();
     for (FileSystemEntity file in l) {
-      if(file.toString().split(":")[0] != "Directory"){
+      if(FileSystemEntity.isFileSync(file.path)){
         if(!showHidden){
           if(!basename(file.path).startsWith(".")){
             files.add(file);
@@ -111,68 +111,6 @@ class FileUtils{
     }
 //    print(files);
     return files;
-  }
-
-  /// Get Icon for a file using it's path
-  static Future<Widget> setFileIcon(String path) async{
-    if (FileSystemEntity.isDirectorySync(path)) {
-      return Icon(
-        Feather.folder,
-      );
-    } else {
-      File file = File(path);
-      String _extension = extension(path);
-      String mimeType = mime(file.path);
-      if(mimeType == null){
-        return Icon(
-          Feather.file,
-          color: Colors.blue,
-        );
-      }else{
-        if (_extension == ".apk") {
-          return Icon(
-            Icons.android,
-            color: Colors.green,
-          );
-        }else if (_extension == ".crdownload") {
-          return Icon(
-            Feather.download,
-            color: Colors.lightBlue,
-          );
-        }else if(_extension == ".zip" || _extension.contains("tar")){
-          return Icon(
-            Feather.archive,
-          );
-        }else if(mimeType.split("/")[0] == 'image'){
-          return Image.file(
-            file,
-            height: 40,
-            width: 40,
-          );
-        }else if(mimeType.split("/")[0] == "video"){
-          return Image.file(
-            File((await getVideoThumbnail(file.path))),
-            height: 40,
-            width: 40,
-          );
-        }else if(mimeType.split("/")[0] == "audio"){
-          return Icon(
-            Feather.music,
-            color: Colors.blue,
-          );
-        }else if(mimeType.split("/")[0] == "text"){
-          return Icon(
-            Feather.file_text,
-            color: Colors.orangeAccent,
-          );
-        }else{
-          return Icon(
-            Feather.file,
-            color: Colors.blue,
-          );
-        }
-      }
-    }
   }
 
   /// Get thumbnail for Video Files
