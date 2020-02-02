@@ -3,7 +3,7 @@
 A simple File Explorer made with Flutter(A lil inspiration from Google files😅).
 <br>
 <br>
-<a href="https://codemagic.io/app/5e35805fcb1395555366758b/build/5e35840acb13959c7e59786b"><img src="https://playerzon.com/asset/download.png" width="200"></img></a>
+<a href="https://codemagic.io/app/5e35805fcb1395555366758b/build/5e363674cb13959747f676d3"><img src="https://playerzon.com/asset/download.png" width="200"></img></a>
 <br>
 
 
