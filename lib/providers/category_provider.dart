@@ -22,7 +22,7 @@ class CategoryProvider extends ChangeNotifier{
   List<FileSystemEntity> audio = List();
   List<String> audioTabs = List();
 
-  bool showHidden = true;
+  bool showHidden = false;
   int sort = 0;
 
   getDownloads() async{
@@ -106,7 +106,7 @@ class CategoryProvider extends ChangeNotifier{
 
   getHidden() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool h = prefs.getBool("hidden") == null?true:prefs.getBool("hidden");
+    bool h = prefs.getBool("hidden") == null?false:prefs.getBool("hidden");
     setHidden(h);
   }
 

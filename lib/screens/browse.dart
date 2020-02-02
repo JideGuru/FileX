@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:filex/providers/core_provider.dart';
@@ -100,7 +101,9 @@ class Browse extends StatelessWidget {
                           ),
                         ),
                       ).then((v){
-                        Provider.of<CoreProvider>(context, listen: false).checkSpace();
+                        Timer(Duration(seconds: 1), (){
+                          Provider.of<CoreProvider>(context, listen: false).checkSpace();;
+                        });
                       });
                     },
                     contentPadding: EdgeInsets.only(right: 20),

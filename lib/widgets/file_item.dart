@@ -33,7 +33,7 @@ class FileItem extends StatelessWidget {
       ),
       subtitle: Text(
         "${FileUtils.formatBytes(file == null?678476:File(file.path).lengthSync(), 2)},"
-            " ${file == null?"Test":FileUtils.formatTime(File(file.path).lastAccessedSync().toIso8601String())}",
+            " ${file == null?"Test":FileUtils.formatTime(File(file.path).lastModifiedSync().toIso8601String())}",
       ),
       trailing: popTap == null
           ? null

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:filex/widgets/video_thumbnail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:mime_type/mime_type.dart';
@@ -59,9 +60,10 @@ class FileIcon extends StatelessWidget {
 //              height: 40,
 //              width: 40,
 //            );
-            return Icon(
-              Feather.video,
-              color: Colors.blue,
+            return Container(
+              height: 40,
+              width: 40,
+              child: VideoThumbnail(path: file.path,),
             );
           }
           break;

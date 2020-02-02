@@ -1,13 +1,9 @@
 import 'dart:io';
 import 'dart:math';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:thumbnails/thumbnails.dart';
 
 class FileUtils{
 
@@ -113,18 +109,6 @@ class FileUtils{
     return files;
   }
 
-  /// Get thumbnail for Video Files
-  static Future<String> getVideoThumbnail(String path) async{
-    var dir = await getExternalStorageDirectory();
-    String fi = await Thumbnails.getThumbnail(
-      thumbnailFolder: dir.path,
-      videoFile: path,
-      imageType: ThumbFormat.PNG,
-      quality: 30,
-    );
-    return fi;
-  }
-
   static String formatTime(String iso){
     DateTime date = DateTime.parse(iso);
     DateTime now = DateTime.now();
@@ -145,31 +129,36 @@ class FileUtils{
   static List<FileSystemEntity> sortList(List<FileSystemEntity> list, int sort){
     switch (sort){
       case 0:
-        list
-          ..sort((f1, f2) => basename(f1.path).toLowerCase().compareTo(basename(f2.path).toLowerCase()));
-        return list..sort((f1, f2) => f1.toString().split(":")[0].toLowerCase().compareTo(f2.toString().split(":")[0].toLowerCase()));
+        if(list.toString().contains("Directory")){
+          list
+            ..sort((f1, f2) => basename(f1.path).toLowerCase().compareTo(basename(f2.path).toLowerCase()));
+          return list..sort((f1, f2) => f1.toString().split(":")[0].toLowerCase().compareTo(f2.toString().split(":")[0].toLowerCase()));
+        }else{
+          return list
+            ..sort((f1, f2) => basename(f1.path).toLowerCase().compareTo(basename(f2.path).toLowerCase()));
+        }
         break;
 
       case 1:
         list.sort((f1, f2) => basename(f1.path).toLowerCase().compareTo(basename(f2.path).toLowerCase()));
-        list..sort((f1, f2) => f1.toString().split(":")[0].toLowerCase().compareTo(f2.toString().split(":")[0].toLowerCase()));
+        if(list.toString().contains("Directory")){
+          list..sort((f1, f2) => f1.toString().split(":")[0].toLowerCase().compareTo(f2.toString().split(":")[0].toLowerCase()));
+        }
         return list.reversed.toList();
         break;
 
       case 2:
-        list
+        return list
           ..sort((f1, f2)=>FileSystemEntity.isFileSync(f1.path) && FileSystemEntity.isFileSync(f2.path)
-              ? File(f1.path).lastAccessedSync().compareTo(File(f2.path).lastAccessedSync())
+              ? File(f1.path).lastModifiedSync().compareTo(File(f2.path).lastModifiedSync())
               : 1);
-        return list..sort((f1, f2) => f1.toString().split(":")[0].toLowerCase().compareTo(f2.toString().split(":")[0].toLowerCase()));
         break;
 
       case 3:
         list
           ..sort((f1, f2)=>FileSystemEntity.isFileSync(f1.path) && FileSystemEntity.isFileSync(f2.path)
-              ? File(f1.path).lastAccessedSync().compareTo(File(f2.path).lastAccessedSync())
-              : 0);
-        list..sort((f1, f2) => f1.toString().split(":")[0].toLowerCase().compareTo(f2.toString().split(":")[0].toLowerCase()));
+              ? File(f1.path).lastModifiedSync().compareTo(File(f2.path).lastModifiedSync())
+              : 1);
         return list.reversed.toList();
         break;
 
@@ -178,16 +167,14 @@ class FileUtils{
           ..sort((f1, f2) => FileSystemEntity.isFileSync(f1.path) && FileSystemEntity.isFileSync(f2.path)
               ?File(f1.path).lengthSync().compareTo(File(f2.path).lengthSync())
               :0);
-        list..sort((f1, f2) => f1.toString().split(":")[0].toLowerCase().compareTo(f2.toString().split(":")[0].toLowerCase()));
         return list.reversed.toList();
         break;
 
       case 5:
-        list
+        return list
           ..sort((f1, f2) => FileSystemEntity.isFileSync(f1.path) && FileSystemEntity.isFileSync(f2.path)
               ?File(f1.path).lengthSync().compareTo(File(f2.path).lengthSync())
               :0);
-        return list..sort((f1, f2) => f1.toString().split(":")[0].toLowerCase().compareTo(f2.toString().split(":")[0].toLowerCase()));
         break;
 
       default:

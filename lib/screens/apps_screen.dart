@@ -58,7 +58,7 @@ class _AppScreenState extends State<AppScreen> {
                     child: Container(
                       height: 1,
                       color: Theme.of(context).dividerColor,
-                      width: MediaQuery.of(context).size.width - 70,
+                      width: MediaQuery.of(context).size.width - 80,
                     ),
                   ),
                 ],

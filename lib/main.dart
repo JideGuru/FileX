@@ -4,7 +4,6 @@ import 'package:filex/providers/app_provider.dart';
 import 'package:filex/providers/core_provider.dart';
 import 'package:filex/providers/category_provider.dart';
 import 'package:filex/screens/ios_error.dart';
-import 'package:filex/screens/main_screen.dart';
 import 'package:filex/screens/splash.dart';
 import 'package:filex/util/consts.dart';
 import 'package:flutter/material.dart';

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:filex/util/consts.dart';
 import 'package:filex/util/file_utils.dart';
-import 'package:filex/widgets/sort_sheet.dart';
+import 'package:filex/widgets/video_thumbnail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -123,18 +123,8 @@ class WhatsappStatus extends StatelessWidget {
                         ),
                     ),
                     child: mimeType.split("/")[0] == "video"
-                          ? FutureBuilder(
-                        future: FileUtils.getVideoThumbnail(path),
-                        builder: (BuildContext context, AsyncSnapshot snapshot) {
-                          return snapshot == null
-                              ? SizedBox()
-                              : snapshot.hasData
-                              ? Image.file(
-                            File(snapshot.data),
-                            fit: BoxFit.cover,
-                          )
-                              : SizedBox();
-                        },
+                          ? VideoThumbnail(
+                      path: path,
                     )
                           : Image.file(
                         File(path),
