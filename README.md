@@ -3,7 +3,11 @@
 A simple File Explorer made with Flutter(A lil inspiration from Google files😅).
 <br>
 <br>
-<a href="https://codemagic.io/app/5e35805fcb1395555366758b/build/5e363674cb13959747f676d3"><img src="https://playerzon.com/asset/download.png" width="200"></img></a>
+To download apk: 
+- Tap on the button below(it will take you to another page)
+- Scroll down the page to download `apk-release.apk`
+<br>
+<a href="https://codemagic.io/apps/5e35805fcb1395555366758b/5e35805fcb1395555366758a/latest_build"><img src="https://playerzon.com/asset/download.png" width="200"></img></a>
 <br>
 
 
