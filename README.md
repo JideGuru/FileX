@@ -1,6 +1,6 @@
 # FileX (WIP)  [![Codemagic build status](https://api.codemagic.io/apps/5e35805fcb1395555366758b/5e35805fcb1395555366758a/status_badge.svg)](https://codemagic.io/apps/5e35805fcb1395555366758b/5e35805fcb1395555366758a/latest_build)
 
-A simple File Explorer made with Flutter(A lil inspiration from Google files😅).
+A simple File Explorer(Still very buggy) made with Flutter.
 <br>
 <br>
 To download apk: 

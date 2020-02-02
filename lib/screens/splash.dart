@@ -20,7 +20,6 @@ class _SplashState extends State<Splash> {
     return Timer(Duration(seconds: 2), handleTimeout);
   }
 
-
   void handleTimeout() {
     changeScreen();
   }
@@ -40,7 +39,9 @@ class _SplashState extends State<Splash> {
               child: MainScreen(),
             ),
           );
-          Provider.of<CoreProvider>(context, listen: false).checkSpace();
+          Timer(Duration(seconds: 1), (){
+            Provider.of<CoreProvider>(context, listen: false).checkSpace();
+          });
         }
       });
     }else{
