@@ -1,4 +1,4 @@
-# FileX (WIP)  [![Codemagic build status](https://api.codemagic.io/apps/5e35805fcb1395555366758b/5e35805fcb1395555366758a/status_badge.svg)](https://codemagic.io/apps/5e35805fcb1395555366758b/5e35805fcb1395555366758a/latest_build) <a href="https://www.buymeacoffee.com/Z05HyTFbf" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
+# FileX (WIP)  [![Codemagic build status](https://api.codemagic.io/apps/5e35805fcb1395555366758b/5e35805fcb1395555366758a/status_badge.svg)](https://codemagic.io/apps/5e35805fcb1395555366758b/5e35805fcb1395555366758a/latest_build) [![Twitter Follow](https://img.shields.io/twitter/follow/iamjideguru.svg?style=social)](https://twitter.com/iamjideguru)
 
 A simple File Explorer(Still very buggy) made with Flutter.
 <br>
@@ -50,17 +50,7 @@ To download apk:
 
 
 ## 🤓 Author(s)
-**Olusegun Festus Babajide**
-
-
-## ☕️  Donate
-
-Buy me a cup of Coffee😁
-
-| Mode | Link/Wallet|
-| ------| ------------|
-| Bitcoin | 3GrziPW6Gz6S5mXo2EsiYpafW8vXVq5Rbv|
-| Buy me a coffee | <a href="https://www.buymeacoffee.com/Z05HyTFbf" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>|
+**Olusegun Festus Babajide** [![Twitter Follow](https://img.shields.io/twitter/follow/iamjideguru.svg?style=social)](https://twitter.com/iamjideguru)
 
 
 ## 🔖 LICENCE
