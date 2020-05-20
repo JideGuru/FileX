@@ -23,8 +23,9 @@ class _SettingsState extends State<Settings> {
   }
 
   int sdkVersion = 0;
-  check() async{
-    if(Platform.isAndroid){
+
+  check() async {
+    if (Platform.isAndroid) {
       DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
       setState(() {
@@ -41,7 +42,6 @@ class _SettingsState extends State<Settings> {
           "Settings",
         ),
       ),
-
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 20),
         physics: NeverScrollableScrollPhysics(),
@@ -55,8 +55,9 @@ class _SettingsState extends State<Settings> {
               "See hidden files",
             ),
             value: Provider.of<CategoryProvider>(context).showHidden,
-            onChanged: (value){
-              Provider.of<CategoryProvider>(context, listen: false).setHidden(value);
+            onChanged: (value) {
+              Provider.of<CategoryProvider>(context, listen: false)
+                  .setHidden(value);
             },
             activeColor: Theme.of(context).accentColor,
           ),
@@ -64,40 +65,42 @@ class _SettingsState extends State<Settings> {
             height: 1,
             color: Theme.of(context).dividerColor,
           ),
-
-          MediaQuery.of(context).platformBrightness != Constants.darkTheme.brightness
-              ?SwitchListTile.adaptive(
-            contentPadding: EdgeInsets.all(0),
-            secondary: Icon(
-              Feather.moon,
-            ),
-            title: Text(
-              "Dark mode",
-            ),
-            value: Provider.of<AppProvider>(context).theme == Constants.lightTheme
-                ? false
-                : true,
-            onChanged: (v){
-              if (v) {
-                Provider.of<AppProvider>(context, listen: false)
-                    .setTheme(Constants.darkTheme, "dark");
-              } else {
-                Provider.of<AppProvider>(context, listen: false)
-                    .setTheme(Constants.lightTheme, "light");
-              }
-            },
-            activeColor: Theme.of(context).accentColor,
-          ):SizedBox(),
-
-          MediaQuery.of(context).platformBrightness != Constants.darkTheme.brightness
-              ?Container(
-            height: 1,
-            color: Theme.of(context).dividerColor,
-          ):SizedBox(),
-
+          MediaQuery.of(context).platformBrightness !=
+                  Constants.darkTheme.brightness
+              ? SwitchListTile.adaptive(
+                  contentPadding: EdgeInsets.all(0),
+                  secondary: Icon(
+                    Feather.moon,
+                  ),
+                  title: Text(
+                    "Dark mode",
+                  ),
+                  value: Provider.of<AppProvider>(context).theme ==
+                          Constants.lightTheme
+                      ? false
+                      : true,
+                  onChanged: (v) {
+                    if (v) {
+                      Provider.of<AppProvider>(context, listen: false)
+                          .setTheme(Constants.darkTheme, "dark");
+                    } else {
+                      Provider.of<AppProvider>(context, listen: false)
+                          .setTheme(Constants.lightTheme, "light");
+                    }
+                  },
+                  activeColor: Theme.of(context).accentColor,
+                )
+              : SizedBox(),
+          MediaQuery.of(context).platformBrightness !=
+                  Constants.darkTheme.brightness
+              ? Container(
+                  height: 1,
+                  color: Theme.of(context).dividerColor,
+                )
+              : SizedBox(),
           ListTile(
             contentPadding: EdgeInsets.all(0),
-            onTap: (){
+            onTap: () {
               showLicensePage(context: context);
             },
             leading: Icon(
@@ -111,10 +114,9 @@ class _SettingsState extends State<Settings> {
             height: 1,
             color: Theme.of(context).dividerColor,
           ),
-
           ListTile(
             contentPadding: EdgeInsets.all(0),
-            onTap: (){
+            onTap: () {
               Navigator.push(
                 context,
                 PageTransition(

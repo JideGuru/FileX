@@ -13,7 +13,7 @@ class _IosErrorState extends State<IosError> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 1),()=>showError());
+    Timer(Duration(seconds: 1), () => showError());
   }
 
   @override
@@ -21,11 +21,11 @@ class _IosErrorState extends State<IosError> {
     return Scaffold();
   }
 
-  showError(){
+  showError() {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context)=>CustomAlert(
+      builder: (context) => CustomAlert(
         child: Padding(
           padding: EdgeInsets.all(20),
           child: Column(
@@ -33,7 +33,6 @@ class _IosErrorState extends State<IosError> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-
               Text(
                 "This app only works on Android. Please run on an android device!",
                 style: TextStyle(
@@ -41,11 +40,10 @@ class _IosErrorState extends State<IosError> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-
               Align(
                 alignment: Alignment.bottomRight,
                 child: FlatButton(
-                  onPressed: ()=>exit(0),
+                  onPressed: () => exit(0),
                   child: Text(
                     "Close app",
                     style: TextStyle(

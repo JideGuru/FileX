@@ -9,16 +9,17 @@ class VideoThumbnail extends StatefulWidget {
   VideoThumbnail({
     Key key,
     @required this.path,
-  }): super(key: key);
+  }) : super(key: key);
+
   @override
   _VideoThumbnailState createState() => _VideoThumbnailState();
 }
 
-class _VideoThumbnailState extends State<VideoThumbnail> with AutomaticKeepAliveClientMixin{
+class _VideoThumbnailState extends State<VideoThumbnail>
+    with AutomaticKeepAliveClientMixin {
   String thumb = "";
   bool loading = true;
   VideoPlayerController _controller;
-
 
 //  getThumb() async{
 //    var dir = await getExternalStorageDirectory();
@@ -42,19 +43,21 @@ class _VideoThumbnailState extends State<VideoThumbnail> with AutomaticKeepAlive
       ..initialize().then((_) {
         setState(() {
           loading = false;
-        });  //when your thumbnail will show.
+        }); //when your thumbnail will show.
       });
   }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return loading
         ? Image.asset(
-      "assets/images/video-placeholder.png",
-      height: 40,
-      width: 40,
-      fit: BoxFit.cover,
-    ) : VideoPlayer(_controller);
+            "assets/images/video-placeholder.png",
+            height: 40,
+            width: 40,
+            fit: BoxFit.cover,
+          )
+        : VideoPlayer(_controller);
   }
 
   @override

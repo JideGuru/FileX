@@ -15,7 +15,7 @@ class DirectoryItem extends StatelessWidget {
     @required this.file,
     @required this.tap,
     @required this.popTap,
-  }): super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +38,8 @@ class DirectoryItem extends StatelessWidget {
         ),
         maxLines: 2,
       ),
-      trailing: popTap == null
-          ? null
-          : DirPopup(path: file.path, popTap: popTap),
+      trailing:
+          popTap == null ? null : DirPopup(path: file.path, popTap: popTap),
     );
   }
 }

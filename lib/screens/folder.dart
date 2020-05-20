@@ -21,13 +21,13 @@ class Folder extends StatefulWidget {
     Key key,
     @required this.title,
     @required this.path,
-  }): super(key: key);
+  }) : super(key: key);
 
   @override
   _FolderState createState() => _FolderState();
 }
 
-class _FolderState extends State<Folder> with WidgetsBindingObserver{
+class _FolderState extends State<Folder> with WidgetsBindingObserver {
   String path;
   List<String> paths = List();
 
@@ -35,34 +35,36 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
   bool showHidden = false;
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state){
+  void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       getFiles();
     }
   }
 
-  getFiles() async{
+  getFiles() async {
     Directory dir = Directory(path);
     List<FileSystemEntity> l = dir.listSync();
     files.clear();
     setState(() {
-      showHidden = Provider.of<CategoryProvider>(context, listen: false).showHidden;
+      showHidden =
+          Provider.of<CategoryProvider>(context, listen: false).showHidden;
     });
-    for(FileSystemEntity file in l){
-      if(!showHidden){
-        if(!pathlib.basename(file.path).startsWith(".")){
+    for (FileSystemEntity file in l) {
+      if (!showHidden) {
+        if (!pathlib.basename(file.path).startsWith(".")) {
           setState(() {
             files.add(file);
           });
         }
-      }else{
+      } else {
         setState(() {
           files.add(file);
         });
       }
     }
 
-    files = FileUtils.sortList(files, Provider.of<CategoryProvider>(context, listen: false).sort);
+    files = FileUtils.sortList(
+        files, Provider.of<CategoryProvider>(context, listen: false).sort);
 //    files.sort((f1, f2) => pathlib.basename(f1.path).toLowerCase().compareTo(pathlib.basename(f2.path).toLowerCase()));
 //    files.sort((f1, f2) => f1.toString().split(":")[0].toLowerCase().compareTo(f2.toString().split(":")[0].toLowerCase()));
 //    files.sort((f1, f2) => FileSystemEntity.isDirectorySync(f1.path) ==
@@ -80,7 +82,6 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
     WidgetsBinding.instance.addObserver(this);
   }
 
-
   @override
   void dispose() {
     super.dispose();
@@ -90,10 +91,10 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async{
-        if(paths.length == 1){
+      onWillPop: () async {
+        if (paths.length == 1) {
           return true;
-        }else{
+        } else {
           paths.removeLast();
           setState(() {
             path = paths.last;
@@ -108,10 +109,10 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
             icon: Icon(
               Icons.arrow_back,
             ),
-            onPressed: (){
-              if(paths.length == 1){
+            onPressed: () {
+              if (paths.length == 1) {
                 Navigator.pop(context);
-              }else{
+              } else {
                 paths.removeLast();
                 setState(() {
                   path = paths.last;
@@ -151,51 +152,54 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
                     List splited = i.split("/");
                     return index == 0
                         ? IconButton(
-                      icon: Icon(
-                        widget.path.toString().contains("emulated")
-                            ? Feather.smartphone
-                            : Icons.sd_card,
-                        color: index == paths.length-1
-                            ? Theme.of(context).accentColor
-                            : Theme.of(context).textTheme.title.color,
-                      ),
-                      onPressed: (){
-                        print(paths[index]);
-                        setState(() {
-                          path = paths[index];
-                          paths.removeRange(index+1, paths.length);
-                        });
-                        getFiles();
-                      },
-                    )
+                            icon: Icon(
+                              widget.path.toString().contains("emulated")
+                                  ? Feather.smartphone
+                                  : Icons.sd_card,
+                              color: index == paths.length - 1
+                                  ? Theme.of(context).accentColor
+                                  : Theme.of(context).textTheme.title.color,
+                            ),
+                            onPressed: () {
+                              print(paths[index]);
+                              setState(() {
+                                path = paths[index];
+                                paths.removeRange(index + 1, paths.length);
+                              });
+                              getFiles();
+                            },
+                          )
                         : InkWell(
-                      onTap: (){
-                        print(paths[index]);
-                        setState(() {
-                          path = paths[index];
-                          paths.removeRange(index+1, paths.length);
-                        });
-                        getFiles();
-                      },
-                      child: Container(
-                        height: 40,
-                        child: Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 5),
-                            child: Text(
-                              "${splited[splited.length-1]}",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: index == paths.length-1
-                                    ? Theme.of(context).accentColor
-                                    : Theme.of(context).textTheme.title.color,
+                            onTap: () {
+                              print(paths[index]);
+                              setState(() {
+                                path = paths[index];
+                                paths.removeRange(index + 1, paths.length);
+                              });
+                              getFiles();
+                            },
+                            child: Container(
+                              height: 40,
+                              child: Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 5),
+                                  child: Text(
+                                    "${splited[splited.length - 1]}",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: index == paths.length - 1
+                                          ? Theme.of(context).accentColor
+                                          : Theme.of(context)
+                                              .textTheme
+                                              .title
+                                              .color,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                      ),
-                    );
+                          );
                   },
                   separatorBuilder: (BuildContext context, int index) {
                     return Icon(
@@ -208,11 +212,11 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
           ),
           actions: <Widget>[
             IconButton(
-              onPressed: (){
+              onPressed: () {
                 showModalBottomSheet(
                   context: context,
                   builder: (context) => SortSheet(),
-                ).then((v){
+                ).then((v) {
                   getFiles();
                 });
               },
@@ -224,74 +228,86 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
           ],
         ),
         body: files.isEmpty
-          ? Center(
-          child: Text("There's nothing here"),
-        )
+            ? Center(
+                child: Text("There's nothing here"),
+              )
             : ListView.separated(
-          padding: EdgeInsets.only(left: 20),
-          itemCount: files.length,
-          itemBuilder: (BuildContext context, int index) {
-            FileSystemEntity file = files[index];
-            return file.toString().split(":")[0] == "Directory"
-                ? DirectoryItem(
-              popTap: (v) async{
-                if(v == 0){
-                  renameDialog(context, file.path, "dir");
-                }else if(v == 1){
-                  await Directory(file.path).delete().catchError((e){
-                    print(e.toString());
-                    if(e.toString().contains("Permission denied")){
-                      Provider.of<CoreProvider>(context, listen: false).showToast("Cannot write to this Storage device!");
-                    }
-                  });
-                  getFiles();
-                }
-              },
-              file: file,
-              tap: (){
-                paths.add(file.path);
-                setState(() {
-                  path = file.path;
-                });
-                getFiles();
-              },
-            )
-                : FileItem(
-              file: file,
-              popTap: (v) async{
-                if(v == 0){
-                  renameDialog(context, file.path, "file");
-                }else if(v == 1){
-                  await File(file.path).delete().catchError((e){
-                    print(e.toString());
-                    if(e.toString().contains("Permission denied")){
-                      Provider.of<CoreProvider>(context, listen: false).showToast("Cannot write to this Storage device!");
-                    }
-                  });
-                  getFiles();
-                }else if(v == 2){
-                  print("Share");
-                }
-              },
-            );
-          },
-          separatorBuilder: (BuildContext context, int index) {
-            return Stack(
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    height: 1,
-                    color: Theme.of(context).dividerColor,
-                    width: MediaQuery.of(context).size.width - 70,
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
+                padding: EdgeInsets.only(left: 20),
+                itemCount: files.length,
+                itemBuilder: (BuildContext context, int index) {
+                  FileSystemEntity file = files[index];
+                  return file.toString().split(":")[0] == "Directory"
+                      ? DirectoryItem(
+                          popTap: (v) async {
+                            if (v == 0) {
+                              renameDialog(context, file.path, "dir");
+                            } else if (v == 1) {
+                              await Directory(file.path)
+                                  .delete()
+                                  .catchError((e) {
+                                print(e.toString());
+                                if (e
+                                    .toString()
+                                    .contains("Permission denied")) {
+                                  Provider.of<CoreProvider>(context,
+                                          listen: false)
+                                      .showToast(
+                                          "Cannot write to this Storage device!");
+                                }
+                              });
+                              getFiles();
+                            }
+                          },
+                          file: file,
+                          tap: () {
+                            paths.add(file.path);
+                            setState(() {
+                              path = file.path;
+                            });
+                            getFiles();
+                          },
+                        )
+                      : FileItem(
+                          file: file,
+                          popTap: (v) async {
+                            if (v == 0) {
+                              renameDialog(context, file.path, "file");
+                            } else if (v == 1) {
+                              await File(file.path).delete().catchError((e) {
+                                print(e.toString());
+                                if (e
+                                    .toString()
+                                    .contains("Permission denied")) {
+                                  Provider.of<CoreProvider>(context,
+                                          listen: false)
+                                      .showToast(
+                                          "Cannot write to this Storage device!");
+                                }
+                              });
+                              getFiles();
+                            } else if (v == 2) {
+                              print("Share");
+                            }
+                          },
+                        );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return Stack(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Container(
+                          height: 1,
+                          color: Theme.of(context).dividerColor,
+                          width: MediaQuery.of(context).size.width - 70,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
         floatingActionButton: FloatingActionButton(
-          onPressed: ()=>addDialog(context, path),
+          onPressed: () => addDialog(context, path),
           child: Icon(Feather.plus),
           tooltip: "Add Folder",
         ),
@@ -299,7 +315,7 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
     );
   }
 
-  addDialog(BuildContext context, String path){
+  addDialog(BuildContext context, String path) {
     final TextEditingController name = TextEditingController();
     showDialog(
       context: context,
@@ -319,16 +335,12 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
                   fontSize: 16,
                 ),
               ),
-
               SizedBox(height: 25),
-
               TextField(
                 controller: name,
                 keyboardType: TextInputType.text,
               ),
-
               SizedBox(height: 40),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -339,19 +351,18 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0),
                       ),
-                      borderSide: BorderSide(color: Theme.of(context).accentColor),
+                      borderSide:
+                          BorderSide(color: Theme.of(context).accentColor),
                       child: Text(
                         "Cancel",
                         style: TextStyle(
                           color: Theme.of(context).accentColor,
                         ),
                       ),
-                      onPressed: ()=>Navigator.pop(context),
+                      onPressed: () => Navigator.pop(context),
                       color: Colors.white,
                     ),
                   ),
-
-
                   Container(
                     height: 40,
                     width: 130,
@@ -365,17 +376,24 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
                           color: Colors.white,
                         ),
                       ),
-                      onPressed: () async{
-                        if(name.text.isNotEmpty){
-                          if(!Directory(path+"/${name.text}").existsSync()){
-                            await Directory(path+"/${name.text}").create().catchError((e){
+                      onPressed: () async {
+                        if (name.text.isNotEmpty) {
+                          if (!Directory(path + "/${name.text}").existsSync()) {
+                            await Directory(path + "/${name.text}")
+                                .create()
+                                .catchError((e) {
                               print(e.toString());
-                              if(e.toString().contains("Permission denied")){
-                                Provider.of<CoreProvider>(context, listen: false).showToast("Cannot write to this Storage  device!");
+                              if (e.toString().contains("Permission denied")) {
+                                Provider.of<CoreProvider>(context,
+                                        listen: false)
+                                    .showToast(
+                                        "Cannot write to this Storage  device!");
                               }
                             });
-                          }else{
-                            Provider.of<CoreProvider>(context, listen: false).showToast("A Folder with that name already exists!");
+                          } else {
+                            Provider.of<CoreProvider>(context, listen: false)
+                                .showToast(
+                                    "A Folder with that name already exists!");
                           }
                           Navigator.pop(context);
                           getFiles();
@@ -394,8 +412,7 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
     );
   }
 
-
-  renameDialog(BuildContext context, String path, String type){
+  renameDialog(BuildContext context, String path, String type) {
     final TextEditingController name = TextEditingController();
     setState(() {
       name.text = pathlib.basename(path);
@@ -418,16 +435,12 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
                   fontSize: 16,
                 ),
               ),
-
               SizedBox(height: 25),
-
               TextField(
                 controller: name,
                 keyboardType: TextInputType.text,
               ),
-
               SizedBox(height: 40),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -438,19 +451,18 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0),
                       ),
-                      borderSide: BorderSide(color: Theme.of(context).accentColor),
+                      borderSide:
+                          BorderSide(color: Theme.of(context).accentColor),
                       child: Text(
                         "Cancel",
                         style: TextStyle(
                           color: Theme.of(context).accentColor,
                         ),
                       ),
-                      onPressed: ()=>Navigator.pop(context),
+                      onPressed: () => Navigator.pop(context),
                       color: Colors.white,
                     ),
                   ),
-
-
                   Container(
                     height: 40,
                     width: 130,
@@ -464,27 +476,55 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver{
                           color: Colors.white,
                         ),
                       ),
-                      onPressed: () async{
-                        if(name.text.isNotEmpty){
-                          if(type == "file"){
-                            if(!File(path.replaceAll(pathlib.basename(path), "")+"${name.text}").existsSync()){
-                              await File(path).rename(path.replaceAll(pathlib.basename(path), "")+"${name.text}").catchError((e){
+                      onPressed: () async {
+                        if (name.text.isNotEmpty) {
+                          if (type == "file") {
+                            if (!File(path.replaceAll(
+                                        pathlib.basename(path), "") +
+                                    "${name.text}")
+                                .existsSync()) {
+                              await File(path)
+                                  .rename(path.replaceAll(
+                                          pathlib.basename(path), "") +
+                                      "${name.text}")
+                                  .catchError((e) {
                                 print(e.toString());
-                                if(e.toString().contains("Permission denied")){
-                                  Provider.of<CoreProvider>(context, listen: false).showToast("Cannot write to this device!");
+                                if (e
+                                    .toString()
+                                    .contains("Permission denied")) {
+                                  Provider.of<CoreProvider>(context,
+                                          listen: false)
+                                      .showToast(
+                                          "Cannot write to this device!");
                                 }
                               });
-                            }else{
-                              Provider.of<CoreProvider>(context, listen: false).showToast("A File with that name already exists!");
+                            } else {
+                              Provider.of<CoreProvider>(context, listen: false)
+                                  .showToast(
+                                      "A File with that name already exists!");
                             }
-                          }else{
-                            if(Directory(path.replaceAll(pathlib.basename(path), "")+"${name.text}").existsSync()){
-                              Provider.of<CoreProvider>(context, listen: false).showToast("A Folder with that name already exists!");
-                            }else{
-                              await Directory(path).rename(path.replaceAll(pathlib.basename(path), "")+"${name.text}").catchError((e){
+                          } else {
+                            if (Directory(path.replaceAll(
+                                        pathlib.basename(path), "") +
+                                    "${name.text}")
+                                .existsSync()) {
+                              Provider.of<CoreProvider>(context, listen: false)
+                                  .showToast(
+                                      "A Folder with that name already exists!");
+                            } else {
+                              await Directory(path)
+                                  .rename(path.replaceAll(
+                                          pathlib.basename(path), "") +
+                                      "${name.text}")
+                                  .catchError((e) {
                                 print(e.toString());
-                                if(e.toString().contains("Permission denied")){
-                                  Provider.of<CoreProvider>(context, listen: false).showToast("Cannot write to this device!");
+                                if (e
+                                    .toString()
+                                    .contains("Permission denied")) {
+                                  Provider.of<CoreProvider>(context,
+                                          listen: false)
+                                      .showToast(
+                                          "Cannot write to this device!");
                                 }
                               });
                             }

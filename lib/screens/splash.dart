@@ -25,26 +25,29 @@ class _SplashState extends State<Splash> {
   }
 
   changeScreen() async {
-    PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.storage);
-    if(permission != PermissionStatus.granted){
-      PermissionHandler().requestPermissions([PermissionGroup.storage]).then((v){
-
-      }).then((v) async{
-        PermissionStatus permission1 = await PermissionHandler().checkPermissionStatus(PermissionGroup.storage);
-        if(permission1 == PermissionStatus.granted){
-          Navigator.pushReplacement(
-            context,
-            PageTransition(
-              type: PageTransitionType.rightToLeft,
-              child: MainScreen(),
-            ),
-          );
-          Timer(Duration(seconds: 1), (){
-            Provider.of<CoreProvider>(context, listen: false).checkSpace();
+    PermissionStatus permission = await PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.storage);
+    if (permission != PermissionStatus.granted) {
+      PermissionHandler()
+          .requestPermissions([PermissionGroup.storage])
+          .then((v) {})
+          .then((v) async {
+            PermissionStatus permission1 = await PermissionHandler()
+                .checkPermissionStatus(PermissionGroup.storage);
+            if (permission1 == PermissionStatus.granted) {
+              Navigator.pushReplacement(
+                context,
+                PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: MainScreen(),
+                ),
+              );
+              Timer(Duration(seconds: 1), () {
+                Provider.of<CoreProvider>(context, listen: false).checkSpace();
+              });
+            }
           });
-        }
-      });
-    }else{
+    } else {
       Navigator.pushReplacement(
         context,
         PageTransition(
@@ -77,7 +80,9 @@ class _SplashState extends State<Splash> {
               color: Theme.of(context).accentColor,
               size: 70,
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Text(
               "${Constants.appName}",
               style: TextStyle(

@@ -9,7 +9,6 @@ class About extends StatelessWidget {
           "About",
         ),
       ),
-
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 20),
         children: <Widget>[

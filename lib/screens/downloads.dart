@@ -10,7 +10,7 @@ class Downloads extends StatelessWidget {
   Downloads({
     Key key,
     @required this.title,
-  }): super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class Downloads extends StatelessWidget {
                 isScrollable: false,
                 tabs: Constants.map<Widget>(
                   provider.downloadTabs,
-                      (index, label){
+                  (index, label) {
                     return Tab(
                       text: "$label",
                     );
@@ -38,39 +38,39 @@ class Downloads extends StatelessWidget {
                 ),
               ),
             ),
-
             body: provider.downloads.isEmpty
                 ? Center(child: Text("No Files Found"))
                 : TabBarView(
-              children: Constants.map<Widget>(
-                provider.downloadTabs,
-                    (index, label){
-                  return ListView.separated(
-                    padding: EdgeInsets.only(left: 20),
-                    itemCount: provider.downloads.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return FileItem(
-                        file: provider.downloads[index],
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return Stack(
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Container(
-                              height: 1,
-                              color: Theme.of(context).dividerColor,
-                              width: MediaQuery.of(context).size.width - 70,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
+                    children: Constants.map<Widget>(
+                      provider.downloadTabs,
+                      (index, label) {
+                        return ListView.separated(
+                          padding: EdgeInsets.only(left: 20),
+                          itemCount: provider.downloads.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return FileItem(
+                              file: provider.downloads[index],
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return Stack(
+                              children: <Widget>[
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Container(
+                                    height: 1,
+                                    color: Theme.of(context).dividerColor,
+                                    width:
+                                        MediaQuery.of(context).size.width - 70,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
           ),
         );
       },

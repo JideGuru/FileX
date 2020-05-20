@@ -1,15 +1,15 @@
 import 'dart:io';
 
 import 'package:filex/providers/app_provider.dart';
-import 'package:filex/providers/core_provider.dart';
 import 'package:filex/providers/category_provider.dart';
+import 'package:filex/providers/core_provider.dart';
 import 'package:filex/screens/ios_error.dart';
 import 'package:filex/screens/splash.dart';
 import 'package:filex/util/consts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main(){
+void main() {
   runApp(
     MultiProvider(
       providers: [
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
           title: Constants.appName,
           theme: appProvider.theme,
           darkTheme: Constants.darkTheme,
-          home: Platform.isIOS?IosError():Splash(),
+          home: Platform.isIOS ? IosError() : Splash(),
         );
       },
     );

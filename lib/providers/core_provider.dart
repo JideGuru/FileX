@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 
-class CoreProvider extends ChangeNotifier{
+class CoreProvider extends ChangeNotifier {
   List<FileSystemEntity> availableStorage = List();
   List<FileSystemEntity> recentFiles = List();
 
@@ -18,7 +18,7 @@ class CoreProvider extends ChangeNotifier{
   int usedSDSpace = 0;
   bool loading = true;
 
-  checkSpace() async{
+  checkSpace() async {
     setLoading(true);
     recentFiles.clear();
     availableStorage.clear();
@@ -30,19 +30,20 @@ class CoreProvider extends ChangeNotifier{
     var total = await platform.invokeMethod("getStorageTotalSpace");
     setFreeSpace(free);
     setTotalSpace(total);
-    setUsedSpace(total-free);
-    if(l.length > 1){
+    setUsedSpace(total - free);
+    if (l.length > 1) {
       var freeSD = await platform.invokeMethod("getExternalStorageFreeSpace");
       var totalSD = await platform.invokeMethod("getExternalStorageTotalSpace");
       setFreeSDSpace(freeSD);
       setTotalSDSpace(totalSD);
-      setUsedSDSpace(totalSD-freeSD);
+      setUsedSDSpace(totalSD - freeSD);
     }
     getRecentFiles();
   }
 
-  getRecentFiles() async{
-    List<FileSystemEntity> l = await FileUtils.getRecentFiles(showHidden: false);
+  getRecentFiles() async {
+    List<FileSystemEntity> l =
+        await FileUtils.getRecentFiles(showHidden: false);
     recentFiles.addAll(l);
     setLoading(false);
   }
@@ -56,6 +57,7 @@ class CoreProvider extends ChangeNotifier{
     totalSpace = value;
     notifyListeners();
   }
+
   void setUsedSpace(value) {
     usedSpace = value;
     notifyListeners();
@@ -70,6 +72,7 @@ class CoreProvider extends ChangeNotifier{
     totalSDSpace = value;
     notifyListeners();
   }
+
   void setUsedSDSpace(value) {
     usedSDSpace = value;
     notifyListeners();

@@ -6,14 +6,10 @@ class FTPScreen extends StatefulWidget {
 }
 
 class _FTPScreenState extends State<FTPScreen> {
-
-  start() async{
-
-  }
+  start() async {}
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -25,7 +21,7 @@ class _FTPScreenState extends State<FTPScreen> {
             icon: Icon(
               Icons.print,
             ),
-            onPressed: (){
+            onPressed: () {
               start();
             },
           )
@@ -33,9 +29,7 @@ class _FTPScreenState extends State<FTPScreen> {
       ),
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 20),
-        children: <Widget>[
-
-        ],
+        children: <Widget>[],
       ),
     );
   }
