@@ -158,7 +158,7 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver {
                                   : Icons.sd_card,
                               color: index == paths.length - 1
                                   ? Theme.of(context).accentColor
-                                  : Theme.of(context).textTheme.title.color,
+                                  : Theme.of(context).textTheme.headline6.color,
                             ),
                             onPressed: () {
                               print(paths[index]);
@@ -192,7 +192,7 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver {
                                           ? Theme.of(context).accentColor
                                           : Theme.of(context)
                                               .textTheme
-                                              .title
+                                              .headline6
                                               .color,
                                     ),
                                   ),

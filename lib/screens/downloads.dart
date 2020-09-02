@@ -40,40 +40,43 @@ class Downloads extends StatelessWidget {
             ),
             body: provider.downloads.isEmpty
                 ? Center(child: Text("No Files Found"))
-                : TabBarView(
-                    children: Constants.map<Widget>(
-                      provider.downloadTabs,
-                      (index, label) {
-                        return ListView.separated(
-                          padding: EdgeInsets.only(left: 20),
-                          itemCount: provider.downloads.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return FileItem(
-                              file: provider.downloads[index],
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return Stack(
-                              children: <Widget>[
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Container(
-                                    height: 1,
-                                    color: Theme.of(context).dividerColor,
-                                    width:
-                                        MediaQuery.of(context).size.width - 70,
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ),
+                : buildTabView(provider),
           ),
         );
       },
+    );
+  }
+
+  buildTabView(CategoryProvider provider) {
+    return TabBarView(
+      children: Constants.map<Widget>(
+        provider.downloadTabs,
+        (index, label) {
+          return ListView.separated(
+            padding: EdgeInsets.only(left: 20),
+            itemCount: provider.downloads.length,
+            itemBuilder: (BuildContext context, int index) {
+              return FileItem(
+                file: provider.downloads[index],
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return Stack(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      height: 1,
+                      color: Theme.of(context).dividerColor,
+                      width: MediaQuery.of(context).size.width - 70,
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

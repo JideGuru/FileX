@@ -25,13 +25,13 @@ class Search extends SearchDelegate {
     return theme.copyWith(
       primaryTextTheme: theme.primaryTextTheme,
       textTheme: theme.textTheme.copyWith(
-        title: theme.textTheme.title.copyWith(
-          color: theme.primaryTextTheme.title.color,
+        headline6: theme.textTheme.headline6.copyWith(
+          color: theme.primaryTextTheme.headline6.color,
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         hintStyle: TextStyle(
-          color: theme.primaryTextTheme.title.color,
+          color: theme.primaryTextTheme.headline6.color,
         ),
       ),
     );
@@ -61,122 +61,69 @@ class Search extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return FutureBuilder<List<FileSystemEntity>>(
-      future: FileUtils.searchFiles(query,
-          showHidden:
-              Provider.of<CategoryProvider>(context, listen: false).showHidden),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        return snapshot == null
-            ? SizedBox()
-            : snapshot.hasData
-                ? snapshot.data.isEmpty
-                    ? Center(
-                        child: Text("No file match your query!"),
-                      )
-                    : ListView.separated(
-                        padding: EdgeInsets.only(left: 20),
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          FileSystemEntity file = snapshot.data[index];
-                          return file.toString().split(":")[0] == "Directory"
-                              ? DirectoryItem(
-                                  popTap: null,
-                                  file: file,
-                                  tap: () {
-                                    Navigator.push(
-                                      context,
-                                      PageTransition(
-                                        type: PageTransitionType.rightToLeft,
-                                        child: Folder(
-                                          title: "Storage",
-                                          path: file.path,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                )
-                              : FileItem(
-                                  file: file,
-                                  popTap: null,
-                                );
-                        },
-                        separatorBuilder: (BuildContext context, int index) {
-                          return Stack(
-                            children: <Widget>[
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Container(
-                                  height: 1,
-                                  color: Theme.of(context).dividerColor,
-                                  width: MediaQuery.of(context).size.width - 70,
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      )
-                : SizedBox();
-      },
-    );
+    return buildSearchBuilder(context);
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    return buildSearchBuilder(context);
+  }
+
+  buildSearchBuilder(BuildContext context) {
     return FutureBuilder<List<FileSystemEntity>>(
       future: FileUtils.searchFiles(query,
           showHidden:
-              Provider.of<CategoryProvider>(context, listen: false).showHidden),
+          Provider.of<CategoryProvider>(context, listen: false).showHidden),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        return snapshot == null
-            ? SizedBox()
-            : snapshot.hasData
-                ? snapshot.data.isEmpty
-                    ? Center(
-                        child: Text("No file match your query!"),
-                      )
-                    : ListView.separated(
-                        padding: EdgeInsets.only(left: 20),
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          FileSystemEntity file = snapshot.data[index];
-                          return file.toString().split(":")[0] == "Directory"
-                              ? DirectoryItem(
-                                  popTap: null,
-                                  file: file,
-                                  tap: () {
-                                    Navigator.push(
-                                      context,
-                                      PageTransition(
-                                        type: PageTransitionType.rightToLeft,
-                                        child: Folder(
-                                          title: "Storage",
-                                          path: file.path,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                )
-                              : FileItem(
-                                  file: file,
-                                  popTap: null,
-                                );
-                        },
-                        separatorBuilder: (BuildContext context, int index) {
-                          return Stack(
-                            children: <Widget>[
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Container(
-                                  height: 1,
-                                  color: Theme.of(context).dividerColor,
-                                  width: MediaQuery.of(context).size.width - 70,
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      )
-                : SizedBox();
+        if(snapshot.hasData) {
+          if(snapshot.data.isNotEmpty){
+            return ListView.separated(
+              padding: EdgeInsets.only(left: 20),
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                FileSystemEntity file = snapshot.data[index];
+                return file.toString().split(":")[0] == "Directory"
+                    ? DirectoryItem(
+                  popTap: null,
+                  file: file,
+                  tap: () {
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: Folder(
+                          title: "Storage",
+                          path: file.path,
+                        ),
+                      ),
+                    );
+                  },
+                )
+                    : FileItem(
+                  file: file,
+                  popTap: null,
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return Stack(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        height: 1,
+                        color: Theme.of(context).dividerColor,
+                        width: MediaQuery.of(context).size.width - 70,
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+          }else{
+            return Text("No file match your query!");
+          }
+        }
+        return  SizedBox();
       },
     );
   }

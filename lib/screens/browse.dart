@@ -154,7 +154,7 @@ class Browse extends StatelessWidget {
                                           fontSize: 14.0,
                                           color: Theme.of(context)
                                               .textTheme
-                                              .title
+                                              .headline6
                                               .color,
                                         ),
                                       ),
