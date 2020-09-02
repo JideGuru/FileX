@@ -11,13 +11,12 @@ To download apk:
 <br>
 
 
-## 💻 Requirements
+## Requirements
 * Any Operating System (ie. MacOS X, Linux, Windows)
 * Any IDE with Flutter SDK installed (ie. IntelliJ, Android Studio, VSCode etc)
 * A little knowledge of Dart and Flutter
-* A brain to think 🤓🤓
 
-## ✨ Features
+## Features
 - [x] Recent Files.
 - [x] Search Files.
 - [x] Sort Files.
@@ -29,7 +28,7 @@ To download apk:
 - [ ] FTP.
 - [x] Whatsapp Status Saver.
 
-## 📸 ScreenShots
+## ScreenShots
 
 
 | Light| Dark|
@@ -49,9 +48,9 @@ To download apk:
 |[**Video Player**](https://pub.dev/packages/video_player)| Get thumbnail from a video file|
 
 
-## 🤓 Author(s)
+## Author(s)
 **Olusegun Festus Babajide** [![Twitter Follow](https://img.shields.io/twitter/follow/iamjideguru.svg?style=social)](https://twitter.com/iamjideguru)
 
 
-## 🔖 LICENCE
+## LICENCE
 [Apache-2.0](https://github.com/JideGuru/FlutterEbookApp/blob/master/LICENSE)

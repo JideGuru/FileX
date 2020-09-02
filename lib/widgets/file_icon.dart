@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:filex/widgets/image_thumbnail.dart';
 import 'package:filex/widgets/video_thumbnail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -45,21 +46,14 @@ class FileIcon extends StatelessWidget {
       switch (type) {
         case "image":
           {
-            return Image.file(
-              file,
-              height: 40,
-              width: 40,
+            return ImageThumbnail(
+              file: file,
             );
           }
           break;
 
         case "video":
           {
-//            return Image.file(
-//              File(),
-//              height: 40,
-//              width: 40,
-//            );
             return Container(
               height: 40,
               width: 40,
