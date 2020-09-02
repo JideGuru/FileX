@@ -62,7 +62,7 @@ class Category extends StatelessWidget {
       },
     );
   }
-  
+
   buildTabView(CategoryProvider provider) {
     return TabBarView(
       children: Constants.map<Widget>(
