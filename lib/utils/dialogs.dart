@@ -85,7 +85,7 @@ class Dialogs {
     Fluttertoast.showToast(
       msg: value,
       toastLength: Toast.LENGTH_SHORT,
-      timeInSecForIos: 1,
+      timeInSecForIosWeb: 1,
     );
   }
 }

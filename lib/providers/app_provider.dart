@@ -2,7 +2,6 @@ import 'package:filex/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppProvider extends ChangeNotifier {
@@ -59,14 +58,5 @@ class AppProvider extends ChangeNotifier {
     }
 
     return t;
-  }
-
-  void showToast(value) {
-    Fluttertoast.showToast(
-      msg: value,
-      toastLength: Toast.LENGTH_SHORT,
-      timeInSecForIos: 1,
-    );
-    notifyListeners();
   }
 }

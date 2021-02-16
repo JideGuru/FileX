@@ -84,7 +84,7 @@ class WhatsappStatus extends StatelessWidget {
                                                     msg: "Saved!",
                                                     toastLength:
                                                         Toast.LENGTH_SHORT,
-                                                    timeInSecForIos: 1,
+                                                    timeInSecForIosWeb: 1,
                                                   );
                                                 },
                                                 icon: Icon(

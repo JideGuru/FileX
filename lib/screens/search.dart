@@ -6,7 +6,6 @@ import 'package:filex/utils/utils.dart';
 import 'package:filex/widgets/dir_item.dart';
 import 'package:filex/widgets/file_item.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 class Search extends SearchDelegate {
@@ -83,15 +82,9 @@ class Search extends SearchDelegate {
                                   popTap: null,
                                   file: file,
                                   tap: () {
-                                    Navigator.push(
+                                    Navigate.pushPage(
                                       context,
-                                      PageTransition(
-                                        type: PageTransitionType.rightToLeft,
-                                        child: Folder(
-                                          title: "Storage",
-                                          path: file.path,
-                                        ),
-                                      ),
+                                      Folder(title: "Storage", path: file.path),
                                     );
                                   },
                                 )
@@ -144,15 +137,9 @@ class Search extends SearchDelegate {
                                   popTap: null,
                                   file: file,
                                   tap: () {
-                                    Navigator.push(
+                                    Navigate.pushPage(
                                       context,
-                                      PageTransition(
-                                        type: PageTransitionType.rightToLeft,
-                                        child: Folder(
-                                          title: "Storage",
-                                          path: file.path,
-                                        ),
-                                      ),
+                                      Folder(title: "Storage", path: file.path),
                                     );
                                   },
                                 )

@@ -22,9 +22,8 @@ class _SplashState extends State<Splash> {
   }
 
   changeScreen() async {
-    PermissionStatus permission = await PermissionHandler()
-        .checkPermissionStatus(PermissionGroup.storage);
-    if (permission != PermissionStatus.granted) {
+    PermissionStatus status = await Permission.storage.status;
+    if (status.isGranted) {
       requestPermission();
     } else {
       Navigate.pushPageReplacement(context, MainScreen());
@@ -32,11 +31,11 @@ class _SplashState extends State<Splash> {
   }
 
   requestPermission() async {
-    await PermissionHandler().requestPermissions([PermissionGroup.storage]);
-    PermissionStatus permission = await PermissionHandler()
-        .checkPermissionStatus(PermissionGroup.storage);
-    if (permission == PermissionStatus.granted) {
+    PermissionStatus status = await Permission.storage.request();
+    if (status.isGranted) {
       Navigate.pushPageReplacement(context, MainScreen());
+    } else {
+      Dialogs.showToast('Please Grant Storage Permissions');
     }
   }
 
