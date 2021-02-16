@@ -1,19 +1,41 @@
 import 'dart:io';
 
-import 'package:filex/providers/category_provider.dart';
+import 'package:filex/providers/providers.dart';
 import 'package:filex/utils/utils.dart';
 import 'package:filex/widgets/file_item.dart';
 import 'package:filex/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
-class Category extends StatelessWidget {
+class Category extends StatefulWidget {
   final String title;
 
   Category({
     Key key,
     @required this.title,
   }) : super(key: key);
+
+  @override
+  _CategoryState createState() => _CategoryState();
+}
+
+class _CategoryState extends State<Category> {
+  @override
+  void initState() {
+    super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      switch (widget.title.toLowerCase()) {
+        case 'audio':
+          Provider.of<CategoryProvider>(context, listen: false)
+              .getAudios('audio');
+          break;
+        case 'documents & others':
+          Provider.of<CategoryProvider>(context, listen: false)
+              .getAudios('text');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +47,7 @@ class Category extends StatelessWidget {
                 length: provider.audioTabs.length,
                 child: Scaffold(
                   appBar: AppBar(
-                    title: Text("$title"),
+                    title: Text("${widget.title}"),
                     bottom: TabBar(
                       indicatorColor: Theme.of(context).accentColor,
                       labelColor: Theme.of(context).accentColor,
@@ -36,9 +58,7 @@ class Category extends StatelessWidget {
                       tabs: Constants.map<Widget>(
                         provider.audioTabs,
                         (index, label) {
-                          return Tab(
-                            text: "$label",
-                          );
+                          return Tab(text: "$label");
                         },
                       ),
                     ),
@@ -67,27 +87,11 @@ class Category extends StatelessWidget {
                                   FileSystemEntity file = index == 0
                                       ? provider.audio[indexx]
                                       : l[indexx];
-                                  return FileItem(
-                                    file: file,
-                                  );
+                                  return FileItem(file: file);
                                 },
                                 separatorBuilder:
                                     (BuildContext context, int index) {
-                                  return Stack(
-                                    children: <Widget>[
-                                      Align(
-                                        alignment: Alignment.centerRight,
-                                        child: Container(
-                                          height: 1,
-                                          color: Theme.of(context).dividerColor,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width -
-                                              70,
-                                        ),
-                                      ),
-                                    ],
-                                  );
+                                  return CustomDivider();
                                 },
                               );
                             },

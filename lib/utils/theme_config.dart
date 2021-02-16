@@ -10,6 +10,7 @@ class ThemeConfig {
   static Color darkAccent = Color(0xff597ef7);
   static Color lightBG = Color(0xfff3f4f9);
   static Color darkBG = Color(0xff2B2B2B);
+  static Color backgroundSmokeWhite = Color(0xffB0C6D0).withOpacity(0.1);
 
   static ThemeData lightTheme = ThemeData(
     backgroundColor: lightBG,

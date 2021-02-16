@@ -1,4 +1,4 @@
-import 'package:filex/providers/category_provider.dart';
+import 'package:filex/providers/providers.dart';
 import 'package:filex/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:filex/providers/category_provider.dart';
+import 'package:filex/providers/providers.dart';
 import 'package:filex/screens/folder/widgets/widgets.dart';
 import 'package:filex/utils/utils.dart';
 import 'package:filex/widgets/widgets.dart';
@@ -41,11 +41,11 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver {
     try {
       var provider = Provider.of<CategoryProvider>(context, listen: false);
       Directory dir = Directory(path);
-      List<FileSystemEntity> l = dir.listSync();
+      List<FileSystemEntity> dirFiles = dir.listSync();
       files.clear();
       showHidden = provider.showHidden;
       setState(() {});
-      for (FileSystemEntity file in l) {
+      for (FileSystemEntity file in dirFiles) {
         if (!showHidden) {
           if (!pathlib.basename(file.path).startsWith(".")) {
             files.add(file);

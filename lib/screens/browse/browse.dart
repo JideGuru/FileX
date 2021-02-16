@@ -1,8 +1,6 @@
-import 'dart:async';
 import 'dart:io';
 
-import 'package:filex/providers/category_provider.dart';
-import 'package:filex/providers/core_provider.dart';
+import 'package:filex/providers/providers.dart';
 import 'package:filex/screens/apps_screen.dart';
 import 'package:filex/screens/category.dart';
 import 'package:filex/screens/downloads.dart';
@@ -161,8 +159,6 @@ class _CategoriesSection extends StatelessWidget {
             } else if (index == 0) {
               Navigate.pushPage(
                   context, Downloads(title: "${category["title"]}"));
-              Provider.of<CategoryProvider>(context, listen: false)
-                  .getDownloads();
             } else if (index == 5) {
               Navigate.pushPage(context, AppScreen());
             } else {
@@ -173,24 +169,6 @@ class _CategoriesSection extends StatelessWidget {
                     : Category(title: "${category["title"]}"),
               );
             }
-
-            Provider.of<CategoryProvider>(context, listen: false)
-                .setLoading(true);
-            Timer(Duration(seconds: 1), () {
-              if (index == 1) {
-                Provider.of<CategoryProvider>(context, listen: false)
-                    .getImages("image");
-              } else if (index == 2) {
-                Provider.of<CategoryProvider>(context, listen: false)
-                    .getImages("video");
-              } else if (index == 3) {
-                Provider.of<CategoryProvider>(context, listen: false)
-                    .getAudios("audio");
-              } else if (index == 4) {
-                Provider.of<CategoryProvider>(context, listen: false)
-                    .getAudios("text");
-              }
-            });
           },
           contentPadding: EdgeInsets.all(0),
           leading: Container(

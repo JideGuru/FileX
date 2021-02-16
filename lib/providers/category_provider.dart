@@ -77,9 +77,11 @@ class CategoryProvider extends ChangeNotifier {
     audioTabs.add("All");
     List<FileSystemEntity> files =
         await FileUtils.getAllFiles(showHidden: showHidden);
-    files.forEach((file) {
+    print(files);
+    for (File file in files) {
       String mimeType = mime(file.path);
-      if (type == "text" && extension(file.path) == ".pdf") {
+      print(extension(file.path));
+      if (type == 'text' && docExtensions.contains(extension(file.path))) {
         audio.add(file);
       }
       if (mimeType != null) {
@@ -91,9 +93,16 @@ class CategoryProvider extends ChangeNotifier {
         }
         notifyListeners();
       }
-    });
+    }
     setLoading(false);
   }
+
+  List docExtensions = [
+    '.pdf',
+    '.epub',
+    '.mobi',
+    '.doc',
+  ];
 
   void setLoading(value) {
     loading = value;

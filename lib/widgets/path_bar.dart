@@ -6,7 +6,6 @@ class PathBar extends StatelessWidget implements PreferredSizeWidget {
   final Function(int) onChanged;
   final IconData icon;
 
-
   PathBar({
     Key key,
     @required this.paths,
@@ -27,7 +26,7 @@ class PathBar extends StatelessWidget implements PreferredSizeWidget {
           itemBuilder: (BuildContext context, int index) {
             String i = paths[index];
             List splited = i.split("/");
-            if(index == 0) {
+            if (index == 0) {
               return IconButton(
                 icon: Icon(
                   icon ?? Feather.smartphone,
@@ -52,10 +51,7 @@ class PathBar extends StatelessWidget implements PreferredSizeWidget {
                         fontWeight: FontWeight.bold,
                         color: index == paths.length - 1
                             ? Theme.of(context).accentColor
-                            : Theme.of(context)
-                            .textTheme
-                            .headline6
-                            .color,
+                            : Theme.of(context).textTheme.headline6.color,
                       ),
                     ),
                   ),
@@ -64,9 +60,7 @@ class PathBar extends StatelessWidget implements PreferredSizeWidget {
             );
           },
           separatorBuilder: (BuildContext context, int index) {
-            return Icon(
-              Icons.arrow_forward_ios,
-            );
+            return Icon(Feather.chevron_right);
           },
         ),
       ),

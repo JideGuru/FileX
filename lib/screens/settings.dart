@@ -1,8 +1,7 @@
 import 'dart:io';
 
 import 'package:device_info/device_info.dart';
-import 'package:filex/providers/app_provider.dart';
-import 'package:filex/providers/category_provider.dart';
+import 'package:filex/providers/providers.dart';
 import 'package:filex/screens/about.dart';
 import 'package:filex/utils/utils.dart';
 import 'package:flutter/material.dart';
