@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:filex/providers/category_provider.dart';
-import 'package:filex/screens/folder.dart';
+import 'package:filex/screens/folder/folder.dart';
 import 'package:filex/utils/utils.dart';
 import 'package:filex/widgets/dir_item.dart';
 import 'package:filex/widgets/file_item.dart';
