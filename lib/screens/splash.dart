@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:filex/screens/main_screen.dart';
+import 'package:filex/screens/main_screen/main_screen.dart';
 import 'package:filex/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

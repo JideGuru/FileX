@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:filex/providers/core_provider.dart';
-import 'package:filex/screens/browse.dart';
+import 'package:filex/screens/browse/browse.dart';
 import 'package:filex/screens/settings.dart';
 import 'package:filex/screens/share.dart';
 import 'package:filex/utils/utils.dart';

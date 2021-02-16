@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:filex/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 
 class CoreProvider extends ChangeNotifier {

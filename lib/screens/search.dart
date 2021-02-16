@@ -26,12 +26,12 @@ class Search extends SearchDelegate {
       primaryTextTheme: theme.primaryTextTheme,
       textTheme: theme.textTheme.copyWith(
         headline1: theme.textTheme.headline1.copyWith(
-          color: theme.primaryTextTheme.headline1.color,
+          color: theme.primaryTextTheme.headline6.color,
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         hintStyle: TextStyle(
-          color: theme.primaryTextTheme.headline1.color,
+          color: theme.primaryTextTheme.headline6.color,
         ),
       ),
     );

@@ -15,12 +15,11 @@ class ThemeConfig {
     backgroundColor: lightBG,
     primaryColor: lightPrimary,
     accentColor: lightAccent,
-    cursorColor: lightAccent,
     scaffoldBackgroundColor: lightBG,
     appBarTheme: AppBarTheme(
       elevation: 0,
       textTheme: TextTheme(
-        title: TextStyle(
+        headline6: TextStyle(
           color: Colors.black,
           fontSize: 20,
           fontWeight: FontWeight.w800,
@@ -35,11 +34,10 @@ class ThemeConfig {
     primaryColor: darkPrimary,
     accentColor: darkAccent,
     scaffoldBackgroundColor: darkBG,
-    cursorColor: darkAccent,
     appBarTheme: AppBarTheme(
       elevation: 0,
       textTheme: TextTheme(
-        title: TextStyle(
+        headline6: TextStyle(
           color: lightBG,
           fontSize: 20,
           fontWeight: FontWeight.w800,
