@@ -50,11 +50,11 @@ class Browse extends StatelessWidget {
             SizedBox(height: 20.0),
             _SectionTitle('Storage Devices'),
             _StorageSection(),
-            _CustomSeparator(),
+            CustomDivider(),
             SizedBox(height: 20.0),
             _SectionTitle('Categories'),
             _CategoriesSection(),
-            _CustomSeparator(),
+            CustomDivider(),
             SizedBox(height: 20.0),
             _SectionTitle('Recent Files'),
             _RecentFiles(),
@@ -122,7 +122,7 @@ class _StorageSection extends StatelessWidget {
             );
           },
           separatorBuilder: (BuildContext context, int index) {
-            return _CustomSeparator();
+            return CustomDivider();
           },
         );
       },
@@ -209,7 +209,7 @@ class _CategoriesSection extends StatelessWidget {
         );
       },
       separatorBuilder: (BuildContext context, int index) {
-        return _CustomSeparator();
+        return CustomDivider();
       },
     );
   }
@@ -242,25 +242,6 @@ class _RecentFiles extends StatelessWidget {
           },
         );
       },
-    );
-  }
-}
-
-class _CustomSeparator extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Stack(
-      children: [
-        Align(
-          alignment: Alignment.centerRight,
-          child: Container(
-            height: 1,
-            color: Theme.of(context).dividerColor,
-            width: size.width - 70,
-          ),
-        ),
-      ],
     );
   }
 }
