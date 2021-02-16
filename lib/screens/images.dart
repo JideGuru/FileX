@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:filex/providers/category_provider.dart';
-import 'package:filex/util/consts.dart';
-import 'package:filex/util/file_utils.dart';
+import 'package:filex/utils/utils.dart';
 import 'package:filex/widgets/file_icon.dart';
+import 'package:filex/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:open_file/open_file.dart';
@@ -34,9 +34,7 @@ class Images extends StatelessWidget {
     return Consumer(
       builder: (BuildContext context, CategoryProvider provider, Widget child) {
         return provider.loading
-            ? Scaffold(
-                body: Center(child: CircularProgressIndicator()),
-              )
+            ? Scaffold(body: CustomLoader())
             : DefaultTabController(
                 length: provider.imageTabs.length,
                 child: Scaffold(

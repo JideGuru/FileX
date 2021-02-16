@@ -1,4 +1,5 @@
 import 'package:device_apps/device_apps.dart';
+import 'package:filex/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class AppScreen extends StatefulWidget {
@@ -23,9 +24,7 @@ class _AppScreenState extends State<AppScreen> {
           ),
           builder: (context, snapshot) {
             return snapshot == null
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
+                ? CustomLoader()
                 : snapshot.hasData
                     ? ListView.separated(
                         padding: EdgeInsets.only(left: 10),
@@ -62,9 +61,7 @@ class _AppScreenState extends State<AppScreen> {
                           );
                         },
                       )
-                    : Center(
-                        child: CircularProgressIndicator(),
-                      );
+                    : CustomLoader();
           }),
     );
   }

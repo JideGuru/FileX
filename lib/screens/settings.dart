@@ -4,7 +4,7 @@ import 'package:device_info/device_info.dart';
 import 'package:filex/providers/app_provider.dart';
 import 'package:filex/providers/category_provider.dart';
 import 'package:filex/screens/about.dart';
-import 'package:filex/util/consts.dart';
+import 'package:filex/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:page_transition/page_transition.dart';
@@ -66,33 +66,31 @@ class _SettingsState extends State<Settings> {
             color: Theme.of(context).dividerColor,
           ),
           MediaQuery.of(context).platformBrightness !=
-                  Constants.darkTheme.brightness
+                  ThemeConfig.darkTheme.brightness
               ? SwitchListTile.adaptive(
                   contentPadding: EdgeInsets.all(0),
                   secondary: Icon(
                     Feather.moon,
                   ),
-                  title: Text(
-                    "Dark mode",
-                  ),
+                  title: Text("Dark mode"),
                   value: Provider.of<AppProvider>(context).theme ==
-                          Constants.lightTheme
+                          ThemeConfig.lightTheme
                       ? false
                       : true,
                   onChanged: (v) {
                     if (v) {
                       Provider.of<AppProvider>(context, listen: false)
-                          .setTheme(Constants.darkTheme, "dark");
+                          .setTheme(ThemeConfig.darkTheme, "dark");
                     } else {
                       Provider.of<AppProvider>(context, listen: false)
-                          .setTheme(Constants.lightTheme, "light");
+                          .setTheme(ThemeConfig.lightTheme, "light");
                     }
                   },
                   activeColor: Theme.of(context).accentColor,
                 )
               : SizedBox(),
           MediaQuery.of(context).platformBrightness !=
-                  Constants.darkTheme.brightness
+                  ThemeConfig.darkTheme.brightness
               ? Container(
                   height: 1,
                   color: Theme.of(context).dividerColor,

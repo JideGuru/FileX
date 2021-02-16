@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:filex/providers/category_provider.dart';
-import 'package:filex/util/consts.dart';
+import 'package:filex/utils/utils.dart';
 import 'package:filex/widgets/file_item.dart';
+import 'package:filex/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,16 +20,12 @@ class Category extends StatelessWidget {
     return Consumer(
       builder: (BuildContext context, CategoryProvider provider, Widget child) {
         return provider.loading
-            ? Scaffold(
-                body: Center(child: CircularProgressIndicator()),
-              )
+            ? Scaffold(body: CustomLoader())
             : DefaultTabController(
                 length: provider.audioTabs.length,
                 child: Scaffold(
                   appBar: AppBar(
-                    title: Text(
-                      "$title",
-                    ),
+                    title: Text("$title"),
                     bottom: TabBar(
                       indicatorColor: Theme.of(context).accentColor,
                       labelColor: Theme.of(context).accentColor,

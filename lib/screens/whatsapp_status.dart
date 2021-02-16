@@ -1,7 +1,6 @@
 import 'dart:io';
 
-import 'package:filex/util/consts.dart';
-import 'package:filex/util/file_utils.dart';
+import 'package:filex/utils/utils.dart';
 import 'package:filex/widgets/video_thumbnail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -24,11 +23,7 @@ class WhatsappStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "$title",
-        ),
-      ),
+      appBar: AppBar(title: Text("$title")),
       body: Directory(FileUtils.waPath).existsSync()
           ? CustomScrollView(
               primary: false,
@@ -77,13 +72,13 @@ class WhatsappStatus extends StatelessWidget {
                                                 onPressed: () async {
                                                   print("Saving");
                                                   await Directory(
-                                                          "/storage/emulated/0/${Constants.appName}")
+                                                          "/storage/emulated/0/${AppStrings.appName}")
                                                       .create();
                                                   await Directory(
-                                                          "/storage/emulated/0/${Constants.appName}/Whatsapp Status")
+                                                          "/storage/emulated/0/${AppStrings.appName}/Whatsapp Status")
                                                       .create();
                                                   await file.copy(
-                                                      "/storage/emulated/0/${Constants.appName}/Whatsapp Status/${basename(path)}");
+                                                      "/storage/emulated/0/${AppStrings.appName}/Whatsapp Status/${basename(path)}");
                                                   print("Done");
                                                   Fluttertoast.showToast(
                                                     msg: "Saved!",

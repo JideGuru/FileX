@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:filex/providers/app_provider.dart';
 import 'package:filex/screens/ios_error.dart';
 import 'package:filex/screens/splash.dart';
-import 'package:filex/util/consts.dart';
+import 'package:filex/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,9 +16,9 @@ class MyApp extends StatelessWidget {
           key: appProvider.key,
           debugShowCheckedModeBanner: false,
           navigatorKey: appProvider.navigatorKey,
-          title: Constants.appName,
+          title: AppStrings.appName,
           theme: appProvider.theme,
-          darkTheme: Constants.darkTheme,
+          darkTheme: ThemeConfig.darkTheme,
           home: Platform.isIOS ? IosError() : Splash(),
         );
       },

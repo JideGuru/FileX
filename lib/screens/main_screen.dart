@@ -4,7 +4,7 @@ import 'package:filex/providers/core_provider.dart';
 import 'package:filex/screens/browse.dart';
 import 'package:filex/screens/settings.dart';
 import 'package:filex/screens/share.dart';
-import 'package:filex/util/consts.dart';
+import 'package:filex/utils/utils.dart';
 import 'package:filex/widgets/custom_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -39,7 +39,7 @@ class _MainScreenState extends State<MainScreen> {
           backgroundColor: Theme.of(context).primaryColor,
           selectedItemColor: Theme.of(context).accentColor,
           unselectedItemColor: Theme.of(context).textTheme.headline1.color,
-          elevation: 20,
+          elevation: 4.0,
           type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -100,7 +100,7 @@ class _MainScreenState extends State<MainScreen> {
             children: <Widget>[
               SizedBox(height: 15),
               Text(
-                Constants.appName,
+                AppStrings.appName,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,

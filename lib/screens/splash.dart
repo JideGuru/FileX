@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:filex/screens/main_screen.dart';
-import 'package:filex/util/consts.dart';
-import 'package:filex/util/util.dart';
+import 'package:filex/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -53,7 +52,6 @@ class _SplashState extends State<Splash> {
     return Scaffold(
       body: Center(
         child: Column(
-//        mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -64,7 +62,7 @@ class _SplashState extends State<Splash> {
             ),
             SizedBox(height: 20.0),
             Text(
-              "${Constants.appName}",
+              "${AppStrings.appName}",
               style: TextStyle(
                 color: Theme.of(context).accentColor,
                 fontSize: 25.0,
