@@ -1,4 +1,4 @@
-# FileX (WIP)  [![Codemagic build status](https://api.codemagic.io/apps/5e35805fcb1395555366758b/5e35805fcb1395555366758a/status_badge.svg)](https://codemagic.io/apps/5e35805fcb1395555366758b/5e35805fcb1395555366758a/latest_build) [![Twitter Follow](https://img.shields.io/twitter/follow/iamjideguru.svg?style=social)](https://twitter.com/iamjideguru)
+# FileX (WIP)
 
 A simple File Explorer(Still very buggy) made with Flutter.
 <br>
@@ -15,7 +15,6 @@ To download apk:
 * Any Operating System (ie. MacOS X, Linux, Windows)
 * Any IDE with Flutter SDK installed (ie. IntelliJ, Android Studio, VSCode etc)
 * A little knowledge of Dart and Flutter
-* A brain to think 🤓🤓
 
 ## ✨ Features
 - [x] Recent Files.
