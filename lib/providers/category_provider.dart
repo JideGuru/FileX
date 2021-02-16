@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:filex/util/file_utils.dart';
+import 'package:filex/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:path/path.dart';

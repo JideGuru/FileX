@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:filex/providers/category_provider.dart';
 import 'package:filex/screens/folder.dart';
-import 'package:filex/util/file_utils.dart';
+import 'package:filex/utils/utils.dart';
 import 'package:filex/widgets/dir_item.dart';
 import 'package:filex/widgets/file_item.dart';
 import 'package:flutter/material.dart';
@@ -25,13 +25,13 @@ class Search extends SearchDelegate {
     return theme.copyWith(
       primaryTextTheme: theme.primaryTextTheme,
       textTheme: theme.textTheme.copyWith(
-        title: theme.textTheme.title.copyWith(
-          color: theme.primaryTextTheme.title.color,
+        headline1: theme.textTheme.headline1.copyWith(
+          color: theme.primaryTextTheme.headline6.color,
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         hintStyle: TextStyle(
-          color: theme.primaryTextTheme.title.color,
+          color: theme.primaryTextTheme.headline6.color,
         ),
       ),
     );

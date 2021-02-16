@@ -36,7 +36,7 @@ class FilePopup extends StatelessWidget {
       ],
       icon: Icon(
         Icons.arrow_drop_down,
-        color: Theme.of(context).textTheme.title.color,
+        color: Theme.of(context).textTheme.headline6.color,
       ),
       color: Theme.of(context).scaffoldBackgroundColor,
       offset: Offset(0, 30),

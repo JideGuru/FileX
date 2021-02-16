@@ -1,5 +1,5 @@
 import 'package:filex/providers/category_provider.dart';
-import 'package:filex/util/consts.dart';
+import 'package:filex/utils/utils.dart';
 import 'package:filex/widgets/file_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

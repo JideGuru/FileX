@@ -1,5 +1,5 @@
 import 'package:filex/providers/category_provider.dart';
-import 'package:filex/util/consts.dart';
+import 'package:filex/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
@@ -57,7 +57,7 @@ class SortSheet extends StatelessWidget {
                                         listen: false)
                                     .sort
                             ? Colors.blue
-                            : Theme.of(context).textTheme.title.color,
+                            : Theme.of(context).textTheme.headline6.color,
                       ),
                     ),
                   );

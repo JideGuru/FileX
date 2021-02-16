@@ -1,14 +1,15 @@
-import 'dart:async';
 import 'dart:io';
 
-import 'package:filex/screens/browse.dart';
+import 'package:filex/providers/core_provider.dart';
+import 'package:filex/screens/browse/browse.dart';
 import 'package:filex/screens/settings.dart';
 import 'package:filex/screens/share.dart';
-import 'package:filex/util/consts.dart';
+import 'package:filex/utils/utils.dart';
 import 'package:filex/widgets/custom_alert.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -37,33 +38,21 @@ class _MainScreenState extends State<MainScreen> {
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Theme.of(context).primaryColor,
           selectedItemColor: Theme.of(context).accentColor,
-          unselectedItemColor: Theme.of(context).textTheme.title.color,
-          elevation: 20,
+          unselectedItemColor: Theme.of(context).textTheme.headline1.color,
+          elevation: 4.0,
           type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(
-                Feather.folder,
-              ),
-              title: Text(
-                "Browse",
-              ),
+              icon: Icon(Feather.folder),
+              label: "Browse",
             ),
             BottomNavigationBarItem(
-              icon: Icon(
-                Feather.share_2,
-              ),
-              title: Text(
-                "FTP",
-              ),
+              icon: Icon(Feather.share_2),
+              label: "FTP",
             ),
             BottomNavigationBarItem(
-              icon: Icon(
-                Feather.settings,
-              ),
-              title: Text(
-                "Settings",
-              ),
+              icon: Icon(Feather.settings),
+              label: "Settings",
             ),
           ],
           onTap: navigationTapped,
@@ -81,23 +70,8 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: 0);
-//    FileUtils.getRecentFiles(showHidden: true).then((l){
-//      print(l);
-//      l.forEach((f){
-//        File fi = File(f.path);
-//        print("${pathlib.basename(fi.path)} ${fi.lastAccessedSync()}");
-//      });
-//    });
-    Timer(Duration(milliseconds: 1), () {
-      SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Theme.of(context).primaryColor,
-        systemNavigationBarColor: Colors.black,
-        statusBarIconBrightness:
-            Theme.of(context).primaryColor == Constants.darkTheme.primaryColor
-                ? Brightness.light
-                : Brightness.dark,
-      ));
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      Provider.of<CoreProvider>(context, listen: false).checkSpace();
     });
   }
 
@@ -126,7 +100,7 @@ class _MainScreenState extends State<MainScreen> {
             children: <Widget>[
               SizedBox(height: 15),
               Text(
-                Constants.appName,
+                AppStrings.appName,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,

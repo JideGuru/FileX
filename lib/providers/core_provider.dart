@@ -1,9 +1,8 @@
 import 'dart:io';
 
-import 'package:filex/util/file_utils.dart';
+import 'package:filex/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 
 class CoreProvider extends ChangeNotifier {
@@ -80,15 +79,6 @@ class CoreProvider extends ChangeNotifier {
 
   void setLoading(value) {
     loading = value;
-    notifyListeners();
-  }
-
-  void showToast(value) {
-    Fluttertoast.showToast(
-      msg: value,
-      toastLength: Toast.LENGTH_SHORT,
-      timeInSecForIos: 1,
-    );
     notifyListeners();
   }
 }

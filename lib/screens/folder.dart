@@ -1,8 +1,7 @@
 import 'dart:io';
 
-import 'package:filex/providers/core_provider.dart';
 import 'package:filex/providers/category_provider.dart';
-import 'package:filex/util/file_utils.dart';
+import 'package:filex/utils/utils.dart';
 import 'package:filex/widgets/custom_alert.dart';
 import 'package:filex/widgets/dir_item.dart';
 import 'package:filex/widgets/file_item.dart';
@@ -158,7 +157,7 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver {
                                   : Icons.sd_card,
                               color: index == paths.length - 1
                                   ? Theme.of(context).accentColor
-                                  : Theme.of(context).textTheme.title.color,
+                                  : Theme.of(context).textTheme.headline6.color,
                             ),
                             onPressed: () {
                               print(paths[index]);
@@ -192,7 +191,7 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver {
                                           ? Theme.of(context).accentColor
                                           : Theme.of(context)
                                               .textTheme
-                                              .title
+                                              .headline6
                                               .color,
                                     ),
                                   ),
@@ -249,10 +248,8 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver {
                                 if (e
                                     .toString()
                                     .contains("Permission denied")) {
-                                  Provider.of<CoreProvider>(context,
-                                          listen: false)
-                                      .showToast(
-                                          "Cannot write to this Storage device!");
+                                  Dialogs.showToast(
+                                      "Cannot write to this Storage device!");
                                 }
                               });
                               getFiles();
@@ -278,10 +275,8 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver {
                                 if (e
                                     .toString()
                                     .contains("Permission denied")) {
-                                  Provider.of<CoreProvider>(context,
-                                          listen: false)
-                                      .showToast(
-                                          "Cannot write to this Storage device!");
+                                  Dialogs.showToast(
+                                      "Cannot write to this Storage device!");
                                 }
                               });
                               getFiles();
@@ -384,16 +379,13 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver {
                                 .catchError((e) {
                               print(e.toString());
                               if (e.toString().contains("Permission denied")) {
-                                Provider.of<CoreProvider>(context,
-                                        listen: false)
-                                    .showToast(
-                                        "Cannot write to this Storage  device!");
+                                Dialogs.showToast(
+                                    "Cannot write to this Storage  device!");
                               }
                             });
                           } else {
-                            Provider.of<CoreProvider>(context, listen: false)
-                                .showToast(
-                                    "A Folder with that name already exists!");
+                            Dialogs.showToast(
+                                "A Folder with that name already exists!");
                           }
                           Navigator.pop(context);
                           getFiles();
@@ -492,25 +484,21 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver {
                                 if (e
                                     .toString()
                                     .contains("Permission denied")) {
-                                  Provider.of<CoreProvider>(context,
-                                          listen: false)
-                                      .showToast(
-                                          "Cannot write to this device!");
+                                  Dialogs.showToast(
+                                      "Cannot write to this device!");
                                 }
                               });
                             } else {
-                              Provider.of<CoreProvider>(context, listen: false)
-                                  .showToast(
-                                      "A File with that name already exists!");
+                              Dialogs.showToast(
+                                  "A File with that name already exists!");
                             }
                           } else {
                             if (Directory(path.replaceAll(
                                         pathlib.basename(path), "") +
                                     "${name.text}")
                                 .existsSync()) {
-                              Provider.of<CoreProvider>(context, listen: false)
-                                  .showToast(
-                                      "A Folder with that name already exists!");
+                              Dialogs.showToast(
+                                  "A Folder with that name already exists!");
                             } else {
                               await Directory(path)
                                   .rename(path.replaceAll(
@@ -521,10 +509,8 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver {
                                 if (e
                                     .toString()
                                     .contains("Permission denied")) {
-                                  Provider.of<CoreProvider>(context,
-                                          listen: false)
-                                      .showToast(
-                                          "Cannot write to this device!");
+                                  Dialogs.showToast(
+                                      "Cannot write to this device!");
                                 }
                               });
                             }

@@ -49,7 +49,14 @@ class FileUtils {
     List<Directory> storages = await getStorageList();
     List<FileSystemEntity> files = List<FileSystemEntity>();
     for (Directory dir in storages) {
-      files.addAll(await getAllFilesInPath(dir.path, showHidden: showHidden));
+      List<FileSystemEntity> allFilesInPath = List();
+      // This is important to catch sotrage errors
+      try {
+        allFilesInPath = await getAllFilesInPath(dir.path, showHidden: showHidden);
+      } catch (e) {
+        print(e);
+      }
+      files.addAll(allFilesInPath);
     }
     return files;
   }
