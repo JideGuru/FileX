@@ -5,6 +5,7 @@ import 'package:filex/screens/share.dart';
 import 'package:filex/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 
@@ -69,6 +70,15 @@ class _MainScreenState extends State<MainScreen> {
     _pageController = PageController(initialPage: 0);
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Provider.of<CoreProvider>(context, listen: false).checkSpace();
+      SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Theme.of(context).primaryColor,
+        systemNavigationBarColor: Colors.black,
+        statusBarIconBrightness:
+        Theme.of(context).primaryColor == ThemeConfig.darkTheme.primaryColor
+            ? Brightness.light
+            : Brightness.dark,
+      ));
     });
   }
 

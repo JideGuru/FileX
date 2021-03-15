@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
 class CoreProvider extends ChangeNotifier {
-  List<FileSystemEntity> availableStorage = List();
-  List<FileSystemEntity> recentFiles = List();
+  List<FileSystemEntity> availableStorage = <FileSystemEntity>[];
+  List<FileSystemEntity> recentFiles = <FileSystemEntity>[];
 
   int totalSpace = 0;
   int freeSpace = 0;

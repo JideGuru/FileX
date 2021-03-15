@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:filex/screens/main_screen/main_screen.dart';
 import 'package:filex/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -23,7 +24,7 @@ class _SplashState extends State<Splash> {
 
   changeScreen() async {
     PermissionStatus status = await Permission.storage.status;
-    if (status.isGranted) {
+    if (!status.isGranted) {
       requestPermission();
     } else {
       Navigate.pushPageReplacement(context, MainScreen());
@@ -44,6 +45,17 @@ class _SplashState extends State<Splash> {
     super.initState();
     SystemChrome.setEnabledSystemUIOverlays([]);
     startTimeout();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Theme.of(context).primaryColor,
+        systemNavigationBarColor: Colors.black,
+        statusBarIconBrightness:
+        Theme.of(context).primaryColor == ThemeConfig.darkTheme.primaryColor
+            ? Brightness.light
+            : Brightness.dark,
+      ));
+    });
   }
 
   @override

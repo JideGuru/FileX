@@ -69,7 +69,7 @@ class _ImagesState extends State<Images> {
                 children: Constants.map<Widget>(
                   provider.imageTabs,
                   (index, label) {
-                    List l = List();
+                    List l = [];
                     List items = provider.images;
                     items.forEach((file) {
                       if ("${file.path.split("/")[file.path.split("/").length - 2]}" ==

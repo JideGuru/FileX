@@ -69,7 +69,7 @@ class _CategoryState extends State<Category> {
                           children: Constants.map<Widget>(
                             provider.audioTabs,
                             (index, label) {
-                              List l = List();
+                              List l = [];
                               List items = provider.audio;
                               items.forEach((file) {
                                 if ("${file.path.split("/")[file.path.split("/").length - 2]}" ==

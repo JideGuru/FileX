@@ -40,12 +40,7 @@ class Dialogs {
                   Container(
                     height: 40,
                     width: 130,
-                    child: OutlineButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      borderSide:
-                          BorderSide(color: Theme.of(context).accentColor),
+                    child: OutlinedButton(
                       child: Text(
                         "No",
                         style: TextStyle(
@@ -53,22 +48,38 @@ class Dialogs {
                         ),
                       ),
                       onPressed: () => Navigator.pop(context),
-                      color: Colors.white,
+                      style: ButtonStyle(
+                        backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                        ),
+                        side: MaterialStateProperty.all(
+                          BorderSide(color: Theme.of(context).accentColor),
+                        ),
+                      ),
                     ),
                   ),
                   Container(
                     height: 40,
                     width: 130,
-                    child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
+                    child: ElevatedButton(
                       child: Text(
                         "Yes",
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () => exit(0),
-                      color: Theme.of(context).accentColor,
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Theme.of(context).accentColor),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],

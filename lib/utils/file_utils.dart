@@ -29,7 +29,7 @@ class FileUtils {
   /// Return all available Storage path
   static Future<List<Directory>> getStorageList() async {
     List<Directory> paths = await getExternalStorageDirectories();
-    List<Directory> filteredPaths = List<Directory>();
+    List<Directory> filteredPaths = <Directory>[];
     for (Directory dir in paths) {
       filteredPaths.add(removeDataDirectory(dir.path));
     }
@@ -40,17 +40,19 @@ class FileUtils {
     return Directory(path.split("Android")[0]);
   }
 
+  /// Get all Files and Directories in a Directory
   static Future<List<FileSystemEntity>> getFilesInPath(String path) async {
     Directory dir = Directory(path);
     return dir.listSync();
   }
 
+  /// Get all Files on the Device
   static Future<List<FileSystemEntity>> getAllFiles({bool showHidden}) async {
     List<Directory> storages = await getStorageList();
-    List<FileSystemEntity> files = List<FileSystemEntity>();
+    List<FileSystemEntity> files = <FileSystemEntity>[];
     for (Directory dir in storages) {
-      List<FileSystemEntity> allFilesInPath = List();
-      // This is important to catch sotrage errors
+      List<FileSystemEntity> allFilesInPath = [];
+      // This is important to catch storage errors
       try {
         allFilesInPath = await getAllFilesInPath(dir.path, showHidden: showHidden);
       } catch (e) {
@@ -73,7 +75,7 @@ class FileUtils {
   static Future<List<FileSystemEntity>> searchFiles(String query,
       {bool showHidden}) async {
     List<Directory> storage = await getStorageList();
-    List<FileSystemEntity> files = List<FileSystemEntity>();
+    List<FileSystemEntity> files = <FileSystemEntity>[];
     for (Directory dir in storage) {
       List fs = await getAllFilesInPath(dir.path, showHidden: showHidden);
       for (FileSystemEntity fs in fs) {
@@ -88,7 +90,7 @@ class FileUtils {
   /// Get all files
   static Future<List<FileSystemEntity>> getAllFilesInPath(String path,
       {bool showHidden}) async {
-    List<FileSystemEntity> files = List<FileSystemEntity>();
+    List<FileSystemEntity> files = <FileSystemEntity>[];
     Directory d = Directory(path);
     List<FileSystemEntity> l = d.listSync();
     for (FileSystemEntity file in l) {

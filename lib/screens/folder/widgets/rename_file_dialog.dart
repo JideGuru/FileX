@@ -53,12 +53,7 @@ class _RenameFileDialogState extends State<RenameFileDialog> {
                 Container(
                   height: 40,
                   width: 130,
-                  child: OutlineButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    borderSide:
-                        BorderSide(color: Theme.of(context).accentColor),
+                  child: OutlinedButton(
                     child: Text(
                       "Cancel",
                       style: TextStyle(
@@ -66,16 +61,24 @@ class _RenameFileDialogState extends State<RenameFileDialog> {
                       ),
                     ),
                     onPressed: () => Navigator.pop(context),
-                    color: Colors.white,
+                    style: ButtonStyle(
+                      backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                      ),
+                      side: MaterialStateProperty.all(
+                        BorderSide(color: Theme.of(context).accentColor),
+                      ),
+                    ),
                   ),
                 ),
                 Container(
                   height: 40,
                   width: 130,
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
+                  child: ElevatedButton(
                     child: Text(
                       "Rename",
                       style: TextStyle(color: Colors.white),
@@ -126,7 +129,15 @@ class _RenameFileDialogState extends State<RenameFileDialog> {
                         Navigator.pop(context);
                       }
                     },
-                    color: Theme.of(context).accentColor,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).accentColor),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],

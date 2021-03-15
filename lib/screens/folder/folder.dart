@@ -25,9 +25,9 @@ class Folder extends StatefulWidget {
 
 class _FolderState extends State<Folder> with WidgetsBindingObserver {
   String path;
-  List<String> paths = List();
+  List<String> paths = <String>[];
 
-  List<FileSystemEntity> files = List();
+  List<FileSystemEntity> files = <FileSystemEntity>[];
   bool showHidden = false;
 
   @override
