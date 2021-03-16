@@ -1,7 +1,10 @@
 import 'dart:io';
+import 'dart:isolate';
+import 'dart:ui';
 
 import 'package:filex/utils/utils.dart';
 import 'package:flutter/foundation.dart';
+import 'package:isolate_handler/isolate_handler.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,11 +22,12 @@ class CategoryProvider extends ChangeNotifier {
   List<FileSystemEntity> images = <FileSystemEntity>[];
   List<String> imageTabs = <String>[];
 
-  List<FileSystemEntity> audio =<FileSystemEntity>[];
+  List<FileSystemEntity> audio = <FileSystemEntity>[];
   List<String> audioTabs = <String>[];
 
   bool showHidden = false;
   int sort = 0;
+  final isolates = IsolateHandler();
 
   getDownloads() async {
     setLoading(true);
@@ -55,19 +59,44 @@ class CategoryProvider extends ChangeNotifier {
     imageTabs.clear();
     images.clear();
     imageTabs.add("All");
-    List<FileSystemEntity> files =
-        await FileUtils.getAllFiles(showHidden: showHidden);
-    files.forEach((file) {
-      String mimeType = mime(file.path) == null ? "" : mime(file.path);
-      if (mimeType.split("/")[0] == type) {
-        images.add(file);
-        imageTabs
-            .add("${file.path.split("/")[file.path.split("/").length - 2]}");
-        imageTabs = imageTabs.toSet().toList();
-      }
-      notifyListeners();
+    String isolateName = type;
+    isolates.spawn<String>(
+      getAllFilesWithIsolate,
+      name: isolateName,
+      onReceive: (val) {
+        print(val);
+        isolates.kill(isolateName);
+      },
+      onInitialized: () => isolates.send('hey', to: isolateName),
+    );
+    ReceivePort _port = ReceivePort();
+    IsolateNameServer.registerPortWithName(_port.sendPort, '${isolateName}_2');
+    _port.listen((files) {
+      print('RECEIVED SERVER PORT');
+      print(files);
+      files.forEach((file) {
+        String mimeType = mime(file.path) == null ? "" : mime(file.path);
+        if (mimeType.split("/")[0] == type) {
+          images.add(file);
+          imageTabs
+              .add("${file.path.split("/")[file.path.split("/").length - 2]}");
+          imageTabs = imageTabs.toSet().toList();
+        }
+        notifyListeners();
+      });
+      setLoading(false);
     });
-    setLoading(false);
+  }
+
+  static getAllFilesWithIsolate(Map<String, dynamic> context) async {
+    print(context);
+    String isolateName = context['name'];
+    List<FileSystemEntity> files = await FileUtils.getAllFiles(showHidden: false);
+    final messenger = HandledIsolate.initialize(context);
+    final SendPort send =
+        IsolateNameServer.lookupPortByName('${isolateName}_2');
+    send.send(files);
+    messenger.send('done');
   }
 
   getAudios(String type) async {
@@ -75,9 +104,33 @@ class CategoryProvider extends ChangeNotifier {
     audioTabs.clear();
     audio.clear();
     audioTabs.add("All");
-    List<FileSystemEntity> files =
-        await FileUtils.getAllFiles(showHidden: showHidden);
-    print(files);
+    String isolateName = type;
+    isolates.spawn<String>(
+      getAllFilesWithIsolate,
+      name: isolateName,
+      onReceive: (val) {
+        print(val);
+        isolates.kill(isolateName);
+      },
+      onInitialized: () => isolates.send('hey', to: isolateName),
+    );
+    ReceivePort _port = ReceivePort();
+    IsolateNameServer.registerPortWithName(_port.sendPort, '${isolateName}_2');
+    _port.listen((files) async {
+      print('RECEIVED SERVER PORT');
+      print(files);
+      List tabs = await compute(separateAudios, {'files': files, 'type': type});
+      audio = tabs[0];
+      audioTabs = tabs[1];
+      setLoading(false);
+    });
+  }
+
+  static Future<List> separateAudios(Map body) async {
+    List files = body['files'];
+    String type = body['type'];
+    List audio;
+    List audioTabs;
     for (File file in files) {
       String mimeType = mime(file.path);
       print(extension(file.path));
@@ -91,13 +144,12 @@ class CategoryProvider extends ChangeNotifier {
               .add("${file.path.split("/")[file.path.split("/").length - 2]}");
           audioTabs = audioTabs.toSet().toList();
         }
-        notifyListeners();
       }
     }
-    setLoading(false);
+    return [audio, audioTabs];
   }
 
-  List docExtensions = [
+  static List docExtensions = [
     '.pdf',
     '.epub',
     '.mobi',

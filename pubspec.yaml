@@ -21,20 +21,21 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^0.1.2
   provider: ^4.0.1
-  shared_preferences: ^0.5.12+4
+  shared_preferences: ^2.0.4
   flutter_icons: ^1.1.0
   percent_indicator: ^2.1.9+1
   mime_type: ^0.3.2
   device_info: ^1.0.0
   path: ^1.7.0
 #  thumbnails: ^1.0.1
-  path_provider: ^1.6.27
+  path_provider: ^2.0.1
   fluttertoast: ^7.1.6
   permission_handler: ^5.1.0+2
   intl: ^0.16.1
   open_file: ^3.0.3
   device_apps: ^1.2.0
   video_player: ^0.10.2+5
+  isolate_handler: ^1.0.0
 #  ssh: ^0.0.5
 #  tftp: ^1.0.1
 

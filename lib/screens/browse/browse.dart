@@ -85,7 +85,7 @@ class _StorageSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<CoreProvider>(
       builder: (BuildContext context, coreProvider, Widget child) {
-        if (coreProvider.loading) {
+        if (coreProvider.storageLoading) {
           return Container(height: 100, child: CustomLoader());
         }
         return ListView.separated(
@@ -198,7 +198,7 @@ class _RecentFiles extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<CoreProvider>(
       builder: (BuildContext context, coreProvider, Widget child) {
-        if (coreProvider.loading) {
+        if (coreProvider.recentLoading) {
           return Container(height: 150, child: CustomLoader());
         }
         return ListView.separated(
