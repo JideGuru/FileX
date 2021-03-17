@@ -56,6 +56,7 @@ class FileUtils {
       try {
         allFilesInPath = await getAllFilesInPath(dir.path, showHidden: showHidden);
       } catch (e) {
+        allFilesInPath = [];
         print(e);
       }
       files.addAll(allFilesInPath);

@@ -4,6 +4,7 @@ import 'package:filex/providers/providers.dart';
 import 'package:filex/utils/utils.dart';
 import 'package:filex/widgets/file_icon.dart';
 import 'package:filex/widgets/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:mime_type/mime_type.dart';
@@ -60,6 +61,8 @@ class _ImagesState extends State<Images> {
                     return Tab(text: "$label");
                   },
                 ),
+                onTap: (val) => provider.switchCurrentFiles(
+                    provider.images, provider.imageTabs[val]),
               ),
             ),
             body: Visibility(
@@ -69,14 +72,8 @@ class _ImagesState extends State<Images> {
                 children: Constants.map<Widget>(
                   provider.imageTabs,
                   (index, label) {
-                    List l = [];
-                    List items = provider.images;
-                    items.forEach((file) {
-                      if ("${file.path.split("/")[file.path.split("/").length - 2]}" ==
-                          label) {
-                        l.add(file);
-                      }
-                    });
+                    List l = provider.currentFiles;
+
                     return CustomScrollView(
                       primary: false,
                       slivers: <Widget>[

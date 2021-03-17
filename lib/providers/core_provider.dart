@@ -71,6 +71,7 @@ class CoreProvider extends ChangeNotifier {
       recentFiles.addAll(message);
       setRecentLoading(false);
       _port.close();
+      IsolateNameServer.removePortNameMapping('${isolateName}_2');
     });
   }
 

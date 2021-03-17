@@ -41,9 +41,11 @@ class _VideoThumbnailState extends State<VideoThumbnail>
 //    getThumb();
     _controller = VideoPlayerController.file(File(widget.path))
       ..initialize().then((_) {
-        setState(() {
-          loading = false;
-        }); //when your thumbnail will show.
+        if(mounted) {
+          setState(() {
+            loading = false;
+          }); //when your thumbnail will show.
+        }
       });
   }
 

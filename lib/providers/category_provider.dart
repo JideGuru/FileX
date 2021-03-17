@@ -24,6 +24,7 @@ class CategoryProvider extends ChangeNotifier {
 
   List<FileSystemEntity> audio = <FileSystemEntity>[];
   List<String> audioTabs = <String>[];
+  List<FileSystemEntity> currentFiles = [];
 
   bool showHidden = false;
   int sort = 0;
@@ -84,18 +85,27 @@ class CategoryProvider extends ChangeNotifier {
         }
         notifyListeners();
       });
+      currentFiles = images;
       setLoading(false);
+      _port.close();
+      IsolateNameServer.removePortNameMapping('${isolateName}_2');
     });
   }
 
   static getAllFilesWithIsolate(Map<String, dynamic> context) async {
     print(context);
     String isolateName = context['name'];
+    print('Get files');
     List<FileSystemEntity> files = await FileUtils.getAllFiles(showHidden: false);
+    print('Files $files');
     final messenger = HandledIsolate.initialize(context);
-    final SendPort send =
-        IsolateNameServer.lookupPortByName('${isolateName}_2');
-    send.send(files);
+    try {
+      final SendPort send =
+      IsolateNameServer.lookupPortByName('${isolateName}_2');
+      send.send(files);
+    } catch (e) {
+      print(e);
+    }
     messenger.send('done');
   }
 
@@ -123,14 +133,35 @@ class CategoryProvider extends ChangeNotifier {
       audio = tabs[0];
       audioTabs = tabs[1];
       setLoading(false);
+      _port.close();
+      IsolateNameServer.removePortNameMapping('${isolateName}_2');
     });
+  }
+
+  switchCurrentFiles(List list, String label) async {
+    List<FileSystemEntity> l = await compute(getTabImages, [list, label]);
+    currentFiles = l;
+    notifyListeners();
+  }
+
+  static Future<List<FileSystemEntity>> getTabImages(List item) async {
+    List items = item[0];
+    String label = item[1];
+    List<FileSystemEntity> files = [];
+    items.forEach((file) {
+      if ("${file.path.split("/")[file.path.split("/").length - 2]}" ==
+          label) {
+        files.add(file);
+      }
+    });
+    return files;
   }
 
   static Future<List> separateAudios(Map body) async {
     List files = body['files'];
     String type = body['type'];
-    List audio;
-    List audioTabs;
+    List<FileSystemEntity> audio = [];
+    List<String> audioTabs = [];
     for (File file in files) {
       String mimeType = mime(file.path);
       print(extension(file.path));

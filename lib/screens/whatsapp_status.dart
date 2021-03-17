@@ -121,7 +121,17 @@ class _WhatsAppItem extends StatelessWidget {
         ),
         child: mimeType.split("/")[0] == "video"
             ? VideoThumbnail(path: path)
-            : Image.file(File(path), fit: BoxFit.cover),
+            : Image(
+          fit: BoxFit.cover,
+          errorBuilder: (b, o, c) {
+            return Icon(Icons.image);
+          },
+          image: ResizeImage(
+            FileImage(File(file.path)),
+            width: 150,
+            height: 150,
+          ),
+        ),
       ),
     );
   }
