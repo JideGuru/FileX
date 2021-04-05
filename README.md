@@ -7,7 +7,9 @@ To download apk:
 - Tap on the button below(it will take you to another page)
 - Scroll down the page to download `apk-release.apk`
 <br>
-<a href="https://codemagic.io/apps/5e35805fcb1395555366758b/5e35805fcb1395555366758a/latest_build"><img src="https://playerzon.com/asset/download.png" width="200"></img></a>
+<a href="https://play.google.com/store/apps/details?id=dev.jideguru.filex">
+    <img src="https://lh3.googleusercontent.com/qF9r3ZjtgG-qyHdmjecArtKiulz1gmwL_xl9R3_fzk6igSeoN0wYbJSKEX5d_fxJRwYZJpHbqcLB3i9atl-9dOfUl9an7U43TfZ9PtQ=s0" width="200"></img>
+</a>
 <br>
 
 
