@@ -8,19 +8,19 @@ import 'package:path/path.dart';
 class DirectoryItem extends StatelessWidget {
   final FileSystemEntity file;
   final Function tap;
-  final Function popTap;
+  final Function? popTap;
 
   DirectoryItem({
-    Key key,
-    @required this.file,
-    @required this.tap,
-    @required this.popTap,
+    Key? key,
+    required this.file,
+    required this.tap,
+    this.popTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: tap,
+      onTap: () => tap(),
       contentPadding: EdgeInsets.all(0),
       leading: Container(
         height: 40,
@@ -32,7 +32,7 @@ class DirectoryItem extends StatelessWidget {
         ),
       ),
       title: Text(
-        "${basename(file.path)}",
+        '${basename(file.path)}',
         style: TextStyle(
           fontSize: 14,
         ),

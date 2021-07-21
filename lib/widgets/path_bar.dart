@@ -4,12 +4,12 @@ import 'package:flutter_icons/flutter_icons.dart';
 class PathBar extends StatelessWidget implements PreferredSizeWidget {
   final List paths;
   final Function(int) onChanged;
-  final IconData icon;
+  final IconData? icon;
 
   PathBar({
-    Key key,
-    @required this.paths,
-    @required this.onChanged,
+    Key? key,
+    required this.paths,
+    required this.onChanged,
     this.icon,
   }) : super(key: key);
 
@@ -25,14 +25,14 @@ class PathBar extends StatelessWidget implements PreferredSizeWidget {
           itemCount: paths.length,
           itemBuilder: (BuildContext context, int index) {
             String i = paths[index];
-            List splited = i.split("/");
+            List splited = i.split('/');
             if (index == 0) {
               return IconButton(
                 icon: Icon(
                   icon ?? Feather.smartphone,
                   color: index == paths.length - 1
                       ? Theme.of(context).accentColor
-                      : Theme.of(context).textTheme.headline6.color,
+                      : Theme.of(context).textTheme.headline6!.color,
                 ),
                 onPressed: () => onChanged(index),
               );
@@ -45,13 +45,13 @@ class PathBar extends StatelessWidget implements PreferredSizeWidget {
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5),
                     child: Text(
-                      "${splited[splited.length - 1]}",
+                      '${splited[splited.length - 1]}',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: index == paths.length - 1
                             ? Theme.of(context).accentColor
-                            : Theme.of(context).textTheme.headline6.color,
+                            : Theme.of(context).textTheme.headline6!.color,
                       ),
                     ),
                   ),

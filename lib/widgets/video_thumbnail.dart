@@ -7,8 +7,8 @@ class VideoThumbnail extends StatefulWidget {
   final String path;
 
   VideoThumbnail({
-    Key key,
-    @required this.path,
+    Key? key,
+    required this.path,
   }) : super(key: key);
 
   @override
@@ -17,9 +17,9 @@ class VideoThumbnail extends StatefulWidget {
 
 class _VideoThumbnailState extends State<VideoThumbnail>
     with AutomaticKeepAliveClientMixin {
-  String thumb = "";
+  String thumb = '';
   bool loading = true;
-  VideoPlayerController _controller;
+  late VideoPlayerController _controller;
 
 //  getThumb() async{
 //    var dir = await getExternalStorageDirectory();
@@ -54,7 +54,7 @@ class _VideoThumbnailState extends State<VideoThumbnail>
     super.build(context);
     return loading
         ? Image.asset(
-            "assets/images/video-placeholder.png",
+            'assets/images/video-placeholder.png',
             height: 40,
             width: 40,
             fit: BoxFit.cover,

@@ -6,14 +6,14 @@ class About extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "About",
+          'About',
         ),
       ),
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 20),
         children: <Widget>[
           Text(
-            "Simple file explorer made with Flutter by JideGuru😁",
+            'Simple file explorer made with Flutter by JideGuru😁',
           )
         ],
       ),

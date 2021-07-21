@@ -24,12 +24,12 @@ class Browse extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "${AppStrings.appName}",
+          '${AppStrings.appName}',
           style: TextStyle(fontSize: 25.0),
         ),
         actions: <Widget>[
           IconButton(
-            tooltip: "Search",
+            tooltip: 'Search',
             onPressed: () {
               showSearch(
                 context: context,
@@ -84,7 +84,7 @@ class _StorageSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<CoreProvider>(
-      builder: (BuildContext context, coreProvider, Widget child) {
+      builder: (BuildContext context, coreProvider, Widget? child) {
         if (coreProvider.storageLoading) {
           return Container(height: 100, child: CustomLoader());
         }
@@ -95,7 +95,7 @@ class _StorageSection extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             FileSystemEntity item = coreProvider.availableStorage[index];
 
-            String path = item.path.split("Android")[0];
+            String path = item.path.split('Android')[0];
             double percent = 0;
 
             if (index == 0) {
@@ -108,7 +108,7 @@ class _StorageSection extends StatelessWidget {
             return StorageItem(
               percent: percent,
               path: path,
-              title: index == 0 ? "Device" : "SD Card",
+              title: index == 0 ? 'Device' : 'SD Card',
               icon: index == 0 ? Feather.smartphone : Icons.sd_storage,
               color: index == 0 ? Colors.lightBlue : Colors.orange,
               usedSpace: index == 0
@@ -150,23 +150,23 @@ class _CategoriesSection extends StatelessWidget {
               if (Directory(FileUtils.waPath).existsSync()) {
                 Navigate.pushPage(
                   context,
-                  WhatsappStatus(title: "${category["title"]}"),
+                  WhatsappStatus(title: '${category['title']}'),
                 );
               } else {
                 Dialogs.showToast(
-                    "Please Install WhatsApp to use this feature");
+                    'Please Install WhatsApp to use this feature');
               }
             } else if (index == 0) {
               Navigate.pushPage(
-                  context, Downloads(title: "${category["title"]}"));
+                  context, Downloads(title: '${category['title']}'));
             } else if (index == 5) {
               Navigate.pushPage(context, AppScreen());
             } else {
               Navigate.pushPage(
                 context,
                 index == 1 || index == 2
-                    ? Images(title: "${category["title"]}")
-                    : Category(title: "${category["title"]}"),
+                    ? Images(title: '${category['title']}')
+                    : Category(title: '${category['title']}'),
               );
             }
           },
@@ -181,9 +181,9 @@ class _CategoriesSection extends StatelessWidget {
                 width: 2,
               ),
             ),
-            child: Icon(category["icon"], size: 18, color: category["color"]),
+            child: Icon(category['icon'], size: 18, color: category['color']),
           ),
-          title: Text("${category["title"]}"),
+          title: Text('${category['title']}'),
         );
       },
       separatorBuilder: (BuildContext context, int index) {
@@ -197,7 +197,7 @@ class _RecentFiles extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<CoreProvider>(
-      builder: (BuildContext context, coreProvider, Widget child) {
+      builder: (BuildContext context, coreProvider, Widget? child) {
         if (coreProvider.recentLoading) {
           return Container(height: 150, child: CustomLoader());
         }

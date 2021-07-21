@@ -15,8 +15,8 @@ class Images extends StatefulWidget {
   final String title;
 
   Images({
-    Key key,
-    @required this.title,
+    Key? key,
+    required this.title,
   }) : super(key: key);
 
   @override
@@ -27,13 +27,13 @@ class _ImagesState extends State<Images> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      if (widget.title.toLowerCase() == "images") {
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
+      if (widget.title.toLowerCase() == 'images') {
         Provider.of<CategoryProvider>(context, listen: false)
-            .getImages("image");
+            .getImages('image');
       } else {
         Provider.of<CategoryProvider>(context, listen: false)
-            .getImages("video");
+            .getImages('video');
       }
     });
   }
@@ -41,7 +41,7 @@ class _ImagesState extends State<Images> {
   @override
   Widget build(BuildContext context) {
     return Consumer(
-      builder: (BuildContext context, CategoryProvider provider, Widget child) {
+      builder: (BuildContext context, CategoryProvider provider, Widget? child) {
         if (provider.loading) {
           return Scaffold(body: CustomLoader());
         }
@@ -49,16 +49,16 @@ class _ImagesState extends State<Images> {
           length: provider.imageTabs.length,
           child: Scaffold(
             appBar: AppBar(
-              title: Text("${widget.title}"),
+              title: Text('${widget.title}'),
               bottom: TabBar(
                 indicatorColor: Theme.of(context).accentColor,
                 labelColor: Theme.of(context).accentColor,
-                unselectedLabelColor: Theme.of(context).textTheme.caption.color,
+                unselectedLabelColor: Theme.of(context).textTheme.caption!.color,
                 isScrollable: provider.imageTabs.length < 3 ? false : true,
                 tabs: Constants.map<Widget>(
                   provider.imageTabs,
                   (index, label) {
-                    return Tab(text: "$label");
+                    return Tab(text: '$label');
                   },
                 ),
                 onTap: (val) => provider.switchCurrentFiles(
@@ -67,7 +67,7 @@ class _ImagesState extends State<Images> {
             ),
             body: Visibility(
               visible: provider.images.isNotEmpty,
-              replacement: Center(child: Text("No Files Found")),
+              replacement: Center(child: Text('No Files Found')),
               child: TabBarView(
                 children: Constants.map<Widget>(
                   provider.imageTabs,
@@ -90,7 +90,7 @@ class _ImagesState extends State<Images> {
                               (index, item) {
                                 File file = File(item.path);
                                 String path = file.path;
-                                String mimeType = mime(path);
+                                String mimeType = mime(path) ?? '';
                                 return _MediaTile(
                                     file: file, mimeType: mimeType);
                               },
@@ -114,7 +114,7 @@ class _MediaTile extends StatelessWidget {
   final File file;
   final String mimeType;
 
-  _MediaTile({this.file, this.mimeType});
+  _MediaTile({required this.file, required this.mimeType});
 
   @override
   Widget build(BuildContext context) {
@@ -134,12 +134,12 @@ class _MediaTile extends StatelessWidget {
             alignment: Alignment.topRight,
             child: Padding(
               padding: EdgeInsets.all(8.0),
-              child: mimeType.split("/")[0] == "video"
+              child: mimeType.split('/')[0] == 'video'
                   ? Row(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Text(
-                          "${FileUtils.formatBytes(file.lengthSync(), 1)}",
+                          '${FileUtils.formatBytes(file.lengthSync(), 1)}',
                           style: TextStyle(
                             fontSize: 12,
                           ),
@@ -155,7 +155,7 @@ class _MediaTile extends StatelessWidget {
                       ],
                     )
                   : Text(
-                      "${FileUtils.formatBytes(file.lengthSync(), 1)}",
+                      '${FileUtils.formatBytes(file.lengthSync(), 1)}',
                       style: TextStyle(
                         fontSize: 12,
                       ),
@@ -163,7 +163,7 @@ class _MediaTile extends StatelessWidget {
             ),
           ),
         ),
-        child: mimeType.split("/")[0] == "video"
+        child: mimeType.split('/')[0] == 'video'
             ? FileIcon(file: file)
             : Image(
                 fit: BoxFit.cover,

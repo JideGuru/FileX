@@ -6,7 +6,7 @@ class Share extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Text(
-          "Coming Soon!!!",
+          'Coming Soon!!!',
         ),
       ),
     );

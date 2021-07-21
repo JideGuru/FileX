@@ -10,8 +10,8 @@ class Downloads extends StatefulWidget {
   final String title;
 
   Downloads({
-    Key key,
-    @required this.title,
+    Key? key,
+    required this.title,
   }) : super(key: key);
 
   @override
@@ -22,7 +22,7 @@ class _DownloadsState extends State<Downloads> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
       Provider.of<CategoryProvider>(context, listen: false).getDownloads();
     });
   }
@@ -30,28 +30,28 @@ class _DownloadsState extends State<Downloads> {
   @override
   Widget build(BuildContext context) {
     return Consumer(
-      builder: (BuildContext context, CategoryProvider provider, Widget child) {
+      builder: (BuildContext context, CategoryProvider provider, Widget? child) {
         return DefaultTabController(
           length: provider.downloadTabs.length,
           child: Scaffold(
             appBar: AppBar(
-              title: Text("${widget.title}"),
+              title: Text('${widget.title}'),
               bottom: TabBar(
                 indicatorColor: Theme.of(context).accentColor,
                 labelColor: Theme.of(context).accentColor,
-                unselectedLabelColor: Theme.of(context).textTheme.caption.color,
+                unselectedLabelColor: Theme.of(context).textTheme.caption!.color,
                 isScrollable: false,
                 tabs: Constants.map<Widget>(
                   provider.downloadTabs,
                   (index, label) {
-                    return Tab(text: "$label");
+                    return Tab(text: '$label');
                   },
                 ),
               ),
             ),
             body: Visibility(
               visible: provider.downloads.isNotEmpty,
-              replacement: Center(child: Text("No Files Found")),
+              replacement: Center(child: Text('No Files Found')),
               child: TabBarView(
                 children: Constants.map<Widget>(
                   provider.downloadTabs,

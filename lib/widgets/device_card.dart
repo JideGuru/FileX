@@ -42,8 +42,8 @@
 //                                percent: percent ?? 0.1,
 //                                reverse: true,
 //                                center: Text(
-//                                  "${(coreProvider.usedSpace / coreProvider.totalSpace * 100)
-//                                      .toStringAsFixed(0)}%",
+//                                  '${(coreProvider.usedSpace / coreProvider.totalSpace * 100)
+//                                      .toStringAsFixed(0)}%',
 //                                  style:
 //                                  TextStyle(
 //                                    fontWeight: FontWeight.bold,
@@ -64,7 +64,7 @@
 //                                crossAxisAlignment: CrossAxisAlignment.start,
 //                                children: <Widget>[
 //                                  Text(
-//                                    "Internal Storage",
+//                                    'Internal Storage',
 //                                    style: TextStyle(
 //                                      fontWeight: FontWeight.bold,
 //                                      fontSize: 18.0,
@@ -75,8 +75,8 @@
 //                                  SizedBox(height: 10,),
 //
 //                                  Text(
-//                                    "${FileUtils.formatBytes(coreProvider.usedSpace, 1)} "
-//                                        "/ ${FileUtils.formatBytes(coreProvider.totalSpace, 1)}",
+//                                    '${FileUtils.formatBytes(coreProvider.usedSpace, 1)} '
+//                                        '/ ${FileUtils.formatBytes(coreProvider.totalSpace, 1)}',
 //                                    style: TextStyle(
 //                                      fontWeight: FontWeight.w400,
 //                                      fontSize: 14.0,

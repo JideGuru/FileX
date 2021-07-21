@@ -45,7 +45,7 @@ class _SplashState extends State<Splash> {
     super.initState();
     SystemChrome.setEnabledSystemUIOverlays([]);
     startTimeout();
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
       SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Theme.of(context).primaryColor,
@@ -73,7 +73,7 @@ class _SplashState extends State<Splash> {
             ),
             SizedBox(height: 20.0),
             Text(
-              "${AppStrings.appName}",
+              '${AppStrings.appName}',
               style: TextStyle(
                 color: Theme.of(context).accentColor,
                 fontSize: 25.0,
