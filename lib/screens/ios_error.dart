@@ -8,7 +8,7 @@ class IosError extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: Center(
           child: Text(
-            "This app only works on Android. Please run on an android device!",
+            'This app only works on Android. Please run on an android device!',
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,

@@ -8,7 +8,7 @@ import 'package:path/path.dart' as pathlib;
 class RenameFileDialog extends StatefulWidget {
   final String path;
   final String type;
-  RenameFileDialog({this.path, this.type});
+  RenameFileDialog({required this.path, required this.type});
 
   @override
   _RenameFileDialogState createState() => _RenameFileDialogState();
@@ -35,7 +35,7 @@ class _RenameFileDialogState extends State<RenameFileDialog> {
           children: <Widget>[
             SizedBox(height: 15),
             Text(
-              "Rename Item",
+              'Rename Item',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -55,7 +55,7 @@ class _RenameFileDialogState extends State<RenameFileDialog> {
                   width: 130,
                   child: OutlinedButton(
                     child: Text(
-                      "Cancel",
+                      'Cancel',
                       style: TextStyle(
                         color: Theme.of(context).accentColor,
                       ),
@@ -80,48 +80,48 @@ class _RenameFileDialogState extends State<RenameFileDialog> {
                   width: 130,
                   child: ElevatedButton(
                     child: Text(
-                      "Rename",
+                      'Rename',
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
                       if (name.text.isNotEmpty) {
-                        if (widget.type == "file") {
+                        if (widget.type == 'file') {
                           if (!File(widget.path.replaceAll(
-                                      pathlib.basename(widget.path), "") +
-                                  "${name.text}")
+                                      pathlib.basename(widget.path), '') +
+                                  '${name.text}')
                               .existsSync()) {
                             await File(widget.path)
                                 .rename(widget.path.replaceAll(
-                                        pathlib.basename(widget.path), "") +
-                                    "${name.text}")
+                                        pathlib.basename(widget.path), '') +
+                                    '${name.text}')
                                 .catchError((e) {
                               print(e.toString());
-                              if (e.toString().contains("Permission denied")) {
+                              if (e.toString().contains('Permission denied')) {
                                 Dialogs.showToast(
-                                    "Cannot write to this device!");
+                                    'Cannot write to this device!');
                               }
                             });
                           } else {
                             Dialogs.showToast(
-                                "A File with that name already exists!");
+                                'A File with that name already exists!');
                           }
                         } else {
                           if (Directory(widget.path.replaceAll(
-                                      pathlib.basename(widget.path), "") +
-                                  "${name.text}")
+                                      pathlib.basename(widget.path), '') +
+                                  '${name.text}')
                               .existsSync()) {
                             Dialogs.showToast(
-                                "A Folder with that name already exists!");
+                                'A Folder with that name already exists!');
                           } else {
                             await Directory(widget.path)
                                 .rename(widget.path.replaceAll(
-                                        pathlib.basename(widget.path), "") +
-                                    "${name.text}")
+                                        pathlib.basename(widget.path), '') +
+                                    '${name.text}')
                                 .catchError((e) {
                               print(e.toString());
-                              if (e.toString().contains("Permission denied")) {
+                              if (e.toString().contains('Permission denied')) {
                                 Dialogs.showToast(
-                                    "Cannot write to this device!");
+                                    'Cannot write to this device!');
                               }
                             });
                           }

@@ -12,8 +12,8 @@ class Category extends StatefulWidget {
   final String title;
 
   Category({
-    Key key,
-    @required this.title,
+    Key? key,
+    required this.title,
   }) : super(key: key);
 
   @override
@@ -24,7 +24,7 @@ class _CategoryState extends State<Category> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
       switch (widget.title.toLowerCase()) {
         case 'audio':
           Provider.of<CategoryProvider>(context, listen: false)
@@ -40,53 +40,56 @@ class _CategoryState extends State<Category> {
   @override
   Widget build(BuildContext context) {
     return Consumer(
-      builder: (BuildContext context, CategoryProvider provider, Widget child) {
+      builder: (BuildContext context, CategoryProvider provider, Widget? child) {
         return provider.loading
             ? Scaffold(body: CustomLoader())
             : DefaultTabController(
                 length: provider.audioTabs.length,
                 child: Scaffold(
                   appBar: AppBar(
-                    title: Text("${widget.title}"),
+                    title: Text('${widget.title}'),
                     bottom: TabBar(
                       indicatorColor: Theme.of(context).accentColor,
                       labelColor: Theme.of(context).accentColor,
                       unselectedLabelColor:
-                          Theme.of(context).textTheme.caption.color,
+                          Theme.of(context).textTheme.caption!.color,
                       isScrollable:
                           provider.audioTabs.length < 3 ? false : true,
                       tabs: Constants.map<Widget>(
                         provider.audioTabs,
                         (index, label) {
-                          return Tab(text: "$label");
+                          print('tabs');
+                          return Tab(text: '$label');
                         },
                       ),
                     ),
                   ),
                   body: provider.audio.isEmpty
-                      ? Center(child: Text("No Files Found"))
+                      ? Center(child: Text('No Files Found'))
                       : TabBarView(
                           children: Constants.map<Widget>(
                             provider.audioTabs,
                             (index, label) {
-                              List l = [];
+                              print(label);
+                              List list = [];
                               List items = provider.audio;
                               items.forEach((file) {
-                                if ("${file.path.split("/")[file.path.split("/").length - 2]}" ==
+                                if ('${file.path.split('/')[file.path.split('/').length - 2]}' ==
                                     label) {
-                                  l.add(file);
+                                  list.add(file);
                                 }
                               });
+                              // print(label);
                               return ListView.separated(
                                 padding: EdgeInsets.only(left: 20),
                                 itemCount: index == 0
                                     ? provider.audio.length
-                                    : l.length,
+                                    : list.length,
                                 itemBuilder:
-                                    (BuildContext context, int indexx) {
+                                    (BuildContext context, int index2) {
                                   FileSystemEntity file = index == 0
-                                      ? provider.audio[indexx]
-                                      : l[indexx];
+                                      ? provider.audio[index2]
+                                      : list[index2];
                                   return FileItem(file: file);
                                 },
                                 separatorBuilder:

@@ -12,14 +12,15 @@ class StorageItem extends StatelessWidget {
   final int usedSpace;
   final int totalSpace;
 
-  StorageItem(
-      {this.percent,
-      this.title,
-      this.path,
-      this.color,
-      this.icon,
-      this.usedSpace,
-      this.totalSpace});
+  StorageItem({
+    required this.percent,
+    required this.title,
+    required this.path,
+    required this.color,
+    required this.icon,
+    required this.usedSpace,
+    required this.totalSpace,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +51,12 @@ class StorageItem extends StatelessWidget {
         children: <Widget>[
           Text(title),
           Text(
-            "${FileUtils.formatBytes(usedSpace, 2)} "
-            "used of ${FileUtils.formatBytes(totalSpace, 2)}",
+            '${FileUtils.formatBytes(usedSpace, 2)} '
+            'used of ${FileUtils.formatBytes(totalSpace, 2)}',
             style: TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 14.0,
-              color: Theme.of(context).textTheme.headline1.color,
+              color: Theme.of(context).textTheme.headline1!.color,
             ),
           ),
         ],

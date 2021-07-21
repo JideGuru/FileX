@@ -26,18 +26,18 @@ class CoreProvider extends ChangeNotifier {
     setStorageLoading(true);
     recentFiles.clear();
     availableStorage.clear();
-    List<FileSystemEntity> l = await getExternalStorageDirectories();
-    availableStorage.addAll(l);
+    List<Directory> dirList = (await getExternalStorageDirectories())!;
+    availableStorage.addAll(dirList);
     notifyListeners();
     MethodChannel platform = MethodChannel('dev.jideguru.filex/storage');
-    var free = await platform.invokeMethod("getStorageFreeSpace");
-    var total = await platform.invokeMethod("getStorageTotalSpace");
+    var free = await platform.invokeMethod('getStorageFreeSpace');
+    var total = await platform.invokeMethod('getStorageTotalSpace');
     setFreeSpace(free);
     setTotalSpace(total);
     setUsedSpace(total - free);
-    if (l.length > 1) {
-      var freeSD = await platform.invokeMethod("getExternalStorageFreeSpace");
-      var totalSD = await platform.invokeMethod("getExternalStorageTotalSpace");
+    if (dirList.length > 1) {
+      var freeSD = await platform.invokeMethod('getExternalStorageFreeSpace');
+      var totalSD = await platform.invokeMethod('getExternalStorageTotalSpace');
       setFreeSDSpace(freeSD);
       setTotalSDSpace(totalSD);
       setUsedSDSpace(totalSD - freeSD);
@@ -81,8 +81,8 @@ class CoreProvider extends ChangeNotifier {
     List<FileSystemEntity> l =
         await FileUtils.getRecentFiles(showHidden: false);
     final messenger = HandledIsolate.initialize(context);
-    final SendPort send = IsolateNameServer.lookupPortByName('${isolateName}_2');
-    send.send(l);
+    final SendPort? send = IsolateNameServer.lookupPortByName('${isolateName}_2');
+    send!.send(l);
     messenger.send('done');
   }
 

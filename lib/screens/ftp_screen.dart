@@ -14,7 +14,7 @@ class _FTPScreenState extends State<FTPScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "FTP File Sharing",
+          'FTP File Sharing',
         ),
         actions: <Widget>[
           IconButton(

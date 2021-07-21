@@ -1,4 +1,4 @@
 class AppStrings {
   //App related strings
-  static String appName = "FileX";
+  static String appName = 'FileX';
 }

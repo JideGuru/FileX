@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class AddFileDialog extends StatelessWidget {
   final String path;
 
-  AddFileDialog({this.path});
+  AddFileDialog({required this.path});
 
   final TextEditingController name = TextEditingController();
 
@@ -23,7 +23,7 @@ class AddFileDialog extends StatelessWidget {
           children: <Widget>[
             SizedBox(height: 15),
             Text(
-              "Add New Folder",
+              'Add New Folder',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
             SizedBox(height: 25),
@@ -40,7 +40,7 @@ class AddFileDialog extends StatelessWidget {
                   width: 130,
                   child: OutlinedButton(
                     child: Text(
-                      "Cancel",
+                      'Cancel',
                       style: TextStyle(
                         color: Theme.of(context).accentColor,
                       ),
@@ -65,24 +65,24 @@ class AddFileDialog extends StatelessWidget {
                   width: 130,
                   child: ElevatedButton(
                     child: Text(
-                      "Create",
+                      'Create',
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
                       if (name.text.isNotEmpty) {
-                        if (!Directory(path + "/${name.text}").existsSync()) {
-                          await Directory(path + "/${name.text}")
+                        if (!Directory(path + '/${name.text}').existsSync()) {
+                          await Directory(path + '/${name.text}')
                               .create()
                               .catchError((e) {
                             print(e.toString());
-                            if (e.toString().contains("Permission denied")) {
+                            if (e.toString().contains('Permission denied')) {
                               Dialogs.showToast(
-                                  "Cannot write to this Storage  device!");
+                                  'Cannot write to this Storage  device!');
                             }
                           });
                         } else {
                           Dialogs.showToast(
-                              "A Folder with that name already exists!");
+                              'A Folder with that name already exists!');
                         }
                         Navigator.pop(context);
                       }

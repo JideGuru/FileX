@@ -15,7 +15,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  PageController _pageController;
+  late PageController _pageController;
   int _page = 0;
 
   @override
@@ -36,21 +36,21 @@ class _MainScreenState extends State<MainScreen> {
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Theme.of(context).primaryColor,
           selectedItemColor: Theme.of(context).accentColor,
-          unselectedItemColor: Theme.of(context).textTheme.headline1.color,
+          unselectedItemColor: Theme.of(context).textTheme.headline1!.color,
           elevation: 4.0,
           type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Feather.folder),
-              label: "Browse",
+              label: 'Browse',
             ),
             BottomNavigationBarItem(
               icon: Icon(Feather.share_2),
-              label: "FTP",
+              label: 'FTP',
             ),
             BottomNavigationBarItem(
               icon: Icon(Feather.settings),
-              label: "Settings",
+              label: 'Settings',
             ),
           ],
           onTap: navigationTapped,
@@ -68,7 +68,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: 0);
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
       Provider.of<CoreProvider>(context, listen: false).checkSpace();
       SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

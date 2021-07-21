@@ -14,9 +14,9 @@ class Folder extends StatefulWidget {
   final String path;
 
   Folder({
-    Key key,
-    @required this.title,
-    @required this.path,
+    Key? key,
+    required this.title,
+    required this.path,
   }) : super(key: key);
 
   @override
@@ -24,7 +24,7 @@ class Folder extends StatefulWidget {
 }
 
 class _FolderState extends State<Folder> with WidgetsBindingObserver {
-  String path;
+  late String path;
   List<String> paths = <String>[];
 
   List<FileSystemEntity> files = <FileSystemEntity>[];
@@ -47,7 +47,7 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver {
       setState(() {});
       for (FileSystemEntity file in dirFiles) {
         if (!showHidden) {
-          if (!pathlib.basename(file.path).startsWith(".")) {
+          if (!pathlib.basename(file.path).startsWith('.')) {
             files.add(file);
             setState(() {});
           }
@@ -59,8 +59,8 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver {
 
       files = FileUtils.sortList(files, provider.sort);
     } catch (e) {
-      if (e.toString().contains("Permission denied")) {
-        Dialogs.showToast("Permission Denied! cannot access this Directory!");
+      if (e.toString().contains('Permission denied')) {
+        Dialogs.showToast('Permission Denied! cannot access this Directory!');
         navigateBack();
       }
     }
@@ -72,13 +72,13 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver {
     path = widget.path;
     getFiles();
     paths.add(widget.path);
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
   }
 
   @override
   void dispose() {
     super.dispose();
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
   }
 
   navigateBack() {
@@ -120,9 +120,9 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text("${widget.title}"),
+              Text('${widget.title}'),
               Text(
-                "$path",
+                '$path',
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
@@ -132,7 +132,7 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver {
           ),
           bottom: PathBar(
             paths: paths,
-            icon: widget.path.toString().contains("emulated")
+            icon: widget.path.toString().contains('emulated')
                 ? Feather.smartphone
                 : Icons.sd_card,
             onChanged: (index) {
@@ -152,24 +152,24 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver {
                 );
                 getFiles();
               },
-              tooltip: "Sort by",
+              tooltip: 'Sort by',
               icon: Icon(Icons.sort),
             ),
           ],
         ),
         body: Visibility(
-          replacement: Center(child: Text("There's nothing here")),
+          replacement: Center(child: Text('There\'s nothing here')),
           visible: files.isNotEmpty,
           child: ListView.separated(
             padding: EdgeInsets.only(left: 20),
             itemCount: files.length,
             itemBuilder: (BuildContext context, int index) {
               FileSystemEntity file = files[index];
-              if (file.toString().split(":")[0] == "Directory") {
+              if (file.toString().split(':')[0] == 'Directory') {
                 return DirectoryItem(
                   popTap: (v) async {
                     if (v == 0) {
-                      renameDialog(context, file.path, "dir");
+                      renameDialog(context, file.path, 'dir');
                     } else if (v == 1) {
                       deleteFile(true, file);
                     }
@@ -187,12 +187,12 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver {
                 file: file,
                 popTap: (v) async {
                   if (v == 0) {
-                    renameDialog(context, file.path, "file");
+                    renameDialog(context, file.path, 'file');
                   } else if (v == 1) {
                     deleteFile(false, file);
                   } else if (v == 2) {
                     /// TODO: Implement Share file feature
-                    print("Share");
+                    print('Share');
                   }
                 },
               );
@@ -205,7 +205,7 @@ class _FolderState extends State<Folder> with WidgetsBindingObserver {
         floatingActionButton: FloatingActionButton(
           onPressed: () => addDialog(context, path),
           child: Icon(Feather.plus),
-          tooltip: "Add Folder",
+          tooltip: 'Add Folder',
         ),
       ),
     );

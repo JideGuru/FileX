@@ -34,18 +34,18 @@ class CategoryProvider extends ChangeNotifier {
     setLoading(true);
     downloadTabs.clear();
     downloads.clear();
-    downloadTabs.add("All");
+    downloadTabs.add('All');
     List<Directory> storages = await FileUtils.getStorageList();
     storages.forEach((dir) {
-      if (Directory(dir.path + "Download").existsSync()) {
+      if (Directory(dir.path + 'Download').existsSync()) {
         List<FileSystemEntity> files =
-            Directory(dir.path + "Download").listSync();
+            Directory(dir.path + 'Download').listSync();
         print(files);
         files.forEach((file) {
           if (FileSystemEntity.isFileSync(file.path)) {
             downloads.add(file);
             downloadTabs
-                .add(file.path.split("/")[file.path.split("/").length - 2]);
+                .add(file.path.split('/')[file.path.split('/').length - 2]);
             downloadTabs = downloadTabs.toSet().toList();
             notifyListeners();
           }
@@ -59,7 +59,7 @@ class CategoryProvider extends ChangeNotifier {
     setLoading(true);
     imageTabs.clear();
     images.clear();
-    imageTabs.add("All");
+    imageTabs.add('All');
     String isolateName = type;
     isolates.spawn<String>(
       getAllFilesWithIsolate,
@@ -76,11 +76,11 @@ class CategoryProvider extends ChangeNotifier {
       print('RECEIVED SERVER PORT');
       print(files);
       files.forEach((file) {
-        String mimeType = mime(file.path) == null ? "" : mime(file.path);
-        if (mimeType.split("/")[0] == type) {
+        String mimeType = mime(file.path) ?? '';
+        if (mimeType.split('/')[0] == type) {
           images.add(file);
           imageTabs
-              .add("${file.path.split("/")[file.path.split("/").length - 2]}");
+              .add('${file.path.split('/')[file.path.split('/').length - 2]}');
           imageTabs = imageTabs.toSet().toList();
         }
         notifyListeners();
@@ -96,13 +96,14 @@ class CategoryProvider extends ChangeNotifier {
     print(context);
     String isolateName = context['name'];
     print('Get files');
-    List<FileSystemEntity> files = await FileUtils.getAllFiles(showHidden: false);
+    List<FileSystemEntity> files =
+        await FileUtils.getAllFiles(showHidden: false);
     print('Files $files');
     final messenger = HandledIsolate.initialize(context);
     try {
-      final SendPort send =
-      IsolateNameServer.lookupPortByName('${isolateName}_2');
-      send.send(files);
+      final SendPort? send =
+          IsolateNameServer.lookupPortByName('${isolateName}_2');
+      send!.send(files);
     } catch (e) {
       print(e);
     }
@@ -113,7 +114,7 @@ class CategoryProvider extends ChangeNotifier {
     setLoading(true);
     audioTabs.clear();
     audio.clear();
-    audioTabs.add("All");
+    audioTabs.add('All');
     String isolateName = type;
     isolates.spawn<String>(
       getAllFilesWithIsolate,
@@ -149,8 +150,7 @@ class CategoryProvider extends ChangeNotifier {
     String label = item[1];
     List<FileSystemEntity> files = [];
     items.forEach((file) {
-      if ("${file.path.split("/")[file.path.split("/").length - 2]}" ==
-          label) {
+      if ('${file.path.split('/')[file.path.split('/').length - 2]}' == label) {
         files.add(file);
       }
     });
@@ -163,16 +163,16 @@ class CategoryProvider extends ChangeNotifier {
     List<FileSystemEntity> audio = [];
     List<String> audioTabs = [];
     for (File file in files) {
-      String mimeType = mime(file.path);
+      String mimeType = mime(file.path) ?? '';
       print(extension(file.path));
       if (type == 'text' && docExtensions.contains(extension(file.path))) {
         audio.add(file);
       }
-      if (mimeType != null) {
-        if (mimeType.split("/")[0] == type) {
+      if (mimeType.isNotEmpty) {
+        if (mimeType.split('/')[0] == type) {
           audio.add(file);
           audioTabs
-              .add("${file.path.split("/")[file.path.split("/").length - 2]}");
+              .add('${file.path.split('/')[file.path.split('/').length - 2]}');
           audioTabs = audioTabs.toSet().toList();
         }
       }
@@ -194,27 +194,27 @@ class CategoryProvider extends ChangeNotifier {
 
   setHidden(value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool("hidden", value);
+    await prefs.setBool('hidden', value);
     showHidden = value;
     notifyListeners();
   }
 
   getHidden() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool h = prefs.getBool("hidden") == null ? false : prefs.getBool("hidden");
+    bool h = prefs.getBool('hidden') ?? false;
     setHidden(h);
   }
 
   Future setSort(value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt("sort", value);
+    await prefs.setInt('sort', value);
     sort = value;
     notifyListeners();
   }
 
   getSort() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int h = prefs.getInt("sort") == null ? 0 : prefs.getInt("sort");
+    int h = prefs.getInt('sort') ?? 0;
     setSort(h);
   }
 }

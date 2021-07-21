@@ -35,7 +35,7 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Settings"),
+        title: Text('Settings'),
       ),
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -47,7 +47,7 @@ class _SettingsState extends State<Settings> {
               Feather.eye_off,
             ),
             title: Text(
-              "See hidden files",
+              'See hidden files',
             ),
             value: Provider
                 .of<CategoryProvider>(context)
@@ -75,7 +75,7 @@ class _SettingsState extends State<Settings> {
             secondary: Icon(
               Feather.moon,
             ),
-            title: Text("Dark mode"),
+            title: Text('Dark mode'),
             value: Provider
                 .of<AppProvider>(context)
                 .theme ==
@@ -85,10 +85,10 @@ class _SettingsState extends State<Settings> {
             onChanged: (v) {
               if (v) {
                 Provider.of<AppProvider>(context, listen: false)
-                    .setTheme(ThemeConfig.darkTheme, "dark");
+                    .setTheme(ThemeConfig.darkTheme, 'dark');
               } else {
                 Provider.of<AppProvider>(context, listen: false)
-                    .setTheme(ThemeConfig.lightTheme, "light");
+                    .setTheme(ThemeConfig.lightTheme, 'light');
               }
             },
             activeColor: Theme
@@ -111,7 +111,7 @@ class _SettingsState extends State<Settings> {
             contentPadding: EdgeInsets.all(0),
             onTap: () => showLicensePage(context: context),
             leading: Icon(Feather.file_text),
-            title: Text("Open source licences"),
+            title: Text('Open source licences'),
           ),
           Container(
             height: 1,
@@ -123,7 +123,7 @@ class _SettingsState extends State<Settings> {
             contentPadding: EdgeInsets.all(0),
             onTap: () => Navigate.pushPage(context, About()),
             leading: Icon(Feather.info),
-            title: Text("About"),
+            title: Text('About'),
           ),
           Container(
             height: 1,

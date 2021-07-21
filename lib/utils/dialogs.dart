@@ -27,7 +27,7 @@ class Dialogs {
               ),
               SizedBox(height: 25),
               Text(
-                "Are you sure you want to quit?",
+                'Are you sure you want to quit?',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 14,
@@ -42,7 +42,7 @@ class Dialogs {
                     width: 130,
                     child: OutlinedButton(
                       child: Text(
-                        "No",
+                        'No',
                         style: TextStyle(
                           color: Theme.of(context).accentColor,
                         ),
@@ -67,7 +67,7 @@ class Dialogs {
                     width: 130,
                     child: ElevatedButton(
                       child: Text(
-                        "Yes",
+                        'Yes',
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () => exit(0),

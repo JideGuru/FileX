@@ -18,7 +18,7 @@ class SortSheet extends StatelessWidget {
               height: 15,
             ),
             Text(
-              "Sort by".toUpperCase(),
+              'Sort by'.toUpperCase(),
               style: TextStyle(
                 fontSize: 12.0,
               ),
@@ -49,7 +49,7 @@ class SortSheet extends StatelessWidget {
                           )
                         : SizedBox(),
                     title: Text(
-                      "${Constants.sortList[index]}",
+                      '${Constants.sortList[index]}',
                       style: TextStyle(
                         fontSize: 14.0,
                         color: index ==
@@ -57,7 +57,7 @@ class SortSheet extends StatelessWidget {
                                         listen: false)
                                     .sort
                             ? Colors.blue
-                            : Theme.of(context).textTheme.headline6.color,
+                            : Theme.of(context).textTheme.headline6!.color,
                       ),
                     ),
                   );

@@ -13,16 +13,16 @@ class WhatsappStatus extends StatelessWidget {
   final String title;
 
   WhatsappStatus({
-    Key key,
-    @required this.title,
+    Key? key,
+    required this.title,
   }) : super(key: key);
   List<FileSystemEntity> files = Directory(FileUtils.waPath).listSync()
-    ..removeWhere((f) => basename(f.path).split("")[0] == ".");
+    ..removeWhere((f) => basename(f.path).split('')[0] == '.');
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("$title")),
+      appBar: AppBar(title: Text('$title')),
       body: CustomScrollView(
         primary: false,
         slivers: <Widget>[
@@ -38,7 +38,7 @@ class WhatsappStatus extends StatelessWidget {
                   FileSystemEntity f = files[index];
                   String path = f.path;
                   File file = File(path);
-                  String mimeType = mime(path);
+                  String? mimeType = mime(path);
                   return mimeType == null
                       ? SizedBox()
                       : _WhatsAppItem(
@@ -58,7 +58,11 @@ class _WhatsAppItem extends StatelessWidget {
   final String path;
   final String mimeType;
 
-  _WhatsAppItem({this.file, this.path, this.mimeType});
+  _WhatsAppItem({
+    required this.file,
+    required this.path,
+    required this.mimeType,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -90,12 +94,12 @@ class _WhatsAppItem extends StatelessWidget {
                       size: 16.0,
                     ),
                   ),
-                  mimeType.split("/")[0] == "video"
+                  mimeType.split('/')[0] == 'video'
                       ? Row(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             Text(
-                              "${FileUtils.formatBytes(file.lengthSync(), 1)}",
+                              '${FileUtils.formatBytes(file.lengthSync(), 1)}',
                               style: TextStyle(
                                   fontSize: 12.0, color: Colors.white),
                             ),
@@ -108,7 +112,7 @@ class _WhatsAppItem extends StatelessWidget {
                           ],
                         )
                       : Text(
-                          "${FileUtils.formatBytes(file.lengthSync(), 1)}",
+                          '${FileUtils.formatBytes(file.lengthSync(), 1)}',
                           style: TextStyle(
                             fontSize: 12.0,
                             color: Colors.white,
@@ -119,29 +123,29 @@ class _WhatsAppItem extends StatelessWidget {
             ),
           ),
         ),
-        child: mimeType.split("/")[0] == "video"
+        child: mimeType.split('/')[0] == 'video'
             ? VideoThumbnail(path: path)
             : Image(
-          fit: BoxFit.cover,
-          errorBuilder: (b, o, c) {
-            return Icon(Icons.image);
-          },
-          image: ResizeImage(
-            FileImage(File(file.path)),
-            width: 150,
-            height: 150,
-          ),
-        ),
+                fit: BoxFit.cover,
+                errorBuilder: (b, o, c) {
+                  return Icon(Icons.image);
+                },
+                image: ResizeImage(
+                  FileImage(File(file.path)),
+                  width: 150,
+                  height: 150,
+                ),
+              ),
       ),
     );
   }
 
   saveMedia() async {
     String rootPath = '/storage/emulated/0/';
-    await Directory("$rootPath${AppStrings.appName}").create();
-    await Directory("$rootPath${AppStrings.appName}/Whatsapp Status").create();
+    await Directory('$rootPath${AppStrings.appName}').create();
+    await Directory('$rootPath${AppStrings.appName}/Whatsapp Status').create();
     await file.copy(
-        "$rootPath${AppStrings.appName}/Whatsapp Status/${basename(path)}");
-    Dialogs.showToast("Saved!");
+        '$rootPath${AppStrings.appName}/Whatsapp Status/${basename(path)}');
+    Dialogs.showToast('Saved!');
   }
 }

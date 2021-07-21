@@ -7,7 +7,7 @@ class AppScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Installed Apps"),
+        title: Text('Installed Apps'),
       ),
       body: FutureBuilder<List<Application>>(
         future: DeviceApps.getInstalledApplications(
@@ -17,9 +17,9 @@ class AppScreen extends StatelessWidget {
         ),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            List<Application> data = snapshot.data;
+            List<Application>? data = snapshot.data;
             // Sort the App List on Alphabetical Order
-            data..sort((app1, app2)=>app1.appName.toLowerCase()
+            data!..sort((app1, app2)=>app1.appName.toLowerCase()
                 .compareTo(app2.appName.toLowerCase()));
             return ListView.separated(
               padding: EdgeInsets.only(left: 10),
@@ -31,7 +31,7 @@ class AppScreen extends StatelessWidget {
                       ? Image.memory(app.icon, height: 40, width: 40)
                       : null,
                   title: Text(app.appName),
-                  subtitle: Text("${app.packageName}"),
+                  subtitle: Text('${app.packageName}'),
                   onTap: () => DeviceApps.openApp(app.packageName),
                 );
               },
