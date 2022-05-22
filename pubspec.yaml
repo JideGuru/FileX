@@ -28,7 +28,7 @@ dependencies:
   mime_type: ^1.0.0
   device_info: ^2.0.2
   path: ^1.7.0
-#  thumbnails: ^1.0.1
+  #  thumbnails: ^1.0.1
   path_provider: ^2.0.1
   fluttertoast: ^8.0.9
   permission_handler: ^9.2.0
@@ -45,13 +45,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
-
   uses-material-design: true
 
   assets:
