@@ -27,7 +27,7 @@ class _ImagesState extends State<Images> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance!.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       if (widget.title.toLowerCase() == 'images') {
         Provider.of<CategoryProvider>(context, listen: false)
             .getImages('image');

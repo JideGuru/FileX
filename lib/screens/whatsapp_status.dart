@@ -17,7 +17,7 @@ class WhatsappStatus extends StatelessWidget {
     required this.title,
   }) : super(key: key);
   List<FileSystemEntity> files = Directory(FileUtils.waPath).listSync()
-    ..removeWhere((f) => basename(f.path).split('')[0] == '.');
+    ..removeWhere((f) => f.isHidden);
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,10 @@ class WhatsappStatus extends StatelessWidget {
                   return mimeType == null
                       ? SizedBox()
                       : _WhatsAppItem(
-                          file: file, path: path, mimeType: mimeType);
+                          file: file,
+                          path: path,
+                          mimeType: mimeType,
+                        );
                 },
               ),
             ),

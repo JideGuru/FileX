@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:filex/utils/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:path/path.dart';
@@ -97,7 +98,7 @@ class FileUtils {
     for (FileSystemEntity file in l) {
       if (FileSystemEntity.isFileSync(file.path)) {
         if (!showHidden) {
-          if (!basename(file.path).startsWith('.')) {
+          if (!file.isHidden) {
             files.add(file);
           }
         } else {
@@ -107,7 +108,7 @@ class FileUtils {
         if (!file.path.contains('/storage/emulated/0/Android')) {
 //          print(file.path);
           if (!showHidden) {
-            if (!basename(file.path).startsWith('.')) {
+            if (!file.isHidden) {
               files.addAll(
                   await getAllFilesInPath(file.path, showHidden: showHidden));
             }
