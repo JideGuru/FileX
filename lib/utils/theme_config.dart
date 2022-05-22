@@ -19,12 +19,14 @@ class ThemeConfig {
     scaffoldBackgroundColor: lightBG,
     appBarTheme: AppBarTheme(
       elevation: 0,
-      textTheme: TextTheme(
-        headline6: TextStyle(
-          color: Colors.black,
-          fontSize: 20,
-          fontWeight: FontWeight.w800,
-        ),
+      color: lightPrimary,
+      titleTextStyle: TextStyle(
+        color: Colors.black,
+        fontSize: 20,
+        fontWeight: FontWeight.w800,
+      ),
+      iconTheme: IconThemeData(
+        color: Colors.black,
       ),
     ),
   );
@@ -37,12 +39,14 @@ class ThemeConfig {
     scaffoldBackgroundColor: darkBG,
     appBarTheme: AppBarTheme(
       elevation: 0,
-      textTheme: TextTheme(
-        headline6: TextStyle(
-          color: lightBG,
-          fontSize: 20,
-          fontWeight: FontWeight.w800,
-        ),
+      color: darkPrimary,
+      titleTextStyle: TextStyle(
+        color: Colors.white,
+        fontSize: 20,
+        fontWeight: FontWeight.w800,
+      ),
+      iconTheme: IconThemeData(
+        color: Colors.white,
       ),
     ),
   );

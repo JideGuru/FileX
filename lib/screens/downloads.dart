@@ -22,7 +22,7 @@ class _DownloadsState extends State<Downloads> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance!.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       Provider.of<CategoryProvider>(context, listen: false).getDownloads();
     });
   }
