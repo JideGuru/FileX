@@ -49,63 +49,47 @@ class _SettingsState extends State<Settings> {
             title: Text(
               'See hidden files',
             ),
-            value: Provider
-                .of<CategoryProvider>(context)
-                .showHidden,
+            value: Provider.of<CategoryProvider>(context).showHidden,
             onChanged: (value) {
               Provider.of<CategoryProvider>(context, listen: false)
                   .setHidden(value);
             },
-            activeColor: Theme
-                .of(context)
-                .accentColor,
+            activeColor: Theme.of(context).accentColor,
           ),
           Container(
             height: 1,
-            color: Theme
-                .of(context)
-                .dividerColor,
+            color: Theme.of(context).dividerColor,
           ),
-          MediaQuery
-              .of(context)
-              .platformBrightness !=
-              ThemeConfig.darkTheme.brightness
+          MediaQuery.of(context).platformBrightness !=
+                  ThemeConfig.darkTheme.brightness
               ? SwitchListTile.adaptive(
-            contentPadding: EdgeInsets.all(0),
-            secondary: Icon(
-              Feather.moon,
-            ),
-            title: Text('Dark mode'),
-            value: Provider
-                .of<AppProvider>(context)
-                .theme ==
-                ThemeConfig.lightTheme
-                ? false
-                : true,
-            onChanged: (v) {
-              if (v) {
-                Provider.of<AppProvider>(context, listen: false)
-                    .setTheme(ThemeConfig.darkTheme, 'dark');
-              } else {
-                Provider.of<AppProvider>(context, listen: false)
-                    .setTheme(ThemeConfig.lightTheme, 'light');
-              }
-            },
-            activeColor: Theme
-                .of(context)
-                .accentColor,
-          )
+                  contentPadding: EdgeInsets.all(0),
+                  secondary: Icon(
+                    Feather.moon,
+                  ),
+                  title: Text('Dark mode'),
+                  value: Provider.of<AppProvider>(context).theme ==
+                          ThemeConfig.lightTheme
+                      ? false
+                      : true,
+                  onChanged: (v) {
+                    if (v) {
+                      Provider.of<AppProvider>(context, listen: false)
+                          .setTheme(ThemeConfig.darkTheme, 'dark');
+                    } else {
+                      Provider.of<AppProvider>(context, listen: false)
+                          .setTheme(ThemeConfig.lightTheme, 'light');
+                    }
+                  },
+                  activeColor: Theme.of(context).accentColor,
+                )
               : SizedBox(),
-          MediaQuery
-              .of(context)
-              .platformBrightness !=
-              ThemeConfig.darkTheme.brightness
+          MediaQuery.of(context).platformBrightness !=
+                  ThemeConfig.darkTheme.brightness
               ? Container(
-            height: 1,
-            color: Theme
-                .of(context)
-                .dividerColor,
-          )
+                  height: 1,
+                  color: Theme.of(context).dividerColor,
+                )
               : SizedBox(),
           ListTile(
             contentPadding: EdgeInsets.all(0),
@@ -115,9 +99,7 @@ class _SettingsState extends State<Settings> {
           ),
           Container(
             height: 1,
-            color: Theme
-                .of(context)
-                .dividerColor,
+            color: Theme.of(context).dividerColor,
           ),
           ListTile(
             contentPadding: EdgeInsets.all(0),
@@ -127,9 +109,7 @@ class _SettingsState extends State<Settings> {
           ),
           Container(
             height: 1,
-            color: Theme
-                .of(context)
-                .dividerColor,
+            color: Theme.of(context).dividerColor,
           ),
         ],
       ),

@@ -48,14 +48,16 @@ class FileUtils {
   }
 
   /// Get all Files on the Device
-  static Future<List<FileSystemEntity>> getAllFiles({bool showHidden = false}) async {
+  static Future<List<FileSystemEntity>> getAllFiles(
+      {bool showHidden = false}) async {
     List<Directory> storages = await getStorageList();
     List<FileSystemEntity> files = <FileSystemEntity>[];
     for (Directory dir in storages) {
       List<FileSystemEntity> allFilesInPath = [];
       // This is important to catch storage errors
       try {
-        allFilesInPath = await getAllFilesInPath(dir.path, showHidden: showHidden);
+        allFilesInPath =
+            await getAllFilesInPath(dir.path, showHidden: showHidden);
       } catch (e) {
         allFilesInPath = [];
         print(e);
@@ -143,35 +145,43 @@ class FileUtils {
     }
   }
 
-   static List<FileSystemEntity> sortList(
-     List<FileSystemEntity> list, int sort) {
+  static List<FileSystemEntity> sortList(
+      List<FileSystemEntity> list, int sort) {
     switch (sort) {
 
       /// Sort by name
       case 0:
-        list.sort((f1, f2) => basename(f1.path).toLowerCase().compareTo(basename(f2.path).toLowerCase()));
+        list.sort((f1, f2) => basename(f1.path)
+            .toLowerCase()
+            .compareTo(basename(f2.path).toLowerCase()));
         break;
 
       case 1:
-        list.sort((f1, f2) => basename(f2.path).toLowerCase().compareTo(basename(f1.path).toLowerCase()));
+        list.sort((f1, f2) => basename(f2.path)
+            .toLowerCase()
+            .compareTo(basename(f1.path).toLowerCase()));
         break;
 
       /// Sort by date
       case 2:
-        list.sort((FileSystemEntity f1, FileSystemEntity f2) => f1.statSync().modified.compareTo(f2.statSync().modified));
+        list.sort((FileSystemEntity f1, FileSystemEntity f2) =>
+            f1.statSync().modified.compareTo(f2.statSync().modified));
         break;
 
       case 3:
-        list.sort((FileSystemEntity f1, FileSystemEntity f2) => f2.statSync().modified.compareTo(f1.statSync().modified));
+        list.sort((FileSystemEntity f1, FileSystemEntity f2) =>
+            f2.statSync().modified.compareTo(f1.statSync().modified));
         break;
 
       /// sort by size
       case 4:
-        list.sort((FileSystemEntity f1, FileSystemEntity f2) => f2.statSync().size.compareTo(f1.statSync().size));
+        list.sort((FileSystemEntity f1, FileSystemEntity f2) =>
+            f2.statSync().size.compareTo(f1.statSync().size));
         break;
 
       case 5:
-        list.sort((FileSystemEntity f1, FileSystemEntity f2) => f1.statSync().size.compareTo(f2.statSync().size));
+        list.sort((FileSystemEntity f1, FileSystemEntity f2) =>
+            f1.statSync().size.compareTo(f2.statSync().size));
         break;
 
       default:

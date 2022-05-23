@@ -41,7 +41,8 @@ class _ImagesState extends State<Images> {
   @override
   Widget build(BuildContext context) {
     return Consumer(
-      builder: (BuildContext context, CategoryProvider provider, Widget? child) {
+      builder:
+          (BuildContext context, CategoryProvider provider, Widget? child) {
         if (provider.loading) {
           return Scaffold(body: CustomLoader());
         }
@@ -53,7 +54,8 @@ class _ImagesState extends State<Images> {
               bottom: TabBar(
                 indicatorColor: Theme.of(context).accentColor,
                 labelColor: Theme.of(context).accentColor,
-                unselectedLabelColor: Theme.of(context).textTheme.caption!.color,
+                unselectedLabelColor:
+                    Theme.of(context).textTheme.caption!.color,
                 isScrollable: provider.imageTabs.length < 3 ? false : true,
                 tabs: Constants.map<Widget>(
                   provider.imageTabs,

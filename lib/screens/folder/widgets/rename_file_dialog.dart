@@ -8,6 +8,7 @@ import 'package:path/path.dart' as pathlib;
 class RenameFileDialog extends StatefulWidget {
   final String path;
   final String type;
+
   RenameFileDialog({required this.path, required this.type});
 
   @override
@@ -63,7 +64,7 @@ class _RenameFileDialogState extends State<RenameFileDialog> {
                     onPressed: () => Navigator.pop(context),
                     style: ButtonStyle(
                       backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
+                          MaterialStateProperty.all<Color>(Colors.white),
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),

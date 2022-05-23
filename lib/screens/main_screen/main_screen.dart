@@ -75,9 +75,9 @@ class _MainScreenState extends State<MainScreen> {
         statusBarColor: Theme.of(context).primaryColor,
         systemNavigationBarColor: Colors.black,
         statusBarIconBrightness:
-        Theme.of(context).primaryColor == ThemeConfig.darkTheme.primaryColor
-            ? Brightness.light
-            : Brightness.dark,
+            Theme.of(context).primaryColor == ThemeConfig.darkTheme.primaryColor
+                ? Brightness.light
+                : Brightness.dark,
       ));
     });
   }

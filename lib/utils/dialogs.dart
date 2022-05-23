@@ -50,7 +50,7 @@ class Dialogs {
                       onPressed: () => Navigator.pop(context),
                       style: ButtonStyle(
                         backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white),
+                            MaterialStateProperty.all<Color>(Colors.white),
                         shape: MaterialStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0),

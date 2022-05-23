@@ -19,8 +19,10 @@ class AppScreen extends StatelessWidget {
           if (snapshot.hasData) {
             List<Application>? data = snapshot.data;
             // Sort the App List on Alphabetical Order
-            data!..sort((app1, app2)=>app1.appName.toLowerCase()
-                .compareTo(app2.appName.toLowerCase()));
+            data!
+              ..sort((app1, app2) => app1.appName
+                  .toLowerCase()
+                  .compareTo(app2.appName.toLowerCase()));
             return ListView.separated(
               padding: EdgeInsets.only(left: 10),
               itemCount: data.length,

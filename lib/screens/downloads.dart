@@ -30,7 +30,8 @@ class _DownloadsState extends State<Downloads> {
   @override
   Widget build(BuildContext context) {
     return Consumer(
-      builder: (BuildContext context, CategoryProvider provider, Widget? child) {
+      builder:
+          (BuildContext context, CategoryProvider provider, Widget? child) {
         return DefaultTabController(
           length: provider.downloadTabs.length,
           child: Scaffold(
@@ -39,7 +40,8 @@ class _DownloadsState extends State<Downloads> {
               bottom: TabBar(
                 indicatorColor: Theme.of(context).accentColor,
                 labelColor: Theme.of(context).accentColor,
-                unselectedLabelColor: Theme.of(context).textTheme.caption!.color,
+                unselectedLabelColor:
+                    Theme.of(context).textTheme.caption!.color,
                 isScrollable: false,
                 tabs: Constants.map<Widget>(
                   provider.downloadTabs,

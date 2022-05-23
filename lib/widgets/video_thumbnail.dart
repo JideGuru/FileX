@@ -21,27 +21,12 @@ class _VideoThumbnailState extends State<VideoThumbnail>
   bool loading = true;
   late VideoPlayerController _controller;
 
-//  getThumb() async{
-//    var dir = await getExternalStorageDirectory();
-//    String thumbnail = await Thumbnails.getThumbnail(
-//      thumbnailFolder: dir.path,
-//      videoFile: widget.path,
-//      imageType: ThumbFormat.PNG,
-//      quality: 30,
-//    );
-//    setState(() {
-//      thumb = thumbnail;
-//      loading = false;
-//    });
-//  }
-
   @override
   void initState() {
     super.initState();
-//    getThumb();
     _controller = VideoPlayerController.file(File(widget.path))
       ..initialize().then((_) {
-        if(mounted) {
+        if (mounted) {
           setState(() {
             loading = false;
           }); //when your thumbnail will show.

@@ -81,7 +81,8 @@ class CoreProvider extends ChangeNotifier {
     List<FileSystemEntity> l =
         await FileUtils.getRecentFiles(showHidden: false);
     final messenger = HandledIsolate.initialize(context);
-    final SendPort? send = IsolateNameServer.lookupPortByName('${isolateName}_2');
+    final SendPort? send =
+        IsolateNameServer.lookupPortByName('${isolateName}_2');
     send!.send(l);
     messenger.send('done');
   }

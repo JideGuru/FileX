@@ -38,8 +38,12 @@ class DirectoryItem extends StatelessWidget {
         ),
         maxLines: 2,
       ),
-      trailing:
-          popTap == null ? null : DirPopup(path: file.path, popTap: popTap),
+      trailing: popTap == null
+          ? null
+          : DirPopup(
+              path: file.path,
+              popTap: popTap,
+            ),
     );
   }
 }

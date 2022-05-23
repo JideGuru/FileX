@@ -39,7 +39,8 @@ class _CategoryState extends State<Category> {
   @override
   Widget build(BuildContext context) {
     return Consumer(
-      builder: (BuildContext context, CategoryProvider provider, Widget? child) {
+      builder:
+          (BuildContext context, CategoryProvider provider, Widget? child) {
         return provider.loading
             ? Scaffold(body: CustomLoader())
             : DefaultTabController(
